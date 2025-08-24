@@ -1,0 +1,55 @@
+// icons-library.ts
+import { FaIconLibrary } from '@fortawesome/angular-fontawesome';
+import {
+  faFireExtinguisher,
+  faAmbulance,
+  faUser,
+  faExclamationTriangle,
+  faTachometerAlt,
+  faTruck,
+  faUsers,
+  faClipboardList,
+  faChartBar,
+  faCog,
+  faBars,
+  faHome,
+  faPhone,
+  faMapMarkerAlt,
+  faClock,
+  faTools,
+  faShieldAlt,
+  faSignOutAlt,
+  faBell,
+  faSearch,
+  faLock,
+  faEye,
+  faEyeSlash,
+} from '@fortawesome/free-solid-svg-icons';
+
+export function registerIcons(library: FaIconLibrary) {
+  library.addIcons(
+    faFireExtinguisher,
+    faAmbulance,
+    faUser,
+    faExclamationTriangle,
+    faTachometerAlt,
+    faTruck,
+    faUsers,
+    faClipboardList,
+    faChartBar,
+    faCog,
+    faBars,
+    faHome,
+    faPhone,
+    faMapMarkerAlt,
+    faClock,
+    faTools,
+    faShieldAlt,
+    faSignOutAlt,
+    faBell,
+    faSearch,
+    faLock,
+    faEye,
+    faEyeSlash
+  );
+}

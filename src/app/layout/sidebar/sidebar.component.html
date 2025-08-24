@@ -1,0 +1,59 @@
+<aside class="sidebar" [class.collapsed]="collapsed">
+  <nav class="sidebar-nav">
+    <ul class="nav flex-column">
+      <li class="nav-item" *ngFor="let item of menuItems">
+        <a
+          class="nav-link"
+          [routerLink]="item.route"
+          routerLinkActive="active"
+          [title]="collapsed ? item.label : ''"
+          (click)="onNavItemClick()">
+          <div class="nav-link-content">
+            <fa-icon [icon]="item.icon" class="nav-icon"></fa-icon>
+            <span class="nav-label" [class.d-none]="collapsed">{{ item.label }}</span>
+          </div>
+        </a>
+      </li>
+    </ul>
+  </nav>
+
+  <!-- Acciones Rapidas-->
+  <div class="emergency-actions" >
+    <div class="p-4" *ngIf="!collapsed">
+      <h6 class="mb-2">Acciones Rápidas</h6>
+      <button class="btn btn-danger btn-sm w-100 mb-2" (click)="onEmergencyAction()">
+        <fa-icon icon="exclamation-triangle" class="me-2"></fa-icon>
+        Nueva Emergencia
+      </button>
+      <button class="btn btn-warning btn-sm w-100 mb-2" (click)="onEmergencyAction()">
+        <fa-icon icon="ambulance" class="me-2"></fa-icon>
+        Registrar Vehiculo
+      </button>
+      <button class="btn btn-success btn-sm w-100 mb-2" (click)="onEmergencyAction()">
+        <fa-icon icon="chart-bar" class="me-2"></fa-icon>
+        Reportes
+      </button>
+      <button class="btn btn-info btn-sm w-100 mb-2" (click)="onEmergencyAction()">
+        <fa-icon icon="users" class="me-2"></fa-icon>
+        Gestionar Turnos
+      </button>
+    </div>
+    <div class="p-2 text-center" *ngIf="collapsed">
+      <button class="btn btn-danger btn-sm mb-2" title="Nueva Emergencia" (click)="onEmergencyAction()">
+        <fa-icon icon="exclamation-triangle"></fa-icon>
+      </button>
+      <button class="btn btn-warning btn-sm mb-2" title="Vehiculos" (click)="onAmbulanceAction()">
+        <fa-icon icon="ambulance"></fa-icon>
+      </button>
+      <button class="btn btn-success btn-sm mb-2" title="reportes" (click)="onEmergencyAction()">
+        <fa-icon icon="chart-bar" class="me-2"></fa-icon>
+      </button>
+      <button class="btn btn-info btn-sm mb-2" title="turnos" (click)="onEmergencyAction()">
+        <fa-icon icon="users" class="me-2"></fa-icon>
+      </button>
+    </div>
+  </div>
+</aside>
+
+<!-- Mobile Overlay -->
+<div class="sidebar-overlay d-md-none" [class.show]="!collapsed" (click)="collapsed = true"></div>

@@ -1,0 +1,38 @@
+.footer {
+  height: 60px;
+  padding: 1rem 1.5rem;
+  border-top: 1px solid #dee2e6;
+  margin-top: auto;
+
+  .container-fluid {
+    height: 100%;
+  }
+
+  .text-light {
+    font-size: 0.875rem;
+  }
+
+  .text-danger {
+    font-weight: bold;
+    font-size: 1.1em;
+  }
+}
+
+@media (max-width: 768px) {
+  .footer {
+    height: auto;
+    padding: 1rem;
+
+    .col-auto {
+      margin-bottom: 0.5rem;
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+
+    .text-light {
+      font-size: 0.8rem;
+    }
+  }
+}
