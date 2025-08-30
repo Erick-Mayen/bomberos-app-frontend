@@ -1,47 +1,56 @@
 <div class="login-container">
   <!-- Animated background -->
-  <div class="background-animation">
-  </div>
+  <div class="background-animation"></div>
 
   <div class="login-wrapper">
     <!-- Header Section -->
     <div class="header-section">
       <div class="logo-container">
-        <img src="assets/logo-bomb46.png" alt="Logo Bomberos" class="logo-img" />
+        <img
+          src="assets/logo-bomb46.png"
+          alt="Logo Bomberos"
+          class="logo-img"
+        />
       </div>
       <h1 class="main-title">Bomberos Municipales</h1>
-      <p class="subtitle">
-        Estación No.46 Palencia
-      </p>
+      <p class="subtitle">Estación No.46 Palencia</p>
     </div>
 
     <!-- Login Card -->
     <div class="login-card">
       <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="login-form">
-        <!-- Email Field -->
+        <!-- usuario Field -->
         <div class="form-group">
-          <label for="email" class="form-label">Usuario</label>
-          <div class="input-container" [class.error]="isFieldInvalid('email')">
+          <label for="usuario" class="form-label">Usuario</label>
+          <div
+            class="input-container"
+            [class.error]="isFieldInvalid('usuario')"
+          >
             <fa-icon [icon]="'user'" class="input-icon"></fa-icon>
             <input
-              type="email"
-              id="email"
-              formControlName="email"
+              type="text"
+              id="usuario"
+              formControlName="usuario"
               class="form-input"
               placeholder="Ingresa tu usuario"
-              [class.error]="isFieldInvalid('email')"
             />
           </div>
-          <div class="error-message" *ngIf="isFieldInvalid('email')">
-            <fa-icon [icon]="'exclamation-triangle'" class="error-icon"></fa-icon>
-            {{ getFieldError('email') }}
+          <div class="error-message" *ngIf="isFieldInvalid('usuario')">
+            <fa-icon
+              [icon]="'exclamation-triangle'"
+              class="error-icon"
+            ></fa-icon>
+            {{ getFieldError("usuario") }}
           </div>
         </div>
 
         <!-- Password Field -->
         <div class="form-group">
           <label for="password" class="form-label">Contraseña</label>
-          <div class="input-container" [class.error]="isFieldInvalid('password')">
+          <div
+            class="input-container"
+            [class.error]="isFieldInvalid('password')"
+          >
             <fa-icon [icon]="'lock'" class="input-icon"></fa-icon>
             <input
               [type]="showPassword ? 'text' : 'password'"
@@ -49,31 +58,44 @@
               formControlName="password"
               class="form-input"
               placeholder="Ingresa tu contraseña"
-              [class.error]="isFieldInvalid('password')"
             />
             <button
               type="button"
               class="password-toggle"
               (click)="togglePassword()"
             >
-              <fa-icon [icon]="showPassword ? 'eye-slash' : 'eye'" class="eye-icon"></fa-icon>
+              <fa-icon
+                [icon]="showPassword ? 'eye-slash' : 'eye'"
+                class="eye-icon"
+              ></fa-icon>
             </button>
           </div>
           <div class="error-message" *ngIf="isFieldInvalid('password')">
-            <fa-icon [icon]="'exclamation-triangle'" class="error-icon"></fa-icon>
-            {{ getFieldError('password') }}
+            <fa-icon
+              [icon]="'exclamation-triangle'"
+              class="error-icon"
+            ></fa-icon>
+            {{ getFieldError("password") }}
           </div>
         </div>
 
-        <!-- Remember Me and Forgot Password -->
+        <!-- Remember Me -->
         <div class="form-options">
           <label class="checkbox-container">
-            <input type="checkbox" formControlName="rememberMe" class="checkbox-input">
+            <input
+              type="checkbox"
+              formControlName="rememberMe"
+              class="checkbox-input"
+            />
             <span class="checkbox-custom"></span>
             <span class="checkbox-label">Recordarme</span>
           </label>
         </div>
 
+        <div *ngIf="errorMessage" class="alert alert-danger" role="alert">
+          {{ errorMessage }}
+        </div>
+        
         <!-- Submit Button -->
         <button
           type="submit"
@@ -82,8 +104,14 @@
           [class.loading]="isLoading"
         >
           <div class="button-content" *ngIf="!isLoading">
-            <svg class="button-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+            <svg
+              class="button-icon"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
             </svg>
             Ingresar al Sistema
           </div>
@@ -97,12 +125,21 @@
       <!-- Footer -->
       <div class="card-footer">
         <p class="security-text">
-          <svg class="security-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
-            <path d="M9 12l2 2 4-4"/>
+          <svg
+            class="security-icon"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+            <path d="M9 12l2 2 4-4" />
           </svg>
         </p>
-        <p class="copyright">© 2025 Bomberos Municipales Departamentales - Todos los derechos reservados</p>
+        <p class="copyright">
+          © 2025 Bomberos Municipales Departamentales - Todos los derechos
+          reservados
+        </p>
       </div>
     </div>
   </div>

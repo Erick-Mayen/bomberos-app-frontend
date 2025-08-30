@@ -3,14 +3,27 @@
     <div class="row align-items-center py-2">
       <!-- Menu Toggle & Logo + Nombre de Estación -->
       <div class="col-8 col-md-8 d-flex align-items-center">
-        <button class="btn btn-link text-white p-2 me-2 me-md-3" (click)="onToggleSidebar()" type="button">
+        <button
+          class="btn btn-link text-white p-2 me-2 me-md-3"
+          (click)="onToggleSidebar()"
+          type="button"
+        >
           <fa-icon icon="bars" size="lg"></fa-icon>
         </button>
 
-        <img src="assets/logo-bomb46.png" alt="Logo Bomberos" class="me-2 d-none d-md-block logo-header"
-          style="height: 66px" />
-        <img src="assets/logo-bomb46.png" alt="Logo Bomberos" size="lg" class="me-2 d-md-none logo-header"
-          style="height: 55px" />
+        <img
+          src="assets/logo-bomb46.png"
+          alt="Logo Bomberos"
+          class="me-2 d-none d-md-block logo-header"
+          style="height: 66px"
+        />
+        <img
+          src="assets/logo-bomb46.png"
+          alt="Logo Bomberos"
+          size="lg"
+          class="me-2 d-md-none logo-header"
+          style="height: 55px"
+        />
 
         <div class="d-flex flex-column flex-grow-1 min-width-0">
           <!-- Texto completo en desktop -->
@@ -27,10 +40,13 @@
 
       <div class="col-4 col-md-4 d-flex justify-content-end align-items-center">
         <div class="dropdown">
-          <button class="btn btn-link text-white dropdown-toggle d-flex align-items-center p-1 p-md-2" type="button"
-            data-bs-toggle="dropdown">
+          <button
+            class="btn btn-link text-white dropdown-toggle d-flex align-items-center p-1 p-md-2"
+            type="button"
+            data-bs-toggle="dropdown"
+          >
             <fa-icon icon="user" class="me-0 me-md-2"></fa-icon>
-            <span class="d-none d-lg-inline">Cap. Rodríguez</span>
+            <span class="d-none d-lg-inline">{{ currentUser?.personal?.nombres ? currentUser.personal.nombres : currentUser.nombre_usuario }}</span>
           </button>
           <ul class="dropdown-menu dropdown-menu-end">
             <li>
@@ -47,9 +63,13 @@
               <hr class="dropdown-divider" />
             </li>
             <li>
-              <a class="dropdown-item text-danger" href="#">
-                <fa-icon icon="sign-out-alt" class="me-2"></fa-icon>Cerrar
-                Sesión
+              <a
+                class="dropdown-item text-danger"
+                href="#"
+                (click)="onLogout($event)"
+              >
+                <fa-icon icon="sign-out-alt" class="me-2"></fa-icon>
+                Cerrar Sesión
               </a>
             </li>
           </ul>
