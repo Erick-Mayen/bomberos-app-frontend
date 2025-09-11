@@ -1,0 +1,143 @@
+<div class="table-view">
+  <div class="table-wrapper">
+    <table class="personal-table">
+      <thead>
+        <tr>
+          <th class="sortable" (click)="sort.emit('nombre')">
+            <div class="th-content name-column">
+              Nombre Completo
+              <fa-icon
+                [icon]="
+                  sortColumn === 'nombre'
+                    ? sortDirection === 'asc'
+                      ? 'arrow-up'
+                      : 'arrow-down'
+                    : 'arrows-up-down'
+                "
+                class="sort-icon"
+              ></fa-icon>
+            </div>
+          </th>
+          <th class="sortable" (click)="sort.emit('tipo_personal')">
+            <div class="th-content">
+              Tipo
+              <fa-icon
+                [icon]="
+                  sortColumn === 'tipo_personal'
+                    ? sortDirection === 'asc'
+                      ? 'arrow-up'
+                      : 'arrow-down'
+                    : 'arrows-up-down'
+                "
+                class="sort-icon"
+              ></fa-icon>
+            </div>
+          </th>
+          <th class="sortable" (click)="sort.emit('fecha_ingreso')">
+            <div class="th-content">
+              Fecha de Ingreso
+              <fa-icon
+                [icon]="
+                  sortColumn === 'fecha_ingreso'
+                    ? sortDirection === 'asc'
+                      ? 'arrow-up'
+                      : 'arrow-down'
+                    : 'arrows-up-down'
+                "
+                class="sort-icon"
+              ></fa-icon>
+            </div>
+          </th>
+          <th class="sortable" (click)="sort.emit('activo')">
+            <div class="th-content">
+              Estado
+              <fa-icon
+                [icon]="
+                  sortColumn === 'activo'
+                    ? sortDirection === 'asc'
+                      ? 'arrow-up'
+                      : 'arrow-down'
+                    : 'arrows-up-down'
+                "
+                class="sort-icon"
+              ></fa-icon>
+            </div>
+          </th>
+          <th class="actions-column">Acciones</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr
+          *ngFor="
+            let personal of personalList
+              | paginate : { itemsPerPage: 5, currentPage: page };
+            trackBy: trackByPersonalId
+          "
+          class="table-row"
+          [class.inactive-row]="!personal.activo"
+        >
+          <td class="name-cell">
+            <div class="name-info">
+              <span class="full-name">{{ getFullName(personal) }}</span>
+            </div>
+          </td>
+          <td class="type-cell">
+            <span class="type-badge" [attr.data-type]="personal.tipo_personal">
+              {{ personal.tipo_personal }}
+            </span>
+          </td>
+          <td class="date-cell">
+            {{ personal.fecha_ingreso | date : "dd/MM/yyyy" }}
+          </td>
+          <td class="status-cell">
+            <span
+              class="status-badge"
+              [class.active]="personal.activo"
+              [class.inactive]="!personal.activo"
+            >
+              {{ personal.activo ? "Activo" : "Inactivo" }}
+            </span>
+          </td>
+          <td class="actions-cell">
+            <div class="table-actions">
+              <button
+                class="table-action-btn edit-btn"
+                (click)="edit.emit(personal)"
+                title="Editar personal"
+              >
+                <span class="action-icon"
+                  ><fa-icon icon="pen-to-square"></fa-icon
+                ></span>
+              </button>
+              <button
+                class="table-action-btn toggle-btn"
+                [class.activate]="!personal.activo"
+                [class.deactivate]="personal.activo"
+                [title]="
+                  personal.activo ? 'Desactivar personal' : 'Activar personal'
+                "
+                [ngClass]="personal.activo ? 'desactivate' : 'activate'"
+                (click)="toggle.emit(personal)"
+              >
+                <fa-icon
+                  [icon]="personal.activo ? 'pause' : 'play'"
+                  class="action-icon"
+                ></fa-icon>
+              </button>
+              <button
+                class="table-action-btn delete-btn"
+                (click)="delete.emit(personal)"
+                title="Eliminar personal"
+              >
+                <span class="action-icon"
+                  ><fa-icon icon="trash-can"></fa-icon
+                ></span>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

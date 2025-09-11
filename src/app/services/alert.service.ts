@@ -39,6 +39,14 @@ export class AlertService {
     );
   }
 
+  infoReport(title: string, message: string) {
+    Notiflix.Report.info(
+      title,
+      message,
+      'Aceptar'
+    );
+  }
+
   confirm(
     title: string,
     message: string,

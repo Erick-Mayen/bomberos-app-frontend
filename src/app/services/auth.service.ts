@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Apollo, gql } from 'apollo-angular';
 import { map, catchError, timeout } from 'rxjs/operators';
 import { throwError } from 'rxjs';
+import { jwtDecode } from 'jwt-decode';
 
 const LOGIN_MUTATION = gql`
   mutation Login($loginInput: LoginInput!) {
@@ -13,8 +14,9 @@ const LOGIN_MUTATION = gql`
         rol {
           nombre_rol
         }
-        personal {
-          nombres
+        personalAsignado {
+          primer_nombre
+          primer_apellido
         }
       }
     }
@@ -32,15 +34,19 @@ export class AuthService {
       mutation: LOGIN_MUTATION,
       variables: { loginInput: { nombre_usuario, contrasenia } }
     }).pipe(
-      timeout(10000),
+      //timeout(10000),
       map((result: any) => {
+        if (result.errors?.length) {
+          const msg = result.errors[0].message;
+          throw new Error(msg);
+        }
+
         if (!result.data || !result.data.login) {
-          throw new Error('LOGIN_FAILED');
+          throw new Error('LOGIN_FALLIDO');
         }
 
         const data = result.data.login;
-
-        if (data?.access_token) {
+        if (data.access_token) {
           localStorage.setItem('token', data.access_token);
           localStorage.setItem('user', JSON.stringify(data.user));
         }
@@ -48,19 +54,16 @@ export class AuthService {
         return data;
       }),
       catchError((error) => {
-        if (error.name === 'TimeoutError') {
-          return throwError(() => new Error('TIMEOUT'));
-        }
+        const msg = error.message;
+        if (msg === 'USUARIO_INACTIVO') return throwError(() => new Error('USUARIO_INACTIVO'));
+        if (msg === 'LOGIN_FALLIDO') return throwError(() => new Error('LOGIN_FALLIDO'));
 
         if (error.networkError) {
-          if (navigator.onLine) {
-            return throwError(() => new Error('SERVER_ERROR'));
-          } else {
-            return throwError(() => new Error('NO_CONNECTION'));
-          }
+          if (navigator.onLine) return throwError(() => new Error('SERVER_ERROR'));
+          else return throwError(() => new Error('NO_CONNECTION'));
         }
 
-        return throwError(() => error);
+        return throwError(() => new Error('LOGIN_FALLIDO'));
       })
 
     );
@@ -83,4 +86,18 @@ export class AuthService {
   isAuthenticated(): boolean {
     return !!this.getToken();
   }
+
+  isTokenExpired(): boolean {
+    const token = this.getToken();
+    if (!token) return true;
+
+    try {
+      const decoded: any = jwtDecode(token);
+      const now = Math.floor(Date.now() / 1000);
+      return decoded.exp < now;
+    } catch (e) {
+      return true;
+    }
+  }
 }
+

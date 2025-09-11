@@ -24,6 +24,18 @@ import {
   faLock,
   faEye,
   faEyeSlash,
+  faPlus,
+  faTableList,
+  faTable,
+  faMagnifyingGlass,
+  faPenToSquare,
+  faPlay,
+  faPause,
+  faTrashCan,
+  faChevronDown,
+  faArrowDown,
+  faArrowUp,
+  faArrowsUpDown
 } from '@fortawesome/free-solid-svg-icons';
 
 export function registerIcons(library: FaIconLibrary) {
@@ -50,6 +62,18 @@ export function registerIcons(library: FaIconLibrary) {
     faSearch,
     faLock,
     faEye,
-    faEyeSlash
+    faEyeSlash,
+    faPlus,
+    faTableList,
+    faTable,
+    faMagnifyingGlass,
+    faPenToSquare,
+    faPlay,
+    faPause,
+    faTrashCan,
+    faChevronDown,
+    faArrowDown,
+    faArrowUp,
+    faArrowsUpDown
   );
 }

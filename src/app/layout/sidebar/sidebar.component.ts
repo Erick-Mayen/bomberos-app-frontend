@@ -1,6 +1,6 @@
 import { Component, Input, Output, EventEmitter, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule, Router } from '@angular/router';
+import { RouterModule} from '@angular/router';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 interface MenuItem {
@@ -34,7 +34,7 @@ export class SidebarComponent {
     {
       label: 'Personal',
       icon: 'users',
-      route: '/personal'
+      route: '/app/personal'
     },
     {
       label: 'Vehículos',
@@ -95,6 +95,4 @@ export class SidebarComponent {
       this.collapsedChange.emit(this.collapsed);
     }
   }
-
-  constructor(private router: Router) {}
 }

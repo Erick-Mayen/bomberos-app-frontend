@@ -1,0 +1,69 @@
+<div class="cards-view">
+  <div class="personal-grid">
+    <div
+      *ngFor="
+        let personal of personalList
+          | paginate : { itemsPerPage: 5, currentPage: page };
+        trackBy: trackByPersonalId
+      "
+      class="personal-card"
+      [class.inactive]="!personal.activo"
+    >
+      <!-- Header de la tarjeta -->
+      <div class="card-header">
+        <div class="personal-info">
+          <h3 class="personal-name">{{ getFullName(personal) }}</h3>
+          <div class="personal-type">
+            <span class="type-badge" [attr.data-type]="personal.tipo_personal">
+              {{ personal.tipo_personal }}
+            </span>
+          </div>
+        </div>
+        <div class="status-indicator">
+          <span
+            class="status-badge"
+            [class.active]="personal.activo"
+            [class.inactive]="!personal.activo"
+          >
+            {{ personal.activo ? "Activo" : "Inactivo" }}
+          </span>
+        </div>
+      </div>
+
+      <!-- Información adicional -->
+      <div class="card-body">
+        <div class="info-row">
+          <span class="info-label">Fecha de Ingreso:</span>
+          <span class="info-value">{{
+            personal.fecha_ingreso | date : "dd/MM/yyyy"
+          }}</span>
+        </div>
+        <div class="info-row"></div>
+      </div>
+
+      <!-- Acciones -->
+      <div class="card-actions">
+        <button class="action-btn edit-btn" (click)="edit.emit(personal)">
+          <fa-icon icon="pen-to-square"></fa-icon> Editar
+        </button>
+        <button
+          class="action-btn toggle-btn"
+          [class.activate]="!personal.activo"
+          [class.deactivate]="personal.activo"
+          (click)="toggle.emit(personal)"
+        >
+          <fa-icon
+            [icon]="personal.activo ? 'pause' : 'play'"
+            class="action-icon"
+          ></fa-icon>
+          <span class="action-text">
+            {{ personal.activo ? "Desactivar" : "Activar" }}
+          </span>
+        </button>
+        <button class="action-btn delete-btn" (click)="delete.emit(personal)">
+          <fa-icon icon="trash-can"></fa-icon>Eliminar
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

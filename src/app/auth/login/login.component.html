@@ -79,23 +79,14 @@
           </div>
         </div>
 
-        <!-- Remember Me -->
-        <div class="form-options">
-          <label class="checkbox-container">
-            <input
-              type="checkbox"
-              formControlName="rememberMe"
-              class="checkbox-input"
-            />
-            <span class="checkbox-custom"></span>
-            <span class="checkbox-label">Recordarme</span>
-          </label>
-        </div>
-
         <div *ngIf="errorMessage" class="alert alert-danger" role="alert">
           {{ errorMessage }}
         </div>
-        
+
+        <div class="forgot-password">
+          <a href="#" (click)="onForgotPassword($event)">¿Olvidaste tu contraseña?</a>
+          </div>
+          
         <!-- Submit Button -->
         <button
           type="submit"

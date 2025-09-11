@@ -5,6 +5,7 @@ import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
 import { AuthService } from '../../services/auth.service';
+import Notiflix from 'notiflix';
 import { AlertService } from '../../services/alert.service';
 
 @Component({
@@ -86,8 +87,16 @@ export class LoginComponent {
       this.authService.login(usuario, password).subscribe({
         next: () => {
           this.isLoading = false;
+          const currentUser = this.authService.getCurrentUser();
+          const user = currentUser?.personalAsignado?.primer_nombre
+            ? `${currentUser.personalAsignado.primer_nombre} ${currentUser.personalAsignado.primer_apellido ?? ''}`.trim()
+            : `${currentUser.nombre_usuario}`.trim();
+
           this.router.navigateByUrl('/app');
-          this.alertService.SuccesNotify("Login Exitoso")
+          Notiflix.Loading.dots(`¡Bienvenido ${user}!`);
+          setTimeout(() => {
+            Notiflix.Loading.remove();
+          }, 2000);
         },
         error: (err: Error) => {
           this.isLoading = false;
@@ -97,7 +106,7 @@ export class LoginComponent {
               this.errorMessage = 'Error en el servidor. Intenta más tarde.';
               break;
 
-            case 'LOGIN_FAILED':
+            case 'LOGIN_FALLIDO':
               this.errorMessage = 'Usuario o contraseña incorrectos';
               break;
 
@@ -109,13 +118,25 @@ export class LoginComponent {
               this.errorMessage = 'No tienes conexión a internet';
               break;
 
+            case 'USUARIO_INACTIVO':
+              this.errorMessage = 'Tu cuenta no esta activa, contacta al administrador';
+              break;
+
             default:
               this.errorMessage = 'Ocurrió un error inesperado';
               break;
           }
         }
       });
-    }, 2000);
+    }, 1000);
+  }
+
+  onForgotPassword(event: Event): void {
+    event.preventDefault();
+    this.alertService.infoReport(
+      'Recuperar Contraseña',
+      'Por favor, contacta al administrador del sistema para recuperar tu contraseña.',
+    );
   }
 }
 

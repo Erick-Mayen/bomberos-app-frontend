@@ -46,7 +46,22 @@
             data-bs-toggle="dropdown"
           >
             <fa-icon icon="user" class="me-0 me-md-2"></fa-icon>
-            <span class="d-none d-lg-inline">{{ currentUser?.personal?.nombres ? currentUser.personal.nombres : currentUser.nombre_usuario }}</span>
+            <span class="d-none d-md-inline d-lg-inline">
+              {{
+                currentUser?.personalAsignado?.primer_nombre
+                  ? currentUser.personalAsignado.primer_nombre +
+                    " " +
+                    (currentUser.personalAsignado.primer_apellido || "")
+                  : currentUser.nombre_usuario
+              }}
+            </span>
+            <span class="d-md-none d-inline">
+              {{
+                currentUser?.personalAsignado?.primer_nombre
+                  ? currentUser.personalAsignado.primer_nombre
+                  : currentUser.nombre_usuario
+              }}
+            </span>
           </button>
           <ul class="dropdown-menu dropdown-menu-end">
             <li>

@@ -1,0 +1,142 @@
+<!-- Header de la página -->
+<div class="page-header">
+  <div class="header-content">
+    <div class="title-section">
+      <h1 class="page-title">
+        <span class="fire-icon"
+          ><fa-icon icon="users" size="lg"></fa-icon
+        ></span>
+        Personal de Bomberos
+      </h1>
+      <p class="page-subtitle">
+        Gestión del personal activo y registro de nuevos miembros
+      </p>
+    </div>
+
+    <div class="stats-section">
+      <div class="stat-card">
+        <div class="stat-number">{{ getActivePersonalCount() }}</div>
+        <div class="stat-label">Activos</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">{{ getTotalPersonalCount() }}</div>
+        <div class="stat-label">Total</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Controles de búsqueda, filtros y vista -->
+<div class="controls-section">
+  <form [formGroup]="searchForm" class="search-controls">
+    <div class="search-group">
+      <div class="search-input-wrapper">
+        <span class="search-icon"
+          ><fa-icon icon="magnifying-glass" size="lg"></fa-icon
+        ></span>
+        <input
+          type="text"
+          formControlName="searchTerm"
+          placeholder="Buscar por nombre o apellido..."
+          class="search-input"
+        />
+      </div>
+
+      <div class="select-wrapper">
+        <select formControlName="tipoFilter" class="filter-select">
+          <option value="todos">Todos los tipos</option>
+          <option *ngFor="let tipo of tiposPersonal" [value]="tipo.value">
+            {{ tipo.label }}
+          </option>
+        </select>
+        <fa-icon icon="chevron-down" class="select-arrow"></fa-icon>
+      </div>
+    </div>
+
+    <div class="controls-right">
+      <!-- Selector de vista -->
+      <div class="view-selector">
+        <button
+          type="button"
+          class="view-btn"
+          [class.active]="viewMode === 'table'"
+          (click)="setViewMode('table')"
+          title="Vista de tabla"
+        >
+          <span class="view-icon"
+            ><fa-icon icon="table-list" size="lg"></fa-icon
+          ></span>
+        </button>
+        <button
+          type="button"
+          class="view-btn"
+          [class.active]="viewMode === 'cards'"
+          (click)="setViewMode('cards')"
+          title="Vista de tarjetas"
+        >
+          <span class="view-icon"
+            ><fa-icon icon="table" size="lg"></fa-icon
+          ></span>
+        </button>
+      </div>
+
+      <button
+        type="button"
+        class="btn btn-primary add-button"
+        (click)="openPersonalModal()"
+      >
+        <span class="btn-icon"><fa-icon icon="plus" size="lg"></fa-icon></span>
+        <span class="btn-text">Agregar Personal</span>
+      </button>
+    </div>
+  </form>
+</div>
+<!-- Contenedor principal para mostrar cards o tabla -->
+<div class="personal-container">
+  <app-personal-table
+    [personalList]="filteredPersonal"
+    [page]="page"
+    [sortColumn]="sortColumn"
+    [sortDirection]="sortDirection"
+    (edit)="editPersonal($event)"
+    (toggle)="togglePersonalStatus($event)"
+    (delete)="deletePersonal($event)"
+    (sort)="sortBy($event)"
+  >
+  </app-personal-table>
+
+  <app-personal-cards
+    *ngIf="viewMode === 'cards'"
+    [personalList]="filteredPersonal"
+    [page]="page"
+    (edit)="editPersonal($event)"
+    (toggle)="togglePersonalStatus($event)"
+    (delete)="deletePersonal($event)"
+  >
+  </app-personal-cards>
+  <br />
+  <pagination-controls
+    *ngIf="filteredPersonal.length > 0"
+    (pageChange)="page = $event"
+    [autoHide]="true"
+    previousLabel="Anterior"
+    nextLabel="Siguiente"
+  ></pagination-controls>
+
+  <!-- Estado vacío centralizado -->
+  <div *ngIf="filteredPersonal.length === 0" class="empty-state">
+    <div class="empty-icon">👨‍🚒</div>
+    <h3 class="empty-title">No hay personal registrado</h3>
+    <p class="empty-message">
+      Comience agregando el primer miembro del equipo de bomberos
+    </p>
+  </div>
+</div>
+
+<!-- Modal para agregar personal -->
+<app-personal
+  [isOpen]="showPersonalModal"
+  (closeModal)="closePersonalModal()"
+  (personalCreated)="onPersonalCreated($event)"
+>
+</app-personal>

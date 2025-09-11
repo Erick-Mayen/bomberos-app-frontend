@@ -1,0 +1,157 @@
+<!-- Modal Backdrop -->
+<div
+  class="modal-backdrop"
+  [class.show]="isOpen"
+  (click)="onBackdropClick($event)"
+  *ngIf="isOpen"
+>
+  <!-- Modal Container -->
+  <div class="modal-container" [class.show]="isOpen">
+    <div class="personal-card">
+      <!-- Header con botón de cerrar -->
+      <div class="card-header">
+        <div class="header-content">
+          <h1 class="card-title">
+            <span class="fire-icon"><fa-icon icon="user"></fa-icon></span>
+            Agregar Personal
+          </h1>
+          <button
+            type="button"
+            class="close-button"
+            (click)="onCancel()"
+            aria-label="Cerrar modal"
+          >
+            ✕
+          </button>
+        </div>
+        <p class="card-subtitle">Complete la información del nuevo miembro del equipo</p>
+      </div>
+
+      <!-- Formulario -->
+      <form [formGroup]="personalForm" (ngSubmit)="onSubmit()" class="personal-form">
+        <div class="form-grid">
+          <!-- Primer Nombre -->
+          <div class="form-group">
+            <label for="primer_nombre" class="form-label required">
+              Primer Nombre
+            </label>
+            <input
+              id="primer_nombre"
+              type="text"
+              formControlName="primer_nombre"
+              class="form-input"
+              [class.error]="isFieldInvalid('primer_nombre')"
+              placeholder="Ingrese el primer nombre"
+            />
+            <div class="error-message" *ngIf="getErrorMessage('primer_nombre')">
+              {{ getErrorMessage('primer_nombre') }}
+            </div>
+          </div>
+
+          <!-- Segundo Nombre -->
+          <div class="form-group">
+            <label for="segundo_nombre" class="form-label">
+              Segundo Nombre
+            </label>
+            <input
+              id="segundo_nombre"
+              type="text"
+              formControlName="segundo_nombre"
+              class="form-input"
+              [class.error]="isFieldInvalid('segundo_nombre')"
+              placeholder="Ingrese el segundo nombre (opcional)"
+            />
+            <div class="error-message" *ngIf="getErrorMessage('segundo_nombre')">
+              {{ getErrorMessage('segundo_nombre') }}
+            </div>
+          </div>
+
+          <!-- Primer Apellido -->
+          <div class="form-group">
+            <label for="primer_apellido" class="form-label required">
+              Primer Apellido
+            </label>
+            <input
+              id="primer_apellido"
+              type="text"
+              formControlName="primer_apellido"
+              class="form-input"
+              [class.error]="isFieldInvalid('primer_apellido')"
+              placeholder="Ingrese el primer apellido"
+            />
+            <div class="error-message" *ngIf="getErrorMessage('primer_apellido')">
+              {{ getErrorMessage('primer_apellido') }}
+            </div>
+          </div>
+
+          <!-- Segundo Apellido -->
+          <div class="form-group">
+            <label for="segundo_apellido" class="form-label">
+              Segundo Apellido
+            </label>
+            <input
+              id="segundo_apellido"
+              type="text"
+              formControlName="segundo_apellido"
+              class="form-input"
+              [class.error]="isFieldInvalid('segundo_apellido')"
+              placeholder="Ingrese el segundo apellido (opcional)"
+            />
+            <div class="error-message" *ngIf="getErrorMessage('segundo_apellido')">
+              {{ getErrorMessage('segundo_apellido') }}
+            </div>
+          </div>
+        </div>
+
+        <!-- Tipo Personal -->
+        <div class="form-group full-width">
+          <label for="tipo_personal" class="form-label required">
+            Tipo de Personal
+          </label>
+          <select
+            id="tipo_personal"
+            formControlName="tipo_personal"
+            class="form-select"
+            [class.error]="isFieldInvalid('tipo_personal')"
+          >
+            <option value="" disabled>Seleccione el tipo de personal</option>
+            <option
+              *ngFor="let tipo of tiposPersonal"
+              [value]="tipo.value"
+            >
+              {{ tipo.label }}
+            </option>
+          </select>
+          <div class="error-message" *ngIf="getErrorMessage('tipo_personal')">
+            {{ getErrorMessage('tipo_personal') }}
+          </div>
+        </div>
+
+        <!-- Botones de Acción -->
+        <div class="form-actions">
+          <button
+            type="button"
+            class="btn btn-secondary"
+            (click)="onCancel()"
+            [disabled]="isSubmitting"
+          >
+            Cancelar
+          </button>
+          <button
+            type="submit"
+            class="btn btn-primary"
+            [disabled]="personalForm.invalid || isSubmitting"
+          >
+            <span *ngIf="!isSubmitting">
+              <span class="btn-icon">👨‍🚒</span>
+              Agregar Personal
+            </span>
+            <span *ngIf="isSubmitting" class="loading-spinner">
+              Guardando...
+            </span>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
