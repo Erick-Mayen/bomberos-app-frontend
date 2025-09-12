@@ -91,11 +91,14 @@
     </div>
   </form>
 </div>
+
 <!-- Contenedor principal para mostrar cards o tabla -->
 <div class="personal-container">
   <app-personal-table
+    *ngIf="viewMode === 'table'"
     [personalList]="filteredPersonal"
     [page]="page"
+    [itemsPerPage]="10"
     [sortColumn]="sortColumn"
     [sortDirection]="sortDirection"
     (edit)="editPersonal($event)"
@@ -109,6 +112,7 @@
     *ngIf="viewMode === 'cards'"
     [personalList]="filteredPersonal"
     [page]="page"
+    [itemsPerPage]= 6
     (edit)="editPersonal($event)"
     (toggle)="togglePersonalStatus($event)"
     (delete)="deletePersonal($event)"
@@ -123,7 +127,6 @@
     nextLabel="Siguiente"
   ></pagination-controls>
 
-  <!-- Estado vacío centralizado -->
   <div *ngIf="filteredPersonal.length === 0" class="empty-state">
     <div class="empty-icon">👨‍🚒</div>
     <h3 class="empty-title">No hay personal registrado</h3>

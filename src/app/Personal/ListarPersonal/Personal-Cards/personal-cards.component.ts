@@ -24,7 +24,7 @@ interface Personal {
 export class PersonalCardsComponent {
   @Input() personalList: Personal[] = [];
   @Input() page: number = 1;
-
+  @Input() itemsPerPage: number = 0;
   @Output() edit = new EventEmitter<Personal>();
   @Output() toggle = new EventEmitter<Personal>();
   @Output() delete = new EventEmitter<Personal>();

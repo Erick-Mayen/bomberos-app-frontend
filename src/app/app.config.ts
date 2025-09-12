@@ -9,7 +9,7 @@ import { TokenInterceptor } from './auth/interceptors/token.interceptor';
 
 export function createApolloOptions(): ApolloClientOptions<any> {
   const httpLink = createHttpLink({
-    uri: 'http://192.168.1.6:3000/graphql',
+    uri: 'http://192.168.1.8:3000/graphql',
   });
 
   const authLink = setContext((_, { headers }) => {

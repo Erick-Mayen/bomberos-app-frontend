@@ -20,7 +20,7 @@ interface Personal {
 
 type ViewMode = 'table' | 'cards';
 type SortColumn = 'nombre' | 'tipo_personal' | 'fecha_ingreso' | 'activo';
-type SortDirection = 'asc' | 'desc';
+type SortDirection = 'desc' | 'asc';
 
 @Component({
   selector: 'app-personal-list',
@@ -45,7 +45,8 @@ export class PersonalListComponent implements OnInit {
   searchForm: FormGroup;
   viewMode: ViewMode = 'table';
   sortColumn: SortColumn = 'fecha_ingreso';
-  sortDirection: SortDirection = 'asc';
+  sortDirection: SortDirection = 'desc';
+  itemsPerPage = 0;
 
   tiposPersonal = [
     { value: 'bombero', label: 'Bombero' },
@@ -74,7 +75,23 @@ export class PersonalListComponent implements OnInit {
       { id: '5', primer_nombre: 'Roberto', segundo_nombre: 'Carlos', primer_apellido: 'Silva', segundo_apellido: 'Mendoza', tipo_personal: 'teniente', fecha_ingreso: new Date('2018-12-03'), activo: true },
       { id: '6', primer_nombre: 'Laura', segundo_nombre: '', primer_apellido: 'García', segundo_apellido: 'Torres', tipo_personal: 'conductor', fecha_ingreso: new Date('2023-02-14'), activo: true },
       { id: '7', primer_nombre: 'Miguel', segundo_nombre: 'Ángel', primer_apellido: 'Ramírez', segundo_apellido: 'Cruz', tipo_personal: 'sargento', fecha_ingreso: new Date('2017-09-08'), activo: true },
-      { id: '8', primer_nombre: 'Carmen', segundo_nombre: 'Elena', primer_apellido: 'Jiménez', segundo_apellido: 'Flores', tipo_personal: 'administrativo', fecha_ingreso: new Date('2021-11-25'), activo: false }
+      { id: '8', primer_nombre: 'Carmen', segundo_nombre: 'Elena', primer_apellido: 'Jiménez', segundo_apellido: 'Flores', tipo_personal: 'administrativo', fecha_ingreso: new Date('2021-11-25'), activo: false },
+      { id: '9', primer_nombre: 'Carlos', segundo_nombre: 'Alberto', primer_apellido: 'González', segundo_apellido: 'Martínez', tipo_personal: 'capitan', fecha_ingreso: new Date('2020-01-15'), activo: true },
+      { id: '10', primer_nombre: 'María', segundo_nombre: '', primer_apellido: 'Rodríguez', segundo_apellido: 'López', tipo_personal: 'bombero', fecha_ingreso: new Date('2021-03-10'), activo: true },
+      { id: '11', primer_nombre: 'José', segundo_nombre: 'Luis', primer_apellido: 'Hernández', segundo_apellido: '', tipo_personal: 'paramedico', fecha_ingreso: new Date('2019-08-22'), activo: true },
+      { id: '12', primer_nombre: 'Ana', segundo_nombre: 'Patricia', primer_apellido: 'Morales', segundo_apellido: 'Vega', tipo_personal: 'voluntario', fecha_ingreso: new Date('2022-05-18'), activo: false },
+      { id: '13', primer_nombre: 'Roberto', segundo_nombre: 'Carlos', primer_apellido: 'Silva', segundo_apellido: 'Mendoza', tipo_personal: 'teniente', fecha_ingreso: new Date('2018-12-03'), activo: true },
+      { id: '14', primer_nombre: 'Laura', segundo_nombre: '', primer_apellido: 'García', segundo_apellido: 'Torres', tipo_personal: 'conductor', fecha_ingreso: new Date('2023-02-14'), activo: true },
+      { id: '15', primer_nombre: 'Miguel', segundo_nombre: 'Ángel', primer_apellido: 'Ramírez', segundo_apellido: 'Cruz', tipo_personal: 'sargento', fecha_ingreso: new Date('2017-09-08'), activo: true },
+      { id: '16', primer_nombre: 'Carmen', segundo_nombre: 'Elena', primer_apellido: 'Jiménez', segundo_apellido: 'Flores', tipo_personal: 'administrativo', fecha_ingreso: new Date('2021-11-25'), activo: false },
+      { id: '17', primer_nombre: 'Carlos', segundo_nombre: 'Alberto', primer_apellido: 'González', segundo_apellido: 'Martínez', tipo_personal: 'capitan', fecha_ingreso: new Date('2020-01-15'), activo: true },
+      { id: '18', primer_nombre: 'María', segundo_nombre: '', primer_apellido: 'Rodríguez', segundo_apellido: 'López', tipo_personal: 'bombero', fecha_ingreso: new Date('2021-03-10'), activo: true },
+      { id: '19', primer_nombre: 'José', segundo_nombre: 'Luis', primer_apellido: 'Hernández', segundo_apellido: '', tipo_personal: 'paramedico', fecha_ingreso: new Date('2019-08-22'), activo: true },
+      { id: '20', primer_nombre: 'Ana', segundo_nombre: 'Patricia', primer_apellido: 'Morales', segundo_apellido: 'Vega', tipo_personal: 'voluntario', fecha_ingreso: new Date('2022-05-18'), activo: false },
+      { id: '21', primer_nombre: 'Roberto', segundo_nombre: 'Carlos', primer_apellido: 'Silva', segundo_apellido: 'Mendoza', tipo_personal: 'teniente', fecha_ingreso: new Date('2018-12-03'), activo: true },
+      { id: '22', primer_nombre: 'Laura', segundo_nombre: '', primer_apellido: 'García', segundo_apellido: 'Torres', tipo_personal: 'conductor', fecha_ingreso: new Date('2023-02-14'), activo: true },
+      { id: '23', primer_nombre: 'Miguel', segundo_nombre: 'Ángel', primer_apellido: 'Ramírez', segundo_apellido: 'Cruz', tipo_personal: 'sargento', fecha_ingreso: new Date('2017-09-08'), activo: true },
+      { id: '24', primer_nombre: 'Carmen', segundo_nombre: 'Elena', primer_apellido: 'Jiménez', segundo_apellido: 'Flores', tipo_personal: 'administrativo', fecha_ingreso: new Date('2021-11-25'), activo: false }
     ];
 
     this.filteredPersonal = [...this.personalList];
@@ -87,6 +104,20 @@ export class PersonalListComponent implements OnInit {
 
   get tipoFilterControl(): FormControl {
     return this.searchForm.get('tipoFilter') as FormControl;
+  }
+
+  private getCurrentItemsPerPage(): number {
+    return this.viewMode === 'table' ? 10 : 6; // 👈 según la vista
+  }
+
+  private adjustPageIfEmpty(): void {
+    const itemsPerPage = this.getCurrentItemsPerPage();
+    const totalItems = this.filteredPersonal.length;
+    const lastPage = Math.ceil(totalItems / itemsPerPage) || 1;
+
+    if (this.page > lastPage) {
+      this.page = lastPage;
+    }
   }
 
   ngOnInit(): void {
@@ -157,6 +188,7 @@ export class PersonalListComponent implements OnInit {
   filterAndSortPersonal(): void {
     this.filterPersonal();
     this.filteredPersonal = this.sortPersonal(this.filteredPersonal);
+    this.adjustPageIfEmpty();
   }
 
   filterPersonal(): void {
@@ -191,6 +223,7 @@ export class PersonalListComponent implements OnInit {
   }
 
   editPersonal(personal: Personal): void { console.log('Editar personal:', personal); }
+
   deletePersonal(personal: Personal): void {
     if (confirm(`¿Está seguro de eliminar permanentemente a ${this.getPersonalFullName(personal)}?`)) {
       this.personalList = this.personalList.filter(p => p.id !== personal.id);
@@ -199,27 +232,10 @@ export class PersonalListComponent implements OnInit {
   }
 
   getActivePersonalCount(): number { return this.personalList.filter(p => p.activo).length; }
-  getTotalPersonalCount(): number { return this.personalList.length; }
-  getInactivePersonalCount(): number { return this.personalList.filter(p => !p.activo).length; }
 
-  exportToCSV(): void {
-    const headers = ['ID', 'Nombre Completo', 'Tipo', 'Fecha de Ingreso', 'Estado'];
-    const csvContent = this.filteredPersonal.map(p => [
-      p.id,
-      this.getPersonalFullName(p),
-      this.getTipoPersonalLabel(p.tipo_personal),
-      p.fecha_ingreso.toLocaleDateString('es-GT'),
-      p.activo ? 'Activo' : 'Inactivo'
-    ]);
-    const csv = [headers, ...csvContent].map(row => row.map(f => `"${f}"`).join(',')).join('\n');
-    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
-    const link = document.createElement('a');
-    link.href = URL.createObjectURL(blob);
-    link.setAttribute('download', `personal_bomberos_${new Date().toISOString().split('T')[0]}.csv`);
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-  }
+  getTotalPersonalCount(): number { return this.personalList.length; }
+
+  getInactivePersonalCount(): number { return this.personalList.filter(p => !p.activo).length; }
 
   clearFilters(): void { this.searchForm.reset({ searchTerm: '', tipoFilter: 'todos' }); }
   hasActiveFilters(): boolean { return !!this.searchForm.value.searchTerm || this.searchForm.value.tipoFilter !== 'todos'; }

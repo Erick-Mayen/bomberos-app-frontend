@@ -28,7 +28,7 @@ export class PersonalTableComponent {
   @Input() page: number = 1;
   @Input() sortColumn: SortColumn | null = null;
   @Input() sortDirection: 'asc' | 'desc' | null = null;
-
+  @Input() itemsPerPage: number = 10;
   @Output() edit = new EventEmitter<Personal>();
   @Output() toggle = new EventEmitter<Personal>();
   @Output() delete = new EventEmitter<Personal>();

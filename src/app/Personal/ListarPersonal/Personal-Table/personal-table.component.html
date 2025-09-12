@@ -71,7 +71,7 @@
         <tr
           *ngFor="
             let personal of personalList
-              | paginate : { itemsPerPage: 5, currentPage: page };
+              | paginate : { itemsPerPage: itemsPerPage, currentPage: page };
             trackBy: trackByPersonalId
           "
           class="table-row"
