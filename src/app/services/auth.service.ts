@@ -1,27 +1,9 @@
 import { Injectable } from '@angular/core';
-import { Apollo, gql } from 'apollo-angular';
+import { Apollo} from 'apollo-angular';
 import { map, catchError, timeout } from 'rxjs/operators';
 import { throwError } from 'rxjs';
 import { jwtDecode } from 'jwt-decode';
-
-const LOGIN_MUTATION = gql`
-  mutation Login($loginInput: LoginInput!) {
-    login(loginInput: $loginInput) {
-      access_token
-      user {
-        id_usuario
-        nombre_usuario
-        rol {
-          nombre_rol
-        }
-        personalAsignado {
-          primer_nombre
-          primer_apellido
-        }
-      }
-    }
-  }
-`;
+import { LOGIN_MUTATION } from '../graphql';
 
 @Injectable({
   providedIn: 'root'
@@ -34,7 +16,7 @@ export class AuthService {
       mutation: LOGIN_MUTATION,
       variables: { loginInput: { nombre_usuario, contrasenia } }
     }).pipe(
-      //timeout(10000),
+      timeout(10000),
       map((result: any) => {
         if (result.errors?.length) {
           const msg = result.errors[0].message;

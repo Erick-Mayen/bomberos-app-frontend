@@ -1,3 +1,4 @@
+@use "sass:color";
 // Variables de diseño
 $primary-color: #dc2626;
 $secondary-color: #ea580c;
@@ -15,7 +16,6 @@ $neutral-500: #737373;
 $neutral-600: #525252;
 $neutral-700: #404040;
 $neutral-800: #262626;
-$neutral-900: #171717;
 
 $spacing-1: 8px;
 $spacing-2: 16px;
@@ -62,6 +62,15 @@ $transition-base: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 
 .title-section {
   flex: 1;
+  text-align: center;
+
+  .page-title {
+    justify-content: center;
+  }
+
+  .page-subtitle {
+    text-align: center;
+  }
 }
 
 .page-title {
@@ -76,7 +85,7 @@ $transition-base: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   @media (max-width: 768px) {
     font-size: 1.875rem;
     flex-direction: column;
-    align-items: flex-start;
+    align-items: center;
     gap: $spacing-1;
   }
 }
@@ -834,8 +843,8 @@ $transition-base: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
     box-shadow: $shadow-md;
     background: linear-gradient(
       135deg,
-      darken($primary-color, 5%) 0%,
-      darken($secondary-color, 5%) 100%
+      color.adjust($primary-color, $lightness: -5%) 0%,
+      color.adjust($secondary-color, $lightness: -5%) 100%
     );
   }
 

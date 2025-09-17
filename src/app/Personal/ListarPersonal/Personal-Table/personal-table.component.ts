@@ -29,6 +29,7 @@ export class PersonalTableComponent {
   @Input() sortColumn: SortColumn | null = null;
   @Input() sortDirection: 'asc' | 'desc' | null = null;
   @Input() itemsPerPage: number = 10;
+  @Input() getPersonalFullName!: (personal: Personal) => string;
   @Output() edit = new EventEmitter<Personal>();
   @Output() toggle = new EventEmitter<Personal>();
   @Output() delete = new EventEmitter<Personal>();
@@ -38,9 +39,5 @@ export class PersonalTableComponent {
     return personal.id;
   }
 
-  getFullName(personal: Personal): string {
-    const nombres = [personal.primer_nombre, personal.segundo_nombre].filter(Boolean).join(' ');
-    const apellidos = [personal.primer_apellido, personal.segundo_apellido].filter(Boolean).join(' ');
-    return `${nombres} ${apellidos}`;
-  }
+
 }

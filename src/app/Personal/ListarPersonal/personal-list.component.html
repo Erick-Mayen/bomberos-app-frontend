@@ -15,10 +15,6 @@
 
     <div class="stats-section">
       <div class="stat-card">
-        <div class="stat-number">{{ getActivePersonalCount() }}</div>
-        <div class="stat-label">Activos</div>
-      </div>
-      <div class="stat-card">
         <div class="stat-number">{{ getTotalPersonalCount() }}</div>
         <div class="stat-label">Total</div>
       </div>
@@ -101,6 +97,7 @@
     [itemsPerPage]="10"
     [sortColumn]="sortColumn"
     [sortDirection]="sortDirection"
+    [getPersonalFullName]="getPersonalFullName"
     (edit)="editPersonal($event)"
     (toggle)="togglePersonalStatus($event)"
     (delete)="deletePersonal($event)"
@@ -112,7 +109,8 @@
     *ngIf="viewMode === 'cards'"
     [personalList]="filteredPersonal"
     [page]="page"
-    [itemsPerPage]= 6
+    [itemsPerPage]="6"
+    [getPersonalFullName]="getPersonalFullName"
     (edit)="editPersonal($event)"
     (toggle)="togglePersonalStatus($event)"
     (delete)="deletePersonal($event)"
