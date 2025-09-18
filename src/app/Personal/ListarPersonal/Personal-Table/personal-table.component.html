@@ -35,7 +35,7 @@
           </th>
           <th class="sortable" (click)="sort.emit('fecha_ingreso')">
             <div class="th-content">
-              Fecha de Ingreso
+              Fecha de creación
               <fa-icon
                 [icon]="
                   sortColumn === 'fecha_ingreso'
@@ -109,21 +109,6 @@
                 <span class="action-icon"
                   ><fa-icon icon="pen-to-square"></fa-icon
                 ></span>
-              </button>
-              <button
-                class="table-action-btn toggle-btn"
-                [class.activate]="!personal.activo"
-                [class.deactivate]="personal.activo"
-                [title]="
-                  personal.activo ? 'Desactivar personal' : 'Activar personal'
-                "
-                [ngClass]="personal.activo ? 'desactivate' : 'activate'"
-                (click)="toggle.emit(personal)"
-              >
-                <fa-icon
-                  [icon]="personal.activo ? 'pause' : 'play'"
-                  class="action-icon"
-                ></fa-icon>
               </button>
               <button
                 class="table-action-btn delete-btn"

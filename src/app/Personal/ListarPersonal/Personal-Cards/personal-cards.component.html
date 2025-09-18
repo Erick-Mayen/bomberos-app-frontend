@@ -33,7 +33,7 @@
       <!-- Información adicional -->
       <div class="card-body">
         <div class="info-row">
-          <span class="info-label">Fecha de Ingreso:</span>
+          <span class="info-label">Fecha de creación:</span>
           <span class="info-value">{{
             personal.fecha_ingreso | date : "dd/MM/yyyy"
           }}</span>
@@ -45,20 +45,6 @@
       <div class="card-actions">
         <button class="action-btn edit-btn" (click)="edit.emit(personal)">
           <fa-icon icon="pen-to-square"></fa-icon> Editar
-        </button>
-        <button
-          class="action-btn toggle-btn"
-          [class.activate]="!personal.activo"
-          [class.deactivate]="personal.activo"
-          (click)="toggle.emit(personal)"
-        >
-          <fa-icon
-            [icon]="personal.activo ? 'pause' : 'play'"
-            class="action-icon"
-          ></fa-icon>
-          <span class="action-text">
-            {{ personal.activo ? "Desactivar" : "Activar" }}
-          </span>
         </button>
         <button class="action-btn delete-btn" (click)="delete.emit(personal)">
           <fa-icon icon="trash-can"></fa-icon>Eliminar

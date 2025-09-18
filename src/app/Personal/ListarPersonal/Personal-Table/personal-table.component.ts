@@ -31,7 +31,6 @@ export class PersonalTableComponent {
   @Input() itemsPerPage: number = 10;
   @Input() getPersonalFullName!: (personal: Personal) => string;
   @Output() edit = new EventEmitter<Personal>();
-  @Output() toggle = new EventEmitter<Personal>();
   @Output() delete = new EventEmitter<Personal>();
   @Output() sort = new EventEmitter<SortColumn>();
 

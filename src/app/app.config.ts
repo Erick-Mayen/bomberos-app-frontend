@@ -5,7 +5,6 @@ import { provideApollo } from 'apollo-angular';
 import { routes } from './app.routes';
 import { InMemoryCache, createHttpLink, from, ApolloClientOptions } from '@apollo/client/core';
 import { setContext } from '@apollo/client/link/context';
-import { TokenInterceptor } from './auth/interceptors/token.interceptor';
 
 export function createApolloOptions(): ApolloClientOptions<any> {
   const httpLink = createHttpLink({
@@ -39,6 +38,5 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes),
     provideHttpClient(withInterceptorsFromDi()),
     provideApollo(() => createApolloOptions()),
-    TokenInterceptor,
   ],
 };

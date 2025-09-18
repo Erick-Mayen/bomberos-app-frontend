@@ -41,8 +41,8 @@
       <div class="select-wrapper">
         <select formControlName="tipoFilter" class="filter-select">
           <option value="todos">Todos los tipos</option>
-          <option *ngFor="let tipo of tiposPersonal" [value]="tipo.value">
-            {{ tipo.label }}
+          <option *ngFor="let tipo of tiposPersonal" [value]="tipo.nombre.toLowerCase()">
+            {{ tipo.nombre }}
           </option>
         </select>
         <fa-icon icon="chevron-down" class="select-arrow"></fa-icon>
@@ -99,7 +99,6 @@
     [sortDirection]="sortDirection"
     [getPersonalFullName]="getPersonalFullName"
     (edit)="editPersonal($event)"
-    (toggle)="togglePersonalStatus($event)"
     (delete)="deletePersonal($event)"
     (sort)="sortBy($event)"
   >
@@ -112,7 +111,6 @@
     [itemsPerPage]="6"
     [getPersonalFullName]="getPersonalFullName"
     (edit)="editPersonal($event)"
-    (toggle)="togglePersonalStatus($event)"
     (delete)="deletePersonal($event)"
   >
   </app-personal-cards>

@@ -27,7 +27,6 @@ export class PersonalCardsComponent {
   @Input() itemsPerPage: number = 0;
   @Input() getPersonalFullName!: (personal: Personal) => string;
   @Output() edit = new EventEmitter<Personal>();
-  @Output() toggle = new EventEmitter<Personal>();
   @Output() delete = new EventEmitter<Personal>();
 
   trackByPersonalId(index: number, personal: Personal): string {
