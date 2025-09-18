@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Apollo } from 'apollo-angular';
 import { map, catchError } from 'rxjs/operators';
 import { throwError, Observable } from 'rxjs';
-import { FIND_ALL_PERSONAL, FIND_ALL_TYPES} from '../graphql';
+import { CREATE_PERSONAL, FIND_ALL_PERSONAL, FIND_ALL_TYPES} from '../graphql';
 import { PersonalGraphQL, TypesPersonal } from '../interfaces'
 
 @Injectable({
@@ -34,4 +34,19 @@ export class PersonalService {
       })
     );
   }
+
+  createPersonal(input: any): Observable<PersonalGraphQL> {
+  return this.apollo.mutate<{ createPerson: PersonalGraphQL }>({
+    mutation: CREATE_PERSONAL,
+    variables: {
+      createPersonalInput: input
+    }
+  }).pipe(
+    map(result => result.data!.createPerson),
+    catchError(err => {
+      console.error('Error creando personal:', err);
+      return throwError(() => new Error('ERROR_CREATE_PERSONAL'));
+    })
+  );
+}
 }

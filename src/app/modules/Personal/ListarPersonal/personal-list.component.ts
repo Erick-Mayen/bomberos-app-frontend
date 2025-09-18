@@ -104,11 +104,12 @@ export class PersonalListComponent implements OnInit {
   closePersonalModal(): void { this.showPersonalModal = false; }
 
   onPersonalCreated(personalData: any): void {
+    const tipo = this.tiposPersonal.find(t => t.id_tipo_personal === personalData.id_tipo_personal)?.nombre.toLowerCase() || '';
     const newPersonal: Personal = {
-      id: Date.now().toString(),
       ...personalData,
       fecha_ingreso: new Date(),
-      activo: true
+      activo: true,
+      tipo_personal: tipo
     };
     this.personalList.unshift(newPersonal);
     this.applyFilters();

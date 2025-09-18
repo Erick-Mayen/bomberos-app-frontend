@@ -40,6 +40,7 @@
               type="text"
               formControlName="primer_nombre"
               class="form-input"
+              (keypress)="allowLetters($event)"
               [class.error]="isFieldInvalid('primer_nombre')"
               placeholder="Ingrese el primer nombre"
             />
@@ -58,6 +59,7 @@
               type="text"
               formControlName="segundo_nombre"
               class="form-input"
+              (keypress)="allowLetters($event)"
               [class.error]="isFieldInvalid('segundo_nombre')"
               placeholder="Ingrese el segundo nombre (opcional)"
             />
@@ -76,6 +78,7 @@
               type="text"
               formControlName="primer_apellido"
               class="form-input"
+              (keypress)="allowLetters($event)"
               [class.error]="isFieldInvalid('primer_apellido')"
               placeholder="Ingrese el primer apellido"
             />
@@ -94,6 +97,7 @@
               type="text"
               formControlName="segundo_apellido"
               class="form-input"
+              (keypress)="allowLetters($event)"
               [class.error]="isFieldInvalid('segundo_apellido')"
               placeholder="Ingrese el segundo apellido (opcional)"
             />
@@ -117,9 +121,9 @@
             <option value="" disabled>Seleccione el tipo de personal</option>
             <option
               *ngFor="let tipo of tiposPersonal"
-              [value]="tipo.value"
+              [value]="tipo.id_tipo_personal"
             >
-              {{ tipo.label }}
+              {{ tipo.nombre }}
             </option>
           </select>
           <div class="error-message" *ngIf="getErrorMessage('tipo_personal')">

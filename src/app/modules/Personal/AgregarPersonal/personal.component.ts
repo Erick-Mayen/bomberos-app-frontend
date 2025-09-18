@@ -2,6 +2,10 @@ import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { TypesPersonal } from '../../../interfaces';
+import { PersonalService } from '../../../services/personal.service';
+import { AuthService } from '../../../services/auth.service';
+import { AlertService } from '../../../services/alert.service';
 
 @Component({
   selector: 'app-personal',
@@ -18,21 +22,12 @@ export class PersonalComponent implements OnInit {
   personalForm: FormGroup;
   isSubmitting = false;
 
-  tiposPersonal = [
-    { value: 'bombero', label: 'Bombero' },
-    { value: 'oficial', label: 'Oficial' },
-    { value: 'capitan', label: 'Capitán' },
-    { value: 'teniente', label: 'Teniente' },
-    { value: 'sargento', label: 'Sargento' },
-    { value: 'voluntario', label: 'Voluntario' },
-    { value: 'paramedico', label: 'Paramédico' },
-    { value: 'conductor', label: 'Conductor' },
-    { value: 'administrativo', label: 'Administrativo' }
-  ];
+  tiposPersonal: TypesPersonal[] = [];
 
-  constructor(private formBuilder: FormBuilder) {
+  constructor(private formBuilder: FormBuilder, private personalService: PersonalService,
+    private authService: AuthService, private alertService: AlertService) {
     this.personalForm = this.formBuilder.group({
-      primer_nombre: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(50)]],
+      primer_nombre: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(50),]],
       segundo_nombre: ['', [Validators.maxLength(50)]],
       primer_apellido: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(50)]],
       segundo_apellido: ['', [Validators.maxLength(50)]],
@@ -40,29 +35,54 @@ export class PersonalComponent implements OnInit {
     });
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.loadTiposPersonal();
+  }
+
+  private loadTiposPersonal(): void {
+    this.personalService.getAllTypes().subscribe({
+      next: (data: TypesPersonal[]) => this.tiposPersonal = data,
+      error: err => console.error('Error al cargar tipos de personal', err)
+    });
+  }
 
   onSubmit(): void {
-    if (this.personalForm.valid) {
-      this.isSubmitting = true;
-      const formData = this.personalForm.value;
+  if (this.personalForm.valid) {
+    this.isSubmitting = true;
 
-      // Aquí integrarías con tu servicio existente
-      console.log('Datos del personal:', formData);
+    const formData = this.personalForm.value;
+    const currentUser = this.authService.getCurrentUser();
+    const input = {
+      primer_nombre: formData.primer_nombre,
+      segundo_nombre: formData.segundo_nombre || null,
+      primer_apellido: formData.primer_apellido,
+      segundo_apellido: formData.segundo_apellido || null,
+      id_tipo_personal: Number(formData.tipo_personal),
+      usuario_creacion: currentUser?.id_usuario || 1
+    };
 
-      // Emitir el evento con los datos
-      this.personalCreated.emit(formData);
+    this.personalService.createPersonal(input).subscribe({
+      next: (createdPersonal) => {
+        this.alertService.SuccesNotify('Éxito ,Personal creado exitosamente.');
 
-      // Simular envío
-      setTimeout(() => {
-        this.isSubmitting = false;
+        this.personalCreated.emit(createdPersonal);
         this.personalForm.reset();
+        this.isSubmitting = false;
         this.closeModal.emit();
-      }, 1000);
-    } else {
-      this.markFormGroupTouched();
-    }
+      },
+      error: (err) => {
+        console.error('Error al crear personal:', err);
+        this.alertService.errorReport(
+          'Error',
+          'Ocurrió un error al crear el personal. Intenta de nuevo.'
+        );
+        this.isSubmitting = false;
+      }
+    });
+  } else {
+    this.markFormGroupTouched();
   }
+}
 
   private markFormGroupTouched(): void {
     Object.keys(this.personalForm.controls).forEach(key => {
@@ -87,6 +107,13 @@ export class PersonalComponent implements OnInit {
     }
     return '';
   }
+
+  allowLetters(event: KeyboardEvent) {
+  const pattern = /[A-Za-zÁÉÍÓÚáéíóúÑñ ]/;
+  if (!pattern.test(event.key)) {
+    event.preventDefault();
+  }
+}
 
   isFieldInvalid(fieldName: string): boolean {
     const control = this.personalForm.get(fieldName);
