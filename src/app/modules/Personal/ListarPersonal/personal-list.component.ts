@@ -6,8 +6,8 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { PersonalComponent } from '../AgregarPersonal/personal.component';
 import { PersonalCardsComponent } from './Personal-Cards/personal-cards.component';
 import { PersonalTableComponent } from './Personal-Table/personal-table.component';
-import { PersonalService } from '../../services/personal.service';
-import { PersonalGraphQL, Personal, TypesPersonal } from '../../interfaces';
+import { PersonalService } from '../../../services/personal.service'
+import { PersonalGraphQL, Personal, TypesPersonal } from '../../../interfaces';
 
 type ViewMode = 'table' | 'cards';
 type SortColumn = 'nombre' | 'tipo_personal' | 'fecha_ingreso' | 'activo';
