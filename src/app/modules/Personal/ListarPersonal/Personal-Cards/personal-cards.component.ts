@@ -2,17 +2,7 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { CommonModule } from '@angular/common';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-
-interface Personal {
-  id: string;
-  primer_nombre: string;
-  segundo_nombre?: string;
-  primer_apellido: string;
-  segundo_apellido?: string;
-  tipo_personal: string;
-  fecha_ingreso: Date;
-  activo: boolean;
-}
+import { Personal } from '../../../../interfaces';
 
 @Component({
   selector: 'app-personal-cards',
