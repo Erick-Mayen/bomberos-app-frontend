@@ -132,18 +132,12 @@
   </div>
 </div>
 
-<!-- Modal para agregar personal -->
 <app-personal
-  [isOpen]="showPersonalModal"
-  (closeModal)="closePersonalModal()"
-  (personalCreated)="onPersonalCreated($event)"
+  [isOpen]="showPersonalModal || showEditModal"
+  [personalToEdit]="personalToEdit"
+  (closeModal)="showPersonalModal = false; closeEditModal()"
+  (formSuccess)="
+    personalToEdit ? onPersonalUpdated($event) : onPersonalCreated($event)
+  "
 >
 </app-personal>
-
-<app-edit-personal
-  *ngIf="showEditModal"
-  [isOpen]="showEditModal"
-  [personalToEdit]="personalToEdit"
-  (closeModal)="closeEditModal()"
-  (personalUpdated)="onPersonalUpdated($event)"
-></app-edit-personal>

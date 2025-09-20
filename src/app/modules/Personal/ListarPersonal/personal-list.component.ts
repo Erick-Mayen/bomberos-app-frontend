@@ -3,17 +3,15 @@ import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup } from '@angular/forms';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { PersonalComponent } from '../AgregarPersonal/personal.component';
 import { PersonalCardsComponent } from './Personal-Cards/personal-cards.component';
 import { PersonalTableComponent } from './Personal-Table/personal-table.component';
 import { PersonalService } from '../../../services/personal.service';
 import { PersonalGraphQL, Personal, TypesPersonal } from '../../../interfaces';
 import { AlertService } from '../../../services/alert.service';
-
 import { filterData } from '../../../utils/filter.utils';
 import { sortByColumn, SortDirection, toggleDirection } from '../../../utils/sort.util';
 import { trackById } from '../../../utils/track.util';
-import { EditPersonalComponent } from '../EditPersonal/edit-personal.component';
+import { PersonalComponent } from '../PersonalForm/personal.component';
 
 type ViewMode = 'table' | 'cards';
 type SortColumn = 'nombre' | 'tipo_personal' | 'fecha_ingreso' | 'activo';
@@ -25,7 +23,6 @@ type SortColumn = 'nombre' | 'tipo_personal' | 'fecha_ingreso' | 'activo';
     CommonModule,
     ReactiveFormsModule,
     PersonalComponent,
-    EditPersonalComponent,
     NgxPaginationModule,
     PersonalCardsComponent,
     PersonalTableComponent,
@@ -169,7 +166,7 @@ export class PersonalListComponent implements OnInit {
     segundo_apellido: personal.segundo_apellido,
     activo: personal.activo,
     fecha_creacion: personal.fecha_ingreso.toISOString(),
-    usuario_creacion: 1, 
+    usuario_creacion: 1,
     id_tipo_personal: this.tiposPersonal.find(t => t.nombre.toLowerCase() === personal.tipo_personal)?.id_tipo_personal || 0,
     tipo_personal: {
       id_tipo_personal: this.tiposPersonal.find(t => t.nombre.toLowerCase() === personal.tipo_personal)?.id_tipo_personal || 0,
