@@ -24,7 +24,7 @@ export class PersonalTableComponent {
   @Output() delete = new EventEmitter<Personal>();
   @Output() sort = new EventEmitter<SortColumn>();
 
-  trackByPersonalId(index: number, personal: Personal): string {
+  trackByPersonalId(index: number, personal: Personal): number{
     return personal.id;
   }
 

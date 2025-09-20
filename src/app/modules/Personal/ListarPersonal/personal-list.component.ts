@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule, FormBuilder, FormGroup} from '@angular/forms';
+import { ReactiveFormsModule, FormBuilder, FormGroup } from '@angular/forms';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { PersonalComponent } from '../AgregarPersonal/personal.component';
@@ -8,6 +8,7 @@ import { PersonalCardsComponent } from './Personal-Cards/personal-cards.componen
 import { PersonalTableComponent } from './Personal-Table/personal-table.component';
 import { PersonalService } from '../../../services/personal.service';
 import { PersonalGraphQL, Personal, TypesPersonal } from '../../../interfaces';
+import { AlertService } from '../../../services/alert.service';
 
 import { filterData } from '../../../utils/filter.utils';
 import { sortByColumn, SortDirection, toggleDirection } from '../../../utils/sort.util';
@@ -44,7 +45,8 @@ export class PersonalListComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    private personalService: PersonalService
+    private personalService: PersonalService,
+    private alertService: AlertService
   ) {
     this.searchForm = this.formBuilder.group({
       searchTerm: [''],
@@ -69,14 +71,14 @@ export class PersonalListComponent implements OnInit {
     this.personalService.getAllPersonal().subscribe({
       next: (data: PersonalGraphQL[]) => {
         this.personalList = data.map(p => ({
-          id: p.id_personal.toString(),
+          id: p.id_personal,
           primer_nombre: p.primer_nombre,
           segundo_nombre: p.segundo_nombre,
           primer_apellido: p.primer_apellido,
           segundo_apellido: p.segundo_apellido,
           tipo_personal: p.tipo_personal.nombre.toLowerCase(),
           fecha_ingreso: new Date(p.fecha_creacion),
-          activo: p.activo
+          activo: p.activo == true
         }));
         this.applyFilters();
       },
@@ -107,6 +109,7 @@ export class PersonalListComponent implements OnInit {
     const tipo = this.tiposPersonal.find(t => t.id_tipo_personal === personalData.id_tipo_personal)?.nombre.toLowerCase() || '';
     const newPersonal: Personal = {
       ...personalData,
+      id: personalData.id_personal,
       fecha_ingreso: new Date(),
       activo: true,
       tipo_personal: tipo
@@ -128,11 +131,14 @@ export class PersonalListComponent implements OnInit {
       'segundo_apellido'
     ]);
 
+    // Mostrar solo activos
+    data = data.filter(p => p.activo);
+
     if (tipoFilter !== 'todos') {
       data = data.filter(p => p.tipo_personal === tipoFilter);
     }
 
-    // ↕Ordenamiento
+    // Ordenamiento
     data = sortByColumn(data, this.sortColumn, this.sortDirection);
 
     this.filteredPersonal = data;
@@ -152,10 +158,25 @@ export class PersonalListComponent implements OnInit {
   editPersonal(personal: Personal): void { console.log('Editar personal:', personal); }
 
   deletePersonal(personal: Personal): void {
-    if (confirm(`¿Está seguro de eliminar permanentemente a ${this.getPersonalFullName(personal)}?`)) {
-      this.personalList = this.personalList.filter(p => p.id !== personal.id);
-      this.applyFilters();
-    }
+    this.alertService.confirm(
+      'Confirmar eliminación',
+      `¿Está seguro de eliminar permanentemente a ${this.getPersonalFullName(personal)}?`,
+      () => {
+        this.personalService.deletePersonal(Number(personal.id)).subscribe({
+          next: () => {
+            this.personalList = this.personalList.filter(p => p.id !== personal.id);
+            this.applyFilters();
+            this.alertService.SuccesNotify('Personal eliminado exitosamente.');
+          },
+          error: () => {
+            this.alertService.errorReport(
+              'Error',
+              'Ocurrió un error al eliminar el personal. Intenta de nuevo.'
+            );
+          }
+        });
+      },
+    );
   }
 
   private getCurrentItemsPerPage(): number {

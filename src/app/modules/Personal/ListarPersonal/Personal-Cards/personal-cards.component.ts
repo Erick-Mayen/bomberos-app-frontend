@@ -19,7 +19,7 @@ export class PersonalCardsComponent {
   @Output() edit = new EventEmitter<Personal>();
   @Output() delete = new EventEmitter<Personal>();
 
-  trackByPersonalId(index: number, personal: Personal): string {
+  trackByPersonalId(index: number, personal: Personal): number {
     return personal.id;
   }
 }

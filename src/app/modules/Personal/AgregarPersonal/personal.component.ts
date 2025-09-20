@@ -70,8 +70,7 @@ export class PersonalComponent implements OnInit {
         this.isSubmitting = false;
         this.closeModal.emit();
       },
-      error: (err) => {
-        console.error('Error al crear personal:', err);
+      error: () => {
         this.alertService.errorReport(
           'Error',
           'Ocurrió un error al crear el personal. Intenta de nuevo.'

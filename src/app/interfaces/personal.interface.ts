@@ -16,7 +16,7 @@ export interface PersonalGraphQL{
 }
 
 export interface Personal {
-  id: string;
+  id: number;
   primer_nombre: string;
   segundo_nombre?: string;
   primer_apellido: string;

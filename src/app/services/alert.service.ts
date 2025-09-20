@@ -7,10 +7,10 @@ import Notiflix from 'notiflix';
 export class AlertService {
   constructor() {
     Notiflix.Report.init({
-      backgroundColor: '#fff',  // Fondo del modal
+      backgroundColor: '#fff',
       borderRadius: '8px',
       success: {
-        backOverlayColor: 'rgba(41, 41, 41, 0.2)', // Fondo del modal para success
+        backOverlayColor: 'rgba(41, 41, 41, 0.2)',
         titleColor: '#333',
         messageColor: '#333',
       },
