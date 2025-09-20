@@ -139,3 +139,11 @@
   (personalCreated)="onPersonalCreated($event)"
 >
 </app-personal>
+
+<app-edit-personal
+  *ngIf="showEditModal"
+  [isOpen]="showEditModal"
+  [personalToEdit]="personalToEdit"
+  (closeModal)="closeEditModal()"
+  (personalUpdated)="onPersonalUpdated($event)"
+></app-edit-personal>
