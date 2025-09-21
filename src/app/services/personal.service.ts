@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Apollo } from 'apollo-angular';
 import { map, catchError } from 'rxjs/operators';
 import { throwError, Observable } from 'rxjs';
-import { CREATE_PERSONAL, FIND_ALL_PERSONAL, FIND_ALL_TYPES, UPDATE_PERSONAL,REMOVE_PERSON } from '../graphql';
+import { CREATE_PERSONAL, FIND_ALL_PERSONAL, FIND_ALL_TYPES, UPDATE_PERSONAL, REMOVE_PERSON } from '../graphql';
 import { PersonalGraphQL, TypesPersonal } from '../interfaces';
 
 @Injectable({
@@ -13,7 +13,8 @@ export class PersonalService {
 
   getAllPersonal(): Observable<PersonalGraphQL[]> {
     return this.apollo.watchQuery<{ findAllPersonal: PersonalGraphQL[] }>({
-      query: FIND_ALL_PERSONAL
+      query: FIND_ALL_PERSONAL,
+      fetchPolicy: 'network-only'
     }).valueChanges.pipe(
       map(result => result.data.findAllPersonal),
       catchError(() => throwError(() => new Error('ERROR_PERSONAL')))
@@ -22,12 +23,14 @@ export class PersonalService {
 
   getAllTypes(): Observable<TypesPersonal[]> {
     return this.apollo.watchQuery<{ findAllTypes: TypesPersonal[] }>({
-      query: FIND_ALL_TYPES
+      query: FIND_ALL_TYPES,
+      fetchPolicy: 'network-only'
     }).valueChanges.pipe(
       map(result => result.data.findAllTypes),
       catchError(() => throwError(() => new Error('ERROR_TYPES')))
     );
   }
+
 
   createPersonal(input: any): Observable<PersonalGraphQL> {
     return this.apollo.mutate<{ createPerson: PersonalGraphQL }>({
