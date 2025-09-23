@@ -172,17 +172,6 @@ $transition-modal: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
 }
 
-.card-subtitle {
-  margin: 0;
-  font-size: 1rem;
-  opacity: 0.9;
-  font-weight: 400;
-
-  @media (max-width: 768px) {
-    font-size: 0.875rem;
-  }
-}
-
 // Formulario
 .personal-form {
   padding: $spacing-4;
@@ -213,6 +202,229 @@ $transition-modal: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   &.full-width {
     grid-column: 1 / -1;
   }
+
+  // Contenedor ng-select
+  ::ng-deep ng-select {
+    &.ng-select {
+      border: 2px solid $neutral-200;
+      border-radius: $border-radius-sm;
+      font-size: 1rem;
+      line-height: 1.5;
+      transition: $transition-base;
+      background-color: white;
+      min-height: 44px;
+
+      &:hover:not(.ng-select-focused) {
+        border-color: $neutral-300;
+      }
+
+      &.ng-select-focused {
+        border-color: $primary-color;
+        box-shadow: 0 0 0 3px rgba($primary-color, 0.1);
+      }
+
+      &.ng-select-single {
+        height: auto;
+      }
+
+      // Contenedor del valor seleccionado
+      .ng-select-container {
+        background-color: transparent;
+        border-radius: $border-radius-sm;
+        font-size: 1rem;
+        min-height: 40px;
+        padding: 0;
+
+        .ng-value-container {
+          padding-left: $spacing-2;
+          padding-right: $spacing-2;
+
+          .ng-placeholder {
+            color: $neutral-400;
+            font-weight: 400;
+            display: block;
+            line-height: 40px;
+          }
+
+          .ng-value {
+            font-size: 1rem;
+            line-height: 40px;
+            color: $neutral-700;
+
+            .ng-value-label {
+              color: $neutral-700;
+            }
+          }
+
+          .ng-input {
+            padding: 0;
+            line-height: 40px;
+
+            input {
+              font-size: 1rem;
+              color: $neutral-700;
+              background: transparent;
+            }
+          }
+        }
+
+        // Flecha del dropdown
+        .ng-arrow-wrapper {
+          width: 25px;
+          padding-right: 5px;
+
+          .ng-arrow {
+            border-color: $neutral-400 transparent transparent;
+            border-style: solid;
+            border-width: 5px 5px 2.5px;
+          }
+        }
+
+        // Botón de limpiar
+        .ng-clear-wrapper {
+          padding-right: 5px;
+
+          .ng-clear {
+            color: $neutral-400;
+            font-size: 18px;
+            line-height: 1;
+
+            &:hover {
+              color: $error-color;
+            }
+          }
+        }
+      }
+
+      // Estado focused
+      &.ng-select-focused {
+        .ng-select-container .ng-arrow-wrapper .ng-arrow {
+          border-color: $primary-color transparent transparent;
+        }
+      }
+
+      // Estado opened (cuando está abierto el dropdown)
+      &.ng-select-opened {
+        .ng-select-container .ng-arrow-wrapper .ng-arrow {
+          border-color: transparent transparent $primary-color;
+          border-width: 2.5px 5px 5px;
+        }
+      }
+
+      // Estado disabled
+      &.ng-select-disabled {
+        background-color: $neutral-100;
+        color: $neutral-400;
+        cursor: not-allowed;
+
+        .ng-select-container {
+          background-color: transparent;
+        }
+      }
+    }
+
+    // Panel del dropdown
+    &.ng-select .ng-dropdown-panel {
+      background: white;
+      border: 1px solid $neutral-200;
+      border-radius: $border-radius-sm;
+      box-shadow: $shadow-lg;
+      z-index: 1050;
+      max-height: 200px;
+      overflow-y: auto;
+
+      .ng-dropdown-panel-items {
+        .ng-option {
+          background-color: white;
+          color: $neutral-700;
+          padding: $spacing-2;
+          text-overflow: ellipsis;
+          overflow: hidden;
+          white-space: nowrap;
+          font-size: 1rem;
+          line-height: 1.4;
+          border-bottom: 1px solid $neutral-100;
+
+          &:last-child {
+            border-bottom: none;
+          }
+
+          &.ng-option-highlighted {
+            background-color: rgba($primary-color, 0.1);
+            color: $primary-color;
+          }
+
+          &.ng-option-selected {
+            background-color: $primary-color;
+            color: white;
+
+            &.ng-option-highlighted {
+              background-color: darken($primary-color, 10%);
+              color: white;
+            }
+          }
+
+          &.ng-option-disabled {
+            color: $neutral-400;
+            cursor: not-allowed;
+            background-color: $neutral-50;
+          }
+        }
+      }
+
+      // Mensaje cuando no hay opciones
+      .ng-option[aria-hidden="true"] {
+        display: none;
+      }
+    }
+
+    // Scrollbar personalizado para el dropdown
+    &.ng-select .ng-dropdown-panel {
+      scrollbar-width: thin;
+      scrollbar-color: $neutral-300 transparent;
+
+      &::-webkit-scrollbar {
+        width: 6px;
+      }
+
+      &::-webkit-scrollbar-track {
+        background: transparent;
+      }
+
+      &::-webkit-scrollbar-thumb {
+        background-color: $neutral-300;
+        border-radius: 3px;
+
+        &:hover {
+          background-color: $neutral-400;
+        }
+      }
+    }
+  }
+
+  // Responsive para móviles
+  @media (max-width: 768px) {
+    ::ng-deep ng-select {
+      &.ng-select {
+        font-size: 16px; // Previene zoom en iOS
+
+        .ng-select-container {
+          .ng-value-container {
+            .ng-placeholder,
+            .ng-value,
+            .ng-input input {
+              font-size: 16px;
+            }
+          }
+        }
+      }
+
+      &.ng-select .ng-dropdown-panel .ng-dropdown-panel-items .ng-option {
+        font-size: 16px;
+        padding: $spacing-2;
+      }
+    }
+  }
 }
 
 .form-label {
@@ -229,6 +441,7 @@ $transition-modal: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
 }
 
+// Inputs y selects
 .form-input,
 .form-select {
   padding: $spacing-2;
@@ -267,7 +480,6 @@ $transition-modal: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 
 .form-select {
   cursor: pointer;
-  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
   background-position: right $spacing-1 center;
   background-repeat: no-repeat;
   background-size: 16px;
@@ -279,6 +491,53 @@ $transition-modal: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
 }
 
+
+// Contenedor para inputs con íconos y botón
+.input-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+
+  .form-input {
+    width: 100%;
+    padding-left: 36px; // espacio para el ícono
+    padding-right: 40px; // espacio para el botón
+    box-sizing: border-box; // importante
+  }
+
+  .input-icon {
+    position: absolute;
+    left: 10px;
+    pointer-events: none;
+    color: $neutral-400;
+  }
+
+  .password-toggle {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .eye-icon {
+      font-size: 1rem;
+      color: $neutral-400;
+      transition: $transition-base;
+    }
+
+    &:hover .eye-icon {
+      color: $primary-color;
+    }
+  }
+}
+
+// Mensajes de error
 .error-message {
   color: $error-color;
   font-size: 0.75rem;

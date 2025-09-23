@@ -6,11 +6,14 @@ import { AuthService } from '../../../services/auth.service';
 import { AlertService } from '../../../services/alert.service';
 import { Rol, UserGraphQL } from '../../../interfaces/user.interface';
 import { UserService } from '../../../services/user.service';
+import { Personal, PersonalGraphQL } from '../../../interfaces';
+import { PersonalService } from '../../../services/personal.service';
+import { NgSelectModule } from '@ng-select/ng-select';
 
 @Component({
   selector: 'app-user',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, FontAwesomeModule],
+  imports: [CommonModule, ReactiveFormsModule, FontAwesomeModule, NgSelectModule],
   templateUrl: './users.component.html',
   styleUrls: ['./users.component.scss']
 })
@@ -25,29 +28,36 @@ export class UserComponent implements OnInit, OnChanges {
   userForm: FormGroup;
   isSubmitting = false;
   roles: Rol[] = [];
+  personalList: Personal[] = [];
+  showPassword = false;
 
   constructor(
     private fb: FormBuilder,
     private userService: UserService,
+    private personalService: PersonalService,
     private authService: AuthService,
     private alertService: AlertService
   ) {
     this.userForm = this.fb.group({
       nombre_usuario: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(50)]],
       contrasenia: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(50)]],
-      rol: ['', [Validators.required]]
+      rol: ['', [Validators.required]],
+      id_personal: [null]
     });
   }
 
   ngOnInit(): void {
     this.loadRoles();
+    this.loadPersonal();
   }
 
   ngOnChanges(): void {
     if (this.userToEdit) {
       this.userForm.patchValue({
         nombre_usuario: this.userToEdit.nombre_usuario,
-        rol: this.userToEdit.rol
+        rol: this.userToEdit.id_rol,
+        contrasenia: this.userToEdit.contrasenia,
+        id_personal: this.userToEdit.id_personal || null
       });
 
       this.modalTitle = 'Editar Usuario';
@@ -60,11 +70,34 @@ export class UserComponent implements OnInit, OnChanges {
   }
 
   private loadRoles(): void {
-      this.userService.getAllRoles().subscribe({
-        next: (data: Rol[]) => this.roles = data,
-        error: err => console.error('Error al cargar roles disponibles', err)
-      });
-    }
+    this.userService.getAllRoles().subscribe({
+      next: (data: Rol[]) => this.roles = data,
+      error: err => console.error('Error al cargar roles disponibles', err)
+    });
+  }
+
+  private loadPersonal(): void {
+    this.personalService.getAllPersonal().subscribe({
+      next: (data: PersonalGraphQL[]) => {
+        this.personalList = data.map(p => ({
+          id: p.id_personal,
+          primer_nombre: p.primer_nombre,
+          segundo_nombre: p.segundo_nombre,
+          primer_apellido: p.primer_apellido,
+          segundo_apellido: p.segundo_apellido,
+          tipo_personal: p.tipo_personal.nombre,
+          fecha_ingreso: new Date(p.fecha_creacion),
+          activo: true
+        }));
+
+        this.personalList = this.personalList.map(person => ({
+          ...person,
+          displayName: `${person.primer_nombre} ${person.primer_apellido}`
+        }));
+      },
+      error: err => console.error('Error al cargar personal', err)
+    });
+  }
 
   onSubmit(): void {
     if (!this.userForm.valid) {
@@ -78,7 +111,7 @@ export class UserComponent implements OnInit, OnChanges {
     const input = {
       nombre_usuario: formData.nombre_usuario,
       contrasenia: formData.contrasenia,
-      id_rol: Number(formData.id_rol),
+      id_rol: Number(formData.rol),
       ...(this.userToEdit
         ? { id_usuario: this.userToEdit.id_usuario }
         : { usuario_creacion: this.authService.getCurrentUser()?.id_usuario || 1 })
@@ -90,7 +123,7 @@ export class UserComponent implements OnInit, OnChanges {
 
     request$.subscribe({
       next: (result) => {
-        this.alertService.SuccesNotify(this.userToEdit ? 'Personal actualizado exitosamente' : 'Personal creado exitosamente');
+        this.alertService.SuccesNotify(this.userToEdit ? 'Usuario actualizado exitosamente' : 'Usuario creado exitosamente');
         this.formSuccess.emit(result);
         this.isSubmitting = false;
         this.onCancel();
@@ -121,11 +154,6 @@ export class UserComponent implements OnInit, OnChanges {
     return '';
   }
 
-  allowLetters(event: KeyboardEvent) {
-    const pattern = /[A-Za-zÁÉÍÓÚáéíóúÑñ ]/;
-    if (!pattern.test(event.key)) event.preventDefault();
-  }
-
   isFieldInvalid(fieldName: string): boolean {
     const control = this.userForm.get(fieldName);
     return !!(control?.invalid && control.touched);
@@ -138,5 +166,9 @@ export class UserComponent implements OnInit, OnChanges {
 
   onBackdropClick(event: Event): void {
     if (event.target === event.currentTarget) this.onCancel();
+  }
+
+  togglePassword(): void {
+    this.showPassword = !this.showPassword;
   }
 }
