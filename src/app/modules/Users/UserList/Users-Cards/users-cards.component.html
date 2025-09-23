@@ -1,0 +1,55 @@
+<div class="cards-view">
+  <div class="personal-grid">
+    <div
+      *ngFor="
+        let user of usersList
+          | paginate : { itemsPerPage: itemsPerPage, currentPage: page };
+        trackBy: trackByUserId
+      "
+      class="personal-card"
+      [class.inactive]="!user.activo"
+    >
+      <!-- Header de la tarjeta -->
+      <div class="card-header">
+        <div class="personal-info">
+          <h3 class="personal-name">{{ getUserName(user) }}</h3>
+          <div class="personal-type">
+            <span class="type-badge" [attr.data-type]="user.rol">
+              {{ user.rol }}
+            </span>
+          </div>
+        </div>
+        <div class="status-indicator">
+          <span
+            class="status-badge"
+            [class.active]="user.activo"
+            [class.inactive]="!user.activo"
+          >
+            {{ user.activo ? "Activo" : "Inactivo" }}
+          </span>
+        </div>
+      </div>
+
+      <!-- Información adicional -->
+      <div class="card-body">
+        <div class="info-row">
+          <span class="info-label">Fecha de creación:</span>
+          <span class="info-value">{{
+            user.fecha_ingreso | date : "dd/MM/yyyy"
+          }}</span>
+        </div>
+        <div class="info-row"></div>
+      </div>
+
+      <!-- Acciones -->
+      <div class="card-actions">
+        <button class="action-btn edit-btn" (click)="edit.emit(user)">
+          <fa-icon icon="pen-to-square"></fa-icon> Editar
+        </button>
+        <button class="action-btn delete-btn" (click)="delete.emit(user)">
+          <fa-icon icon="trash-can"></fa-icon>Eliminar
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

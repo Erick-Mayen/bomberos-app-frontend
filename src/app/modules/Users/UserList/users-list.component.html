@@ -1,0 +1,143 @@
+<!-- Header de la página -->
+<div class="page-header">
+  <div class="header-content">
+    <div class="title-section">
+      <h1 class="page-title">
+        <span class="fire-icon"
+          ><fa-icon icon="users" size="lg"></fa-icon
+        ></span>
+        Usuarios
+      </h1>
+      <p class="page-subtitle">
+        Gestión de los usuarios activos y registro de nuevos usuarios
+      </p>
+    </div>
+
+    <div class="stats-section">
+      <div class="stat-card">
+        <div class="stat-number">{{ getTotalUsersCount() }}</div>
+        <div class="stat-label">Total</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Controles de búsqueda, filtros y vista -->
+<div class="controls-section">
+  <form [formGroup]="searchForm" class="search-controls">
+    <div class="search-group">
+      <div class="search-input-wrapper">
+        <span class="search-icon"
+          ><fa-icon icon="magnifying-glass" size="lg"></fa-icon
+        ></span>
+        <input
+          type="text"
+          formControlName="searchTerm"
+          placeholder="Buscar por nombre de usuario..."
+          class="search-input"
+        />
+      </div>
+
+      <div class="select-wrapper">
+        <select formControlName="tipoFilter" class="filter-select">
+          <option value="todos">Todos los roles</option>
+          <option *ngFor="let rol of roles" [value]="rol.nombre_rol.toLowerCase()">
+            {{ rol.nombre_rol }}
+          </option>
+        </select>
+        <fa-icon icon="chevron-down" class="select-arrow"></fa-icon>
+      </div>
+    </div>
+
+    <div class="controls-right">
+      <!-- Selector de vista -->
+      <div class="view-selector">
+        <button
+          type="button"
+          class="view-btn"
+          [class.active]="viewMode === 'table'"
+          (click)="setViewMode('table')"
+          title="Vista de tabla"
+        >
+          <span class="view-icon"
+            ><fa-icon icon="table-list" size="lg"></fa-icon
+          ></span>
+        </button>
+        <button
+          type="button"
+          class="view-btn"
+          [class.active]="viewMode === 'cards'"
+          (click)="setViewMode('cards')"
+          title="Vista de tarjetas"
+        >
+          <span class="view-icon"
+            ><fa-icon icon="table" size="lg"></fa-icon
+          ></span>
+        </button>
+      </div>
+
+      <button
+        type="button"
+        class="btn btn-primary add-button"
+        (click)="openUserModal()"
+      >
+        <span class="btn-icon"><fa-icon icon="plus" size="lg"></fa-icon></span>
+        <span class="btn-text">Agregar Usuario</span>
+      </button>
+    </div>
+  </form>
+</div>
+
+<!-- Contenedor principal para mostrar cards o tabla -->
+<div class="personal-container">
+  <app-user-table
+    *ngIf="viewMode === 'table'"
+    [usersList]="filteredUsers"
+    [page]="page"
+    [itemsPerPage]="10"
+    [sortColumn]="sortColumn"
+    [sortDirection]="sortDirection"
+    [getUserName]="getUserName"
+    (edit)="editUser($event)"
+    (delete)="deleteUser($event)"
+    (sort)="sortBy($event)"
+  >
+  </app-user-table>
+
+  <app-users-cards
+    *ngIf="viewMode === 'cards'"
+    [usersList]="filteredUsers"
+    [page]="page"
+    [itemsPerPage]="6"
+    [getUserName]="getUserName"
+    (edit)="editUser($event)"
+    (delete)="deleteUser($event)"
+  >
+  </app-users-cards>
+  <br />
+  <pagination-controls
+    *ngIf="filteredUsers.length > 0"
+    (pageChange)="page = $event"
+    [autoHide]="true"
+    previousLabel="Anterior"
+    nextLabel="Siguiente"
+  ></pagination-controls>
+
+  <div *ngIf="filteredUsers.length === 0" class="empty-state">
+    <div class="empty-icon">👨‍🚒</div>
+    <h3 class="empty-title">No hay usuarios registrados</h3>
+    <p class="empty-message">
+      Comience agregando el primer usuario
+    </p>
+  </div>
+</div>
+
+<app-user
+  [isOpen]="showUserModal || showEditModal"
+  [userToEdit]="UserToEdit"
+  (closeModal)="showUserModal = false; closeEditModal()"
+  (formSuccess)="
+    UserToEdit ? onUserUpdated($event) : onUserCreated($event)
+  "
+>
+</app-user>

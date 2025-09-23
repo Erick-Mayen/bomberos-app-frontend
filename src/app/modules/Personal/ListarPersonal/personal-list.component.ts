@@ -156,51 +156,51 @@ export class PersonalListComponent implements OnInit {
     return this.tiposPersonal.find(t => t.nombre.toLowerCase() === tipo.toLowerCase())?.nombre ?? tipo;
   }
 
- editPersonal(personal: Personal): void {
-  // Convertimos el modelo de UI al modelo GraphQL
-  const personalGraphQL: PersonalGraphQL = {
-    id_personal: personal.id,
-    primer_nombre: personal.primer_nombre,
-    segundo_nombre: personal.segundo_nombre,
-    primer_apellido: personal.primer_apellido,
-    segundo_apellido: personal.segundo_apellido,
-    activo: personal.activo,
-    fecha_creacion: personal.fecha_ingreso.toISOString(),
-    usuario_creacion: 1,
-    id_tipo_personal: this.tiposPersonal.find(t => t.nombre.toLowerCase() === personal.tipo_personal)?.id_tipo_personal || 0,
-    tipo_personal: {
+  editPersonal(personal: Personal): void {
+    // Convertimos el modelo de UI al modelo GraphQL
+    const personalGraphQL: PersonalGraphQL = {
+      id_personal: personal.id,
+      primer_nombre: personal.primer_nombre,
+      segundo_nombre: personal.segundo_nombre,
+      primer_apellido: personal.primer_apellido,
+      segundo_apellido: personal.segundo_apellido,
+      activo: personal.activo,
+      fecha_creacion: personal.fecha_ingreso.toISOString(),
+      usuario_creacion: 1,
       id_tipo_personal: this.tiposPersonal.find(t => t.nombre.toLowerCase() === personal.tipo_personal)?.id_tipo_personal || 0,
-      nombre: personal.tipo_personal
-    }
-  };
-
-  this.personalToEdit = personalGraphQL;
-  this.showEditModal = true;
-}
-
-closeEditModal(): void {
-  this.showEditModal = false;
-  this.personalToEdit = null;
-}
-
-onPersonalUpdated(updatedPersonal: PersonalGraphQL): void {
-  const index = this.personalList.findIndex(p => p.id === updatedPersonal.id_personal);
-  if (index !== -1) {
-    const tipo = this.tiposPersonal.find(t => t.id_tipo_personal === updatedPersonal.id_tipo_personal)?.nombre.toLowerCase() || '';
-    this.personalList[index] = {
-      id: updatedPersonal.id_personal,
-      primer_nombre: updatedPersonal.primer_nombre,
-      segundo_nombre: updatedPersonal.segundo_nombre,
-      primer_apellido: updatedPersonal.primer_apellido,
-      segundo_apellido: updatedPersonal.segundo_apellido,
-      tipo_personal: tipo,
-      fecha_ingreso: new Date(updatedPersonal.fecha_creacion),
-      activo: updatedPersonal.activo
+      tipo_personal: {
+        id_tipo_personal: this.tiposPersonal.find(t => t.nombre.toLowerCase() === personal.tipo_personal)?.id_tipo_personal || 0,
+        nombre: personal.tipo_personal
+      }
     };
-    this.applyFilters();
+
+    this.personalToEdit = personalGraphQL;
+    this.showEditModal = true;
   }
-  this.closeEditModal();
-}
+
+  closeEditModal(): void {
+    this.showEditModal = false;
+    this.personalToEdit = null;
+  }
+
+  onPersonalUpdated(updatedPersonal: PersonalGraphQL): void {
+    const index = this.personalList.findIndex(p => p.id === updatedPersonal.id_personal);
+    if (index !== -1) {
+      const tipo = this.tiposPersonal.find(t => t.id_tipo_personal === updatedPersonal.id_tipo_personal)?.nombre.toLowerCase() || '';
+      this.personalList[index] = {
+        id: updatedPersonal.id_personal,
+        primer_nombre: updatedPersonal.primer_nombre,
+        segundo_nombre: updatedPersonal.segundo_nombre,
+        primer_apellido: updatedPersonal.primer_apellido,
+        segundo_apellido: updatedPersonal.segundo_apellido,
+        tipo_personal: tipo,
+        fecha_ingreso: new Date(updatedPersonal.fecha_creacion),
+        activo: updatedPersonal.activo
+      };
+      this.applyFilters();
+    }
+    this.closeEditModal();
+  }
 
   deletePersonal(personal: Personal): void {
     this.alertService.confirm(
@@ -237,7 +237,8 @@ onPersonalUpdated(updatedPersonal: PersonalGraphQL): void {
       this.page = lastPage;
     }
   }
+
   getTotalPersonalCount(): number {
-    return this.personalList.length;
+    return this.personalList.filter(p => p.activo).length;
   }
 }

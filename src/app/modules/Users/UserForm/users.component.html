@@ -1,0 +1,121 @@
+<div
+  class="modal-backdrop"
+  [class.show]="isOpen"
+  (click)="onBackdropClick($event)"
+  *ngIf="isOpen"
+>
+  <div class="modal-container" [class.show]="isOpen">
+    <div class="personal-card">
+      <div class="card-header">
+        <div class="header-content">
+          <h1 class="card-title">
+            <span class="fire-icon"><fa-icon icon="user"></fa-icon></span>
+            {{ modalTitle }}
+          </h1>
+          <button
+            type="button"
+            class="close-button"
+            (click)="onCancel()"
+            aria-label="Cerrar modal"
+          >
+            ✕
+          </button>
+        </div>
+      </div>
+
+      <form
+        [formGroup]="userForm"
+        (ngSubmit)="onSubmit()"
+        class="personal-form"
+      >
+        <div class="form-grid">
+          <div class="form-group">
+            <label for="nombre_usuario" class="form-label required"
+              >Nombre de Usuario</label
+            >
+            <input
+              id="nombre_usuario"
+              type="text"
+              formControlName="nombre_usuario"
+              class="form-input"
+              (keypress)="allowLetters($event)"
+              [class.error]="isFieldInvalid('nombre_usuario')"
+              placeholder="Ingrese el nombre de usuario"
+            />
+            <div class="error-message" *ngIf="getErrorMessage('nombre_usuario')">
+              {{ getErrorMessage("nombre_usuario") }}
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="contrasenia" class="form-label"
+              >Contraseña</label
+            >
+            <input
+              id="contrasenia"
+              type="text"
+              formControlName="contrasenia"
+              class="form-input"
+              (keypress)="allowLetters($event)"
+              [class.error]="isFieldInvalid('contrasenia')"
+              placeholder="Ingrese la contraseña"
+            />
+            <div
+              class="error-message"
+              *ngIf="getErrorMessage('contrasenia')"
+            >
+              {{ getErrorMessage("contrasenia") }}
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group full-width">
+          <label for="rol" class="form-label required"
+            >Rol</label
+          >
+          <select
+            id="rol"
+            formControlName="rol"
+            class="form-select"
+            [class.error]="isFieldInvalid('rol')"
+          >
+            <option value="" disabled>Seleccione el rol del usuario</option>
+            <option
+              *ngFor="let rol of roles"
+              [value]="rol.id_rol"
+            >
+              {{ rol.nombre_rol }}
+            </option>
+          </select>
+          <div class="error-message" *ngIf="getErrorMessage('rol')">
+            {{ getErrorMessage("rol") }}
+          </div>
+        </div>
+
+        <div class="form-actions">
+          <button
+            type="button"
+            class="btn btn-secondary"
+            (click)="onCancel()"
+            [disabled]="isSubmitting"
+          >
+            Cancelar
+          </button>
+          <button
+            type="submit"
+            class="btn btn-primary"
+            [disabled]="userForm.invalid || isSubmitting"
+          >
+            <span *ngIf="!isSubmitting">
+              <span class="btn-icon"><fa-icon icon="user"></fa-icon></span>
+              {{ submitLabel }}
+            </span>
+            <span *ngIf="isSubmitting" class="loading-spinner"
+              >Guardando...</span
+            >
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

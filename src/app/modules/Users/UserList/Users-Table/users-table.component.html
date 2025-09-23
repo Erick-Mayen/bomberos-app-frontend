@@ -1,0 +1,128 @@
+<div class="table-view">
+  <div class="table-wrapper">
+    <table class="personal-table">
+      <thead>
+        <tr>
+          <th class="sortable" (click)="sort.emit('nombre_usuario')">
+            <div class="th-content name-column">
+              Nombre de Usuario
+              <fa-icon
+                [icon]="
+                  sortColumn === 'nombre_usuario'
+                    ? sortDirection === 'asc'
+                      ? 'arrow-up'
+                      : 'arrow-down'
+                    : 'arrows-up-down'
+                "
+                class="sort-icon"
+              ></fa-icon>
+            </div>
+          </th>
+          <th class="sortable" (click)="sort.emit('rol')">
+            <div class="th-content">
+              Rol
+              <fa-icon
+                [icon]="
+                  sortColumn === 'rol'
+                    ? sortDirection === 'asc'
+                      ? 'arrow-up'
+                      : 'arrow-down'
+                    : 'arrows-up-down'
+                "
+                class="sort-icon"
+              ></fa-icon>
+            </div>
+          </th>
+          <th class="sortable" (click)="sort.emit('fecha_ingreso')">
+            <div class="th-content">
+              Fecha de creación
+              <fa-icon
+                [icon]="
+                  sortColumn === 'fecha_ingreso'
+                    ? sortDirection === 'asc'
+                      ? 'arrow-up'
+                      : 'arrow-down'
+                    : 'arrows-up-down'
+                "
+                class="sort-icon"
+              ></fa-icon>
+            </div>
+          </th>
+          <th class="sortable" (click)="sort.emit('activo')">
+            <div class="th-content">
+              Estado
+              <fa-icon
+                [icon]="
+                  sortColumn === 'activo'
+                    ? sortDirection === 'asc'
+                      ? 'arrow-up'
+                      : 'arrow-down'
+                    : 'arrows-up-down'
+                "
+                class="sort-icon"
+              ></fa-icon>
+            </div>
+          </th>
+          <th class="actions-column">Acciones</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr
+          *ngFor="
+            let user of usersList
+              | paginate : { itemsPerPage: itemsPerPage, currentPage: page };
+            trackBy: trackByUserId
+          "
+          class="table-row"
+          [class.inactive-row]="!user.activo"
+        >
+          <td class="name-cell">
+            <div class="name-info">
+              <span class="full-name">{{ getUserName(user) }}</span>
+            </div>
+          </td>
+          <td class="type-cell">
+            <span class="type-badge" [attr.data-type]="user.rol">
+              {{ user.rol }}
+            </span>
+          </td>
+          <td class="date-cell">
+            {{ user.fecha_ingreso | date : "dd/MM/yyyy" }}
+          </td>
+          <td class="status-cell">
+            <span
+              class="status-badge"
+              [class.active]="user.activo"
+              [class.inactive]="!user.activo"
+            >
+              {{ user.activo ? "Activo" : "Inactivo" }}
+            </span>
+          </td>
+          <td class="actions-cell">
+            <div class="table-actions">
+              <button
+                class="table-action-btn edit-btn"
+                (click)="edit.emit(user)"
+                title="Editar usuario"
+              >
+                <span class="action-icon"
+                  ><fa-icon icon="pen-to-square"></fa-icon
+                ></span>
+              </button>
+              <button
+                class="table-action-btn delete-btn"
+                (click)="delete.emit(user)"
+                title="Eliminar usuario"
+              >
+                <span class="action-icon"
+                  ><fa-icon icon="trash-can"></fa-icon
+                ></span>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

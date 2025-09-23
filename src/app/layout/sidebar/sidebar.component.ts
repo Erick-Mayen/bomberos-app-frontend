@@ -1,6 +1,6 @@
 import { Component, Input, Output, EventEmitter, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule} from '@angular/router';
+import { RouterModule } from '@angular/router';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 interface MenuItem {
@@ -37,6 +37,11 @@ export class SidebarComponent {
       route: '/app/personal'
     },
     {
+      label: 'Usuarios',
+      icon: 'users',
+      route: '/app/usuarios'
+    },
+    {
       label: 'Vehículos',
       icon: 'truck',
       route: '/vehiculos'
@@ -58,7 +63,7 @@ export class SidebarComponent {
     }
   ];
 
-    private isMobile(): boolean {
+  private isMobile(): boolean {
     return window.innerWidth <= 768;
   }
 

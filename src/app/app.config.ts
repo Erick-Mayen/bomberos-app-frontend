@@ -8,7 +8,7 @@ import { setContext } from '@apollo/client/link/context';
 
 export function createApolloOptions(): ApolloClientOptions<any> {
   const httpLink = createHttpLink({
-    uri: 'http://192.168.1.7:3000/graphql',
+    uri: 'http://192.168.1.6:3000/graphql',
   });
 
   const authLink = setContext((_, { headers }) => {

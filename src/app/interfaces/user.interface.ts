@@ -1,0 +1,28 @@
+export interface UserGraphQL {
+  id_usuario: number;
+  nombre_usuario: string;
+  contrasenia: string;
+  id_personal: number;
+  id_rol: number;
+  activo: boolean;
+  usuario_creacion: number;
+  fecha_creacion: string;
+  fecha_actualizacion?: string;
+  rol: {
+    id_rol: number;
+    nombre_rol: string;
+  };
+}
+
+export interface User {
+  id: number;
+  nombre_usuario: string;
+  rol: string;
+  fecha_ingreso: Date;
+  activo: boolean;
+}
+
+export interface Rol {
+  id_rol: number;
+  nombre_rol: string;
+}
