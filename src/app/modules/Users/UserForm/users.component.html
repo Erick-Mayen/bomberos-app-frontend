@@ -91,17 +91,28 @@
           <!-- Rol -->
           <div class="form-group">
             <label for="rol" class="form-label required">Rol</label>
-            <select
-              id="rol"
+            <ng-select
+              [items]="roles"
+              bindLabel="nombre_rol"
+              bindValue="id_rol"
+              [placeholder]="
+                userForm.get('rol')?.value
+                  ? ''
+                  : 'Seleccione el rol del usuario'
+              "
               formControlName="rol"
-              class="form-select"
+              [clearable]="true"
+              [searchable]="true"
+              [clearSearchOnAdd]="true"
               [class.error]="isFieldInvalid('rol')"
             >
-              <option value="" disabled>Seleccione el rol del usuario</option>
-              <option *ngFor="let rol of roles" [value]="rol.id_rol">
-                {{ rol.nombre_rol }}
-              </option>
-            </select>
+              <ng-template ng-label-tmp let-item="item">
+                {{ item.nombre_rol }}
+              </ng-template>
+              <ng-template ng-option-tmp let-item="item">
+                {{ item.nombre_rol }}
+              </ng-template>
+            </ng-select>
             <div class="error-message" *ngIf="getErrorMessage('rol')">
               {{ getErrorMessage("rol") }}
             </div>

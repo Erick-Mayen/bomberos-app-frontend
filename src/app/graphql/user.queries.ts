@@ -16,6 +16,11 @@ export const FIND_ALL_USERS = gql`
         id_rol
         nombre_rol
       }
+      personalAsignado {
+      id_personal
+      primer_nombre
+      primer_apellido
+    }
     }
   }
 `;

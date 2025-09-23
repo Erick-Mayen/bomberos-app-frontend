@@ -27,6 +27,4 @@ export class UserTableComponent {
   trackByUserId(index: number, user: User): number{
     return user.id;
   }
-
-
 }

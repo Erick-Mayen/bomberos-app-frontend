@@ -12,14 +12,24 @@ export interface UserGraphQL {
     id_rol: number;
     nombre_rol: string;
   };
+  personalAsignado?: {
+    id_personal: number;
+    primer_nombre: string;
+    primer_apellido: string;
+  } | null;
 }
 
 export interface User {
   id: number;
   nombre_usuario: string;
-  rol: string;
   fecha_ingreso: Date;
   activo: boolean;
+  rol: string;
+  personalAsignado?: {
+    id_personal: number;
+    primer_nombre: string;
+    primer_apellido: string;
+  } | null;
 }
 
 export interface Rol {

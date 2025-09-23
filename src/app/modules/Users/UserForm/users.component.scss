@@ -244,12 +244,14 @@ $transition-modal: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             font-weight: 400;
             display: block;
             line-height: 40px;
+            padding-left: 2px;
           }
 
           .ng-value {
             font-size: 1rem;
             line-height: 40px;
             color: $neutral-700;
+            padding-left: 2px;
 
             .ng-value-label {
               color: $neutral-700;
@@ -257,13 +259,17 @@ $transition-modal: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
           }
 
           .ng-input {
-            padding: 0;
+            padding-left: 20px;
             line-height: 40px;
 
             input {
               font-size: 1rem;
               color: $neutral-700;
               background: transparent;
+              border: none;
+              outline: none;
+              padding: 0;
+              margin: 0;
             }
           }
         }
@@ -301,6 +307,17 @@ $transition-modal: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         .ng-select-container .ng-arrow-wrapper .ng-arrow {
           border-color: $primary-color transparent transparent;
         }
+
+        // Ocultar placeholder cuando está en focus y hay texto
+        .ng-select-container .ng-value-container .ng-placeholder {
+          opacity: 0;
+        }
+      }
+
+      // Cuando hay un valor seleccionado, ocultar placeholder
+      &:not(.ng-select-single) .ng-select-container .ng-value-container .ng-placeholder,
+      &.ng-select.ng-select-single.ng-select-filtered .ng-select-container .ng-value-container .ng-placeholder {
+        display: none;
       }
 
       // Estado opened (cuando está abierto el dropdown)

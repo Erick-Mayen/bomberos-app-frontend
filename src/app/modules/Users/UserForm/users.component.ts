@@ -112,6 +112,7 @@ export class UserComponent implements OnInit, OnChanges {
       nombre_usuario: formData.nombre_usuario,
       contrasenia: formData.contrasenia,
       id_rol: Number(formData.rol),
+        ...(formData.id_personal ? { id_personal: Number(formData.id_personal) } : {}),
       ...(this.userToEdit
         ? { id_usuario: this.userToEdit.id_usuario }
         : { usuario_creacion: this.authService.getCurrentUser()?.id_usuario || 1 })
