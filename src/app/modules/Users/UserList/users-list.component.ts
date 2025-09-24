@@ -70,22 +70,22 @@ export class UserListComponent implements OnInit {
     });
   }
 
- private loadUsers(): void {
-  this.userService.getAllUsers().subscribe({
-    next: (data: UserGraphQL[]) => {
-      this.usersList = data.map(user => ({
-        id: user.id_usuario,
-        nombre_usuario: user.nombre_usuario,
-        rol: user.rol.nombre_rol,
-        fecha_ingreso: new Date(user.fecha_creacion),
-        activo: user.activo,
-        personalAsignado: user.personalAsignado || null
-      }));
-      this.applyFilters();
-    },
-    error: err => console.error('Error al cargar usuarios', err)
-  });
-}
+  private loadUsers(): void {
+    this.userService.getAllUsers().subscribe({
+      next: (data: UserGraphQL[]) => {
+        this.usersList = data.map(user => ({
+          id: user.id_usuario,
+          nombre_usuario: user.nombre_usuario,
+          rol: user.rol.nombre_rol,
+          fecha_ingreso: new Date(user.fecha_creacion),
+          activo: user.activo,
+          personalAsignado: user.personalAsignado || null
+        }));
+        this.applyFilters();
+      },
+      error: err => console.error('Error al cargar usuarios', err)
+    });
+  }
 
   setViewMode(mode: ViewMode): void {
     this.viewMode = mode;
@@ -118,6 +118,7 @@ export class UserListComponent implements OnInit {
     };
     this.usersList.unshift(newUser);
     this.applyFilters();
+    this.loadUsers();
   }
 
   trackByUserId = trackById;
@@ -151,34 +152,23 @@ export class UserListComponent implements OnInit {
   }
 
   editUser(user: User): void {
-  this.userService.getUserById(user.id).subscribe({
-    next: (userGraphQL: UserGraphQL) => {
-      this.UserToEdit = userGraphQL;
-      this.showEditModal = true;
-    },
-    error: err => console.error('Error al cargar usuario', err)
-  });
-}
+    this.userService.getUserById(user.id).subscribe({
+      next: (userGraphQL: UserGraphQL) => {
+        this.UserToEdit = userGraphQL;
+        this.showEditModal = true;
+      },
+      error: err => console.error('Error al cargar usuario', err)
+    });
+  }
 
   closeEditModal(): void {
     this.showEditModal = false;
     this.UserToEdit = null;
   }
 
-  onUserUpdated(updatedUser: UserGraphQL): void {
-    const index = this.usersList.findIndex(u => u.id === updatedUser.id_usuario);
-    if (index !== -1) {
-      const rol = this.roles.find(t => t.id_rol === updatedUser.id_rol)?.nombre_rol.toLowerCase() || '';
-      this.usersList[index] = {
-        id: updatedUser.id_usuario,
-        nombre_usuario: updatedUser.nombre_usuario,
-        rol: rol,
-        fecha_ingreso: new Date(updatedUser.fecha_creacion),
-        activo: updatedUser.activo,
-        personalAsignado: updatedUser.personalAsignado || null
-      };
-      this.applyFilters();
-    }
+  onUserUpdated(): void {
+    this.loadUsers();
+    this.applyFilters();
     this.closeEditModal();
   }
 

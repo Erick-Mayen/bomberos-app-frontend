@@ -52,7 +52,6 @@ export class UserComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(): void {
-  console.log('ngOnChanges - userToEdit:', this.userToEdit);
 
   if (this.userToEdit) {
     this.userForm.patchValue({
