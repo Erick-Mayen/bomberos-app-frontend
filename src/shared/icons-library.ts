@@ -35,7 +35,8 @@ import {
   faChevronDown,
   faArrowDown,
   faArrowUp,
-  faArrowsUpDown
+  faArrowsUpDown,
+  faCircleCheck,
 } from '@fortawesome/free-solid-svg-icons';
 
 export function registerIcons(library: FaIconLibrary) {
@@ -74,6 +75,7 @@ export function registerIcons(library: FaIconLibrary) {
     faChevronDown,
     faArrowDown,
     faArrowUp,
-    faArrowsUpDown
+    faArrowsUpDown,
+    faCircleCheck,
   );
 }

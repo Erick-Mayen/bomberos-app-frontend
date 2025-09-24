@@ -16,6 +16,7 @@ export class UsersCardsComponent {
   @Input() page: number = 1;
   @Input() itemsPerPage: number = 0;
   @Input() getUserName!: (user: User) => string;
+  @Input() getPersonalAsignado!: (usuario: User) => string;
   @Output() edit = new EventEmitter<User>();
   @Output() delete = new EventEmitter<User>();
 

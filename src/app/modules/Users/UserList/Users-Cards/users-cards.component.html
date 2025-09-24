@@ -17,6 +17,7 @@
             <span class="type-badge" [attr.data-type]="user.rol">
               {{ user.rol }}
             </span>
+            <h3 class="personal">{{ getPersonalAsignado(user) || 'N/A' }}</h3>
           </div>
         </div>
         <div class="status-indicator">

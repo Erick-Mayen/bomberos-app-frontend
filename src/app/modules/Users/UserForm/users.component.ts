@@ -30,6 +30,9 @@ export class UserComponent implements OnInit, OnChanges {
   roles: Rol[] = [];
   personalList: Personal[] = [];
   showPassword = false;
+  isPasswordDisabled = false;
+  generatedPassword: string | null = null;
+
 
   constructor(
     private fb: FormBuilder,
@@ -40,7 +43,7 @@ export class UserComponent implements OnInit, OnChanges {
   ) {
     this.userForm = this.fb.group({
       nombre_usuario: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(50)]],
-      contrasenia: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(50)]],
+      contrasenia: ['', [Validators.required]],
       rol: ['', [Validators.required]],
       id_personal: [null]
     });
@@ -53,22 +56,25 @@ export class UserComponent implements OnInit, OnChanges {
 
   ngOnChanges(): void {
 
-  if (this.userToEdit) {
-    this.userForm.patchValue({
-      nombre_usuario: this.userToEdit.nombre_usuario,
-      rol: this.userToEdit.id_rol,
-      contrasenia: this.userToEdit.contrasenia,
-      id_personal: this.userToEdit.id_personal || null
-    });
+    if (this.userToEdit) {
+      this.userForm.patchValue({
+        nombre_usuario: this.userToEdit.nombre_usuario,
+        rol: this.userToEdit.id_rol,
+        contrasenia: this.userToEdit.contrasenia,
+        id_personal: this.userToEdit.id_personal || null
+      });
 
-    this.modalTitle = 'Editar Usuario';
-    this.submitLabel = 'Editar Usuario';
-  } else {
-    this.userForm.reset();
-    this.modalTitle = 'Agregar Usuario';
-    this.submitLabel = 'Agregar Usuario';
+      this.modalTitle = 'Editar Usuario';
+      this.submitLabel = 'Editar Usuario';
+      this.isPasswordDisabled = true;
+    } else {
+      this.userForm.reset();
+      this.modalTitle = 'Agregar Usuario';
+      this.submitLabel = 'Agregar Usuario';
+      this.isPasswordDisabled = false;
+      this.generatedPassword = null;
+    }
   }
-}
 
   private loadRoles(): void {
     this.userService.getAllRoles().subscribe({
@@ -176,5 +182,39 @@ export class UserComponent implements OnInit, OnChanges {
 
   togglePassword(): void {
     this.showPassword = !this.showPassword;
+  }
+
+  resetPassword(): void {
+    if (!this.userToEdit) return;
+
+    this.alertService.confirm(
+      'Restablecer contraseña',
+      `¿Está seguro de restablecer la contraseña para ${this.userToEdit.nombre_usuario}?`,
+      () => {
+        // Generar contraseña aleatoria
+        const newPassword = this.generateRandomPassword();
+        this.generatedPassword = newPassword;
+        this.userForm.patchValue({ contrasenia: newPassword });
+        this.isPasswordDisabled = false; // desbloqueamos para mostrar la contraseña
+
+        // Mostrar contraseña generada
+        this.alertService.infoReport(
+          `La nueva contraseña es: <b>${newPassword}</b>`,
+          'Esta contraseña solo se mostrará una vez. Asegúrate de guardarla.',
+        );
+
+        // Cerrar modal y actualizar usuario
+        this.onSubmit(); // Esto enviará la actualización con la nueva contraseña
+      }
+    );
+  }
+
+  private generateRandomPassword(length = 10): string {
+    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*';
+    let password = '';
+    for (let i = 0; i < length; i++) {
+      password += chars.charAt(Math.floor(Math.random() * chars.length));
+    }
+    return password;
   }
 }

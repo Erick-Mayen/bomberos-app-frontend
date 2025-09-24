@@ -64,6 +64,7 @@
                 id="contrasenia"
                 formControlName="contrasenia"
                 class="form-input"
+                [readonly]="isPasswordDisabled"
                 placeholder="Ingresa la contraseña"
               />
 
@@ -86,6 +87,11 @@
               ></fa-icon>
               {{ getErrorMessage("contrasenia") }}
             </div>
+            <div *ngIf="isPasswordDisabled" class="reset-password">
+            <a href="#" (click)="resetPassword(); $event.preventDefault()"
+              >Restablecer contraseña</a
+            >
+          </div>
           </div>
 
           <!-- Rol -->

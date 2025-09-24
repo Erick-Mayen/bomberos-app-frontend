@@ -7,6 +7,7 @@ export const LOGIN_MUTATION = gql`
       user {
         id_usuario
         nombre_usuario
+        validar
         rol {
           nombre_rol
         }
