@@ -14,7 +14,7 @@ import { Rol, User, UserGraphQL } from '../../../interfaces';
 import { UserService } from '../../../services/user.service';
 
 type ViewMode = 'table' | 'cards';
-type SortColumn = 'nombre_usuario' | 'rol' | 'fecha_ingreso' | 'activo';
+type SortColumn = 'nombre_usuario' | 'rol' | 'personal_asignado' | 'fecha_ingreso' | 'activo';
 
 @Component({
   selector: 'app-personal-list',
@@ -70,21 +70,22 @@ export class UserListComponent implements OnInit {
     });
   }
 
-  private loadUsers(): void {
-    this.userService.getAllUsers().subscribe({
-      next: (data: UserGraphQL[]) => {
-        this.usersList = data.map(user => ({
-          id: user.id_usuario,
-          nombre_usuario: user.nombre_usuario,
-          rol: user.rol.nombre_rol,
-          fecha_ingreso: new Date(user.fecha_creacion),
-          activo: user.activo
-        }));
-        this.applyFilters();
-      },
-      error: err => console.error('Error al cargar usuarios', err)
-    });
-  }
+ private loadUsers(): void {
+  this.userService.getAllUsers().subscribe({
+    next: (data: UserGraphQL[]) => {
+      this.usersList = data.map(user => ({
+        id: user.id_usuario,
+        nombre_usuario: user.nombre_usuario,
+        rol: user.rol.nombre_rol,
+        fecha_ingreso: new Date(user.fecha_creacion),
+        activo: user.activo,
+        personalAsignado: user.personalAsignado || null
+      }));
+      this.applyFilters();
+    },
+    error: err => console.error('Error al cargar usuarios', err)
+  });
+}
 
   setViewMode(mode: ViewMode): void {
     this.viewMode = mode;
@@ -112,7 +113,8 @@ export class UserListComponent implements OnInit {
       id: userData.id_usuario,
       fecha_ingreso: new Date(),
       activo: true,
-      rol: rol
+      rol: rol,
+      personalAsignado: userData.personalAsignado || null
     };
     this.usersList.unshift(newUser);
     this.applyFilters();
@@ -149,25 +151,14 @@ export class UserListComponent implements OnInit {
   }
 
   editUser(user: User): void {
-    // Convertimos el modelo de UI al modelo GraphQL
-    const userGraphQL: UserGraphQL = {
-      id_usuario: user.id,
-      nombre_usuario: user.nombre_usuario,
-      contrasenia: '', // La contraseña no se edita aquí
-      activo: user.activo,
-      id_personal: null as any, // Asignar un valor adecuado si es necesario
-      usuario_creacion: null as any, // Asignar un valor adecuado si es necesario
-      fecha_creacion: user.fecha_ingreso.toISOString(),
-      id_rol: this.roles.find(t => t.nombre_rol.toLowerCase() === user.rol)?.id_rol || 0,
-      rol: {
-        id_rol: this.roles.find(t => t.nombre_rol.toLowerCase() === user.rol)?.id_rol || 0,
-        nombre_rol: user.rol
-      },
-    };
-
-    this.UserToEdit = userGraphQL;
-    this.showEditModal = true;
-  }
+  this.userService.getUserById(user.id).subscribe({
+    next: (userGraphQL: UserGraphQL) => {
+      this.UserToEdit = userGraphQL;
+      this.showEditModal = true;
+    },
+    error: err => console.error('Error al cargar usuario', err)
+  });
+}
 
   closeEditModal(): void {
     this.showEditModal = false;
@@ -183,7 +174,8 @@ export class UserListComponent implements OnInit {
         nombre_usuario: updatedUser.nombre_usuario,
         rol: rol,
         fecha_ingreso: new Date(updatedUser.fecha_creacion),
-        activo: updatedUser.activo
+        activo: updatedUser.activo,
+        personalAsignado: updatedUser.personalAsignado || null
       };
       this.applyFilters();
     }
@@ -228,6 +220,10 @@ export class UserListComponent implements OnInit {
 
   getUserName(u: User): string {
     return u.nombre_usuario;
+  }
+
+  getPersonalAsignado(u: User): string {
+    return [u.personalAsignado?.primer_nombre, u.personalAsignado?.primer_apellido].filter(Boolean).join(' ');
   }
 
   getTotalUsersCount(): number {

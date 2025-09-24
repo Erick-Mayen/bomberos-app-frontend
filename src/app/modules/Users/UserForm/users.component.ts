@@ -23,7 +23,7 @@ export class UserComponent implements OnInit, OnChanges {
   @Input() modalTitle = 'Agregar Usuario';
   @Input() submitLabel = 'Agregar Usuario';
   @Output() closeModal = new EventEmitter<void>();
-  @Output() formSuccess = new EventEmitter<any>();
+  @Output() formSuccess = new EventEmitter<UserGraphQL>();
 
   userForm: FormGroup;
   isSubmitting = false;
@@ -52,22 +52,24 @@ export class UserComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(): void {
-    if (this.userToEdit) {
-      this.userForm.patchValue({
-        nombre_usuario: this.userToEdit.nombre_usuario,
-        rol: this.userToEdit.id_rol,
-        contrasenia: this.userToEdit.contrasenia,
-        id_personal: this.userToEdit.id_personal || null
-      });
+  console.log('ngOnChanges - userToEdit:', this.userToEdit);
 
-      this.modalTitle = 'Editar Usuario';
-      this.submitLabel = 'Editar Usuario';
-    } else {
-      this.userForm.reset();
-      this.modalTitle = 'Agregar Usuario';
-      this.submitLabel = 'Agregar Usuario';
-    }
+  if (this.userToEdit) {
+    this.userForm.patchValue({
+      nombre_usuario: this.userToEdit.nombre_usuario,
+      rol: this.userToEdit.id_rol,
+      contrasenia: this.userToEdit.contrasenia,
+      id_personal: this.userToEdit.id_personal || null
+    });
+
+    this.modalTitle = 'Editar Usuario';
+    this.submitLabel = 'Editar Usuario';
+  } else {
+    this.userForm.reset();
+    this.modalTitle = 'Agregar Usuario';
+    this.submitLabel = 'Agregar Usuario';
   }
+}
 
   private loadRoles(): void {
     this.userService.getAllRoles().subscribe({
@@ -112,7 +114,7 @@ export class UserComponent implements OnInit, OnChanges {
       nombre_usuario: formData.nombre_usuario,
       contrasenia: formData.contrasenia,
       id_rol: Number(formData.rol),
-        ...(formData.id_personal ? { id_personal: Number(formData.id_personal) } : {}),
+      ...(formData.id_personal ? { id_personal: Number(formData.id_personal) } : {}),
       ...(this.userToEdit
         ? { id_usuario: this.userToEdit.id_usuario }
         : { usuario_creacion: this.authService.getCurrentUser()?.id_usuario || 1 })
@@ -124,7 +126,9 @@ export class UserComponent implements OnInit, OnChanges {
 
     request$.subscribe({
       next: (result) => {
-        this.alertService.SuccesNotify(this.userToEdit ? 'Usuario actualizado exitosamente' : 'Usuario creado exitosamente');
+        this.alertService.SuccesNotify(
+          this.userToEdit ? 'Usuario actualizado exitosamente' : 'Usuario creado exitosamente'
+        );
         this.formSuccess.emit(result);
         this.isSubmitting = false;
         this.onCancel();
@@ -132,7 +136,9 @@ export class UserComponent implements OnInit, OnChanges {
       error: () => {
         this.alertService.errorReport(
           'Error',
-          this.userToEdit ? 'Error al actualizar el usuario. Intenta de nuevo.' : 'Error al crear el usuario. Intenta de nuevo.'
+          this.userToEdit
+            ? 'Error al actualizar el usuario. Intenta de nuevo.'
+            : 'Error al crear el usuario. Intenta de nuevo.'
         );
         this.isSubmitting = false;
       }

@@ -33,6 +33,21 @@
               ></fa-icon>
             </div>
           </th>
+          <th class="sortable" (click)="sort.emit('personal_asignado')">
+            <div class="th-content">
+              Personal Asignado
+              <fa-icon
+                [icon]="
+                  sortColumn === 'personal_asignado'
+                    ? sortDirection === 'asc'
+                      ? 'arrow-up'
+                      : 'arrow-down'
+                    : 'arrows-up-down'
+                "
+                class="sort-icon"
+              ></fa-icon>
+            </div>
+          </th>
           <th class="sortable" (click)="sort.emit('fecha_ingreso')">
             <div class="th-content">
               Fecha de creación
@@ -86,6 +101,11 @@
             <span class="type-badge" [attr.data-type]="user.rol">
               {{ user.rol }}
             </span>
+          </td>
+          <td class="type-cell">
+            <div class="name-info">
+              <span class="full-name">{{ getPersonalAsignado(user) || 'N/A' }}</span>
+            </div>
           </td>
           <td class="date-cell">
             {{ user.fecha_ingreso | date : "dd/MM/yyyy" }}

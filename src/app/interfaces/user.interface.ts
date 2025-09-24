@@ -2,7 +2,7 @@ export interface UserGraphQL {
   id_usuario: number;
   nombre_usuario: string;
   contrasenia: string;
-  id_personal: number;
+  id_personal: number | null;
   id_rol: number;
   activo: boolean;
   usuario_creacion: number;

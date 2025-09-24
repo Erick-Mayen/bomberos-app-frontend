@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { User } from '../../../../interfaces';
 
-type SortColumn = 'nombre_usuario' | 'rol' | 'fecha_ingreso' | 'activo';
+type SortColumn = 'nombre_usuario' | 'rol' | 'personal_asignado' |'fecha_ingreso' | 'activo';
 
 @Component({
   selector: 'app-user-table',
@@ -20,6 +20,7 @@ export class UserTableComponent {
   @Input() sortDirection: 'asc' | 'desc' | null = null;
   @Input() itemsPerPage: number = 10;
   @Input() getUserName!: (usuario: User) => string;
+  @Input() getPersonalAsignado!: (usuario: User) => string;
   @Output() edit = new EventEmitter<User>();
   @Output() delete = new EventEmitter<User>();
   @Output() sort = new EventEmitter<SortColumn>();

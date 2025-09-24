@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Apollo } from 'apollo-angular';
 import { map, catchError } from 'rxjs/operators';
 import { throwError, Observable } from 'rxjs';
-import { CREATE_USER, FIND_ALL_ROLES, FIND_ALL_USERS, REMOVE_USER, UPDATE_USER} from '../graphql';
+import { CREATE_USER, FIND_ALL_ROLES, FIND_ALL_USERS, FIND_ONE_USER, REMOVE_USER, UPDATE_USER} from '../graphql';
 import { Rol, UserGraphQL } from '../interfaces';
 
 @Injectable({
@@ -31,7 +31,17 @@ export class UserService {
     );
   }
 
-
+  getUserById(id: number): Observable<UserGraphQL> {
+  return this.apollo
+    .watchQuery<{ findOneUser: UserGraphQL }>({
+      query: FIND_ONE_USER,
+      variables: { findOneUserId: id },
+      fetchPolicy: 'network-only'
+    })
+    .valueChanges.pipe(
+      map(result => result.data.findOneUser)
+    );
+}
   createUser(input: any): Observable<UserGraphQL> {
     return this.apollo.mutate<{ createUser: UserGraphQL }>({
       mutation: CREATE_USER,
