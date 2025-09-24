@@ -3,7 +3,7 @@ import { Apollo} from 'apollo-angular';
 import { map, catchError, timeout } from 'rxjs/operators';
 import { throwError } from 'rxjs';
 import { jwtDecode } from 'jwt-decode';
-import { LOGIN_MUTATION } from '../graphql';
+import { CHANGE_PASSWORD_MUTATION, LOGIN_MUTATION } from '../graphql';
 
 @Injectable({
   providedIn: 'root'
@@ -48,6 +48,37 @@ export class AuthService {
         return throwError(() => new Error('LOGIN_FALLIDO'));
       })
 
+    );
+  }
+
+  changePassword(id_usuario: number, actualPassword: string, newPassword: string) {
+    return this.apollo.mutate({
+      mutation: CHANGE_PASSWORD_MUTATION,
+      variables: {
+        changePasswordInput: { id_usuario, actualPassword, newPassword }
+      }
+    }).pipe(
+      timeout(10000),
+      map((result: any) => {
+        if (result.errors?.length) {
+          const msg = result.errors[0].message;
+          throw new Error(msg);
+        }
+
+        return result.data.changePassword;
+      }),
+      catchError((error) => {
+        const msg = error.message;
+
+        if (msg === 'INVALID_PASSWORD') return throwError(() => new Error('La contraseña actual es incorrecta'));
+        if (msg === 'USUARIO_NO_ENCONTRADO') return throwError(() => new Error('Usuario no encontrado'));
+        if (error.networkError) {
+          if (navigator.onLine) return throwError(() => new Error('SERVER_ERROR'));
+          else return throwError(() => new Error('NO_CONNECTION'));
+        }
+
+        return throwError(() => new Error('ERROR_CAMBIO_CONTRASENIA'));
+      })
     );
   }
 

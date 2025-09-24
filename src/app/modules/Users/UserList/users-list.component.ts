@@ -79,6 +79,7 @@ export class UserListComponent implements OnInit {
           rol: user.rol.nombre_rol,
           fecha_ingreso: new Date(user.fecha_creacion),
           activo: user.activo,
+          validar: user.validar,
           personalAsignado: user.personalAsignado || null
         }));
         this.applyFilters();

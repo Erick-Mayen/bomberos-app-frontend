@@ -88,6 +88,18 @@ export class LoginComponent {
         next: () => {
           this.isLoading = false;
           const currentUser = this.authService.getCurrentUser();
+
+          if (currentUser && currentUser.validar === true) {
+            // Redirigir al cambio de contraseña
+            this.router.navigateByUrl('/changePassword');
+            Notiflix.Report.info(
+              'Cambio de Contraseña',
+              'Debes cambiar tu contraseña antes de continuar.',
+              'Aceptar'
+            );
+            return;
+          }
+
           const user = currentUser?.personalAsignado?.primer_nombre
             ? `${currentUser.personalAsignado.primer_nombre} ${currentUser.personalAsignado.primer_apellido ?? ''}`.trim()
             : `${currentUser.nombre_usuario}`.trim();

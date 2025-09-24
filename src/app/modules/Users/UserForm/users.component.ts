@@ -57,6 +57,7 @@ export class UserComponent implements OnInit, OnChanges {
   ngOnChanges(): void {
 
     if (this.userToEdit) {
+      this.showPassword = false;
       this.userForm.patchValue({
         nombre_usuario: this.userToEdit.nombre_usuario,
         rol: this.userToEdit.id_rol,
@@ -86,21 +87,23 @@ export class UserComponent implements OnInit, OnChanges {
   private loadPersonal(): void {
     this.personalService.getAllPersonal().subscribe({
       next: (data: PersonalGraphQL[]) => {
-        this.personalList = data.map(p => ({
-          id: p.id_personal,
-          primer_nombre: p.primer_nombre,
-          segundo_nombre: p.segundo_nombre,
-          primer_apellido: p.primer_apellido,
-          segundo_apellido: p.segundo_apellido,
-          tipo_personal: p.tipo_personal.nombre,
-          fecha_ingreso: new Date(p.fecha_creacion),
-          activo: true
-        }));
-
-        this.personalList = this.personalList.map(person => ({
-          ...person,
-          displayName: `${person.primer_nombre} ${person.primer_apellido}`
-        }));
+        // Filtramos solo los activos
+        this.personalList = data
+          .filter(p => p.activo)  // <-- solo activos
+          .map(p => ({
+            id: p.id_personal,
+            primer_nombre: p.primer_nombre,
+            segundo_nombre: p.segundo_nombre,
+            primer_apellido: p.primer_apellido,
+            segundo_apellido: p.segundo_apellido,
+            tipo_personal: p.tipo_personal.nombre,
+            fecha_ingreso: new Date(p.fecha_creacion),
+            activo: p.activo
+          }))
+          .map(person => ({
+            ...person,
+            displayName: `${person.primer_nombre} ${person.primer_apellido}`
+          }));
       },
       error: err => console.error('Error al cargar personal', err)
     });
@@ -125,6 +128,9 @@ export class UserComponent implements OnInit, OnChanges {
         : { usuario_creacion: this.authService.getCurrentUser()?.id_usuario || 1 })
     };
 
+    if (this.generatedPassword && this.userToEdit) {
+      (input as any).validar = true;;
+    }
     const request$ = this.userToEdit
       ? this.userService.updateUser(input)
       : this.userService.createUser(input);
@@ -182,6 +188,17 @@ export class UserComponent implements OnInit, OnChanges {
 
   togglePassword(): void {
     this.showPassword = !this.showPassword;
+  }
+
+  generatePasswordForNewUser(): void {
+    if (this.userToEdit) return;
+
+    const newPassword = this.generateRandomPassword();
+    this.generatedPassword = newPassword;
+
+    this.userForm.patchValue({ contrasenia: newPassword });
+    this.isPasswordDisabled = false;
+    this.showPassword = true;
   }
 
   resetPassword(): void {

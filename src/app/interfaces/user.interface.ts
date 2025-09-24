@@ -5,6 +5,7 @@ export interface UserGraphQL {
   id_personal: number | null;
   id_rol: number;
   activo: boolean;
+  validar: boolean;
   usuario_creacion: number;
   fecha_creacion: string;
   fecha_actualizacion?: string;
@@ -24,6 +25,7 @@ export interface User {
   nombre_usuario: string;
   fecha_ingreso: Date;
   activo: boolean;
+  validar: boolean;
   rol: string;
   personalAsignado?: {
     id_personal: number;

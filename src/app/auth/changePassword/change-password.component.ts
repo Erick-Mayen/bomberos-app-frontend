@@ -74,6 +74,36 @@ export class ChangePasswordComponent {
       this.loginForm.markAllAsTouched();
       return;
     }
+
+    const user = this.authService.getCurrentUser();
+    if (!user) {
+      this.authService.logout();
+      this.router.navigate(['/login']);
+      return;
+    }
+
+    const id_usuario = user.id_usuario;
+    const actualPassword = this.loginForm.get('actualPassword')?.value;
+    const newPassword = this.loginForm.get('newPassword')?.value;
+
+    this.isLoading = true;
+
+    this.authService.changePassword(id_usuario, actualPassword, newPassword).subscribe({
+      next: () => {
+        this.isLoading = false;
+        Notiflix.Report.success(
+          'Contraseña Actualizada',
+          'Tu contraseña ha sido cambiada correctamente, inicia sesión de nuevo.',
+          'Aceptar'
+        );
+        this.authService.logout();
+        this.router.navigate(['/login']);
+      },
+      error: (err: Error) => {
+        this.isLoading = false;
+        Notiflix.Report.failure('Error', err.message, 'Aceptar');
+      }
+    });
   }
 }
 

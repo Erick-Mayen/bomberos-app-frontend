@@ -69,6 +69,7 @@
               />
 
               <button
+                *ngIf="!isPasswordDisabled"
                 type="button"
                 class="password-toggle"
                 (click)="togglePassword()"
@@ -87,11 +88,19 @@
               ></fa-icon>
               {{ getErrorMessage("contrasenia") }}
             </div>
+            <div *ngIf="!userToEdit" class="generate-password">
+              <a
+                href="#"
+                (click)="generatePasswordForNewUser(); $event.preventDefault()"
+              >
+                Generar contraseña
+              </a>
+            </div>
             <div *ngIf="isPasswordDisabled" class="reset-password">
-            <a href="#" (click)="resetPassword(); $event.preventDefault()"
-              >Restablecer contraseña</a
-            >
-          </div>
+              <a href="#" (click)="resetPassword(); $event.preventDefault()"
+                >Restablecer contraseña</a
+              >
+            </div>
           </div>
 
           <!-- Rol -->
