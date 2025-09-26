@@ -5,6 +5,8 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { VehicleService } from '../../../services/vehicle.service';
 import { VehicleType, VehicleState, Vehicle } from '../../../interfaces/vehicle.interface';
+import { AlertService } from '../../../services/alert.service';
+import { AuthService } from '../../../services/auth.service';
 
 @Component({
   selector: 'app-vehicle',
@@ -28,7 +30,9 @@ export class VehicleComponent implements OnInit, OnChanges {
 
   constructor(
     private fb: FormBuilder,
-    private vehicleService: VehicleService
+    private vehicleService: VehicleService,
+    private alertService: AlertService,
+    private authService: AuthService
   ) {
     this.vehicleForm = this.fb.group({
       unidad: ['', [Validators.required]],
@@ -47,8 +51,6 @@ export class VehicleComponent implements OnInit, OnChanges {
 
   ngOnChanges(): void {
     if (this.vehicleToEdit) {
-      this.modalTitle = 'Editar Vehículo';
-      this.submitLabel = 'Editar Vehículo';
       this.vehicleForm.patchValue({
         unidad: this.vehicleToEdit.unidad,
         modelo: this.vehicleToEdit.modelo,
@@ -57,10 +59,13 @@ export class VehicleComponent implements OnInit, OnChanges {
         id_tipo_vehiculo: this.vehicleToEdit.tipo_vehiculo.id_tipo_vehiculo,
         id_estado_unidad: this.vehicleToEdit.estado_unidad.id_estado
       });
+
+      this.modalTitle = 'Editar Vehículo';
+      this.submitLabel = 'Editar Vehículo';
     } else {
+      this.vehicleForm.reset();
       this.modalTitle = 'Agregar Vehículo';
       this.submitLabel = 'Agregar Vehículo';
-      this.vehicleForm.reset();
     }
   }
 
@@ -86,18 +91,32 @@ export class VehicleComponent implements OnInit, OnChanges {
 
     this.isSubmitting = true;
     const formData = this.vehicleForm.value;
+    const payload = {
+      ...formData,
+      id_tipo_vehiculo: Number(formData.id_tipo_vehiculo),
+      id_estado_unidad: Number(formData.id_estado_unidad),
+      ...(this.vehicleToEdit
+        ? { id_vehiculo: this.vehicleToEdit.id_unidad }
+        : {usuario_creacion: this.authService.getCurrentUser()?.id_usuario})
+    };
+
+    console.log('Payload final que se envía al servicio:', payload);
     const request$ = this.vehicleToEdit
-      ? this.vehicleService.updateVehicle({ ...formData, id_vehiculo: this.vehicleToEdit.id_unidad})
-      : this.vehicleService.createVehicle(formData);
+      ? this.vehicleService.updateVehicle(payload)
+      : this.vehicleService.createVehicle(payload);
 
     request$.subscribe({
       next: (result) => {
+        this.alertService.SuccesNotify(this.vehicleToEdit ? 'Personal actualizado exitosamente' : 'Personal creado exitosamente');
         this.formSuccess.emit(result);
         this.isSubmitting = false;
         this.onCancel();
       },
       error: () => {
-        console.error('Error al guardar el vehículo');
+        this.alertService.errorReport(
+          'Error',
+          this.vehicleToEdit ? 'Error al actualizar el personal' : 'Error al crear el Vehículo'
+        );
         this.isSubmitting = false;
       }
     });
@@ -107,6 +126,19 @@ export class VehicleComponent implements OnInit, OnChanges {
     Object.keys(this.vehicleForm.controls).forEach(key => {
       this.vehicleForm.get(key)?.markAsTouched();
     });
+  }
+
+  getErrorMessage(fieldName: string): string {
+    const control = this.vehicleForm.get(fieldName);
+    if (control?.errors && control.touched) {
+      if (control.errors['required']) return 'Este campo es requerido';
+    }
+    return '';
+  }
+
+  isFieldInvalid(fieldName: string): boolean {
+    const control = this.vehicleForm.get(fieldName);
+    return !!(control?.invalid && control.touched);
   }
 
   onCancel(): void {

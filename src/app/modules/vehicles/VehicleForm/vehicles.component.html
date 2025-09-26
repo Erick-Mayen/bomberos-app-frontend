@@ -9,21 +9,18 @@
       <div class="card-header">
         <div class="header-content">
           <h1 class="card-title">
-            <span class="fire-icon"><fa-icon icon="car"></fa-icon></span>
+            <span class="fire-icon"><fa-icon icon="truck"></fa-icon></span>
             {{ modalTitle }}
           </h1>
-          <button type="button" class="close-button" (click)="onCancel()">
+          <button type="button" class="close-button" (click)="onCancel()" aria-label="Cerrar modal">
             ✕
           </button>
         </div>
       </div>
 
-      <form
-        [formGroup]="vehicleForm"
-        (ngSubmit)="onSubmit()"
-        class="personal-form"
-      >
+      <form [formGroup]="vehicleForm" (ngSubmit)="onSubmit()" class="personal-form">
         <div class="form-grid">
+
           <!-- Unidad -->
           <div class="form-group">
             <label class="form-label required">Unidad</label>
@@ -32,11 +29,11 @@
               formControlName="unidad"
               class="form-input"
               placeholder="Ingrese unidad"
-              [class.error]="
-                vehicleForm.get('unidad')?.invalid &&
-                vehicleForm.get('unidad')?.touched
-              "
+              [class.error]="isFieldInvalid('unidad')"
             />
+            <div class="error-message" *ngIf="getErrorMessage('unidad')">
+              {{ getErrorMessage('unidad') }}
+            </div>
           </div>
 
           <!-- Modelo -->
@@ -47,11 +44,11 @@
               formControlName="modelo"
               class="form-input"
               placeholder="Ingrese modelo"
-              [class.error]="
-                vehicleForm.get('modelo')?.invalid &&
-                vehicleForm.get('modelo')?.touched
-              "
+              [class.error]="isFieldInvalid('modelo')"
             />
+            <div class="error-message" *ngIf="getErrorMessage('modelo')">
+              {{ getErrorMessage('modelo') }}
+            </div>
           </div>
 
           <!-- Descripción -->
@@ -62,11 +59,11 @@
               formControlName="descripcion"
               class="form-input"
               placeholder="Ingrese descripción"
-              [class.error]="
-                vehicleForm.get('descripcion')?.invalid &&
-                vehicleForm.get('descripcion')?.touched
-              "
+              [class.error]="isFieldInvalid('descripcion')"
             />
+            <div class="error-message" *ngIf="getErrorMessage('descripcion')">
+              {{ getErrorMessage('descripcion') }}
+            </div>
           </div>
 
           <!-- Kilometraje -->
@@ -77,71 +74,56 @@
               formControlName="kilometraje"
               class="form-input"
               placeholder="Ingrese kilometraje"
-              [class.error]="
-                vehicleForm.get('kilometraje')?.invalid &&
-                vehicleForm.get('kilometraje')?.touched
-              "
+              [class.error]="isFieldInvalid('kilometraje')"
             />
+            <div class="error-message" *ngIf="getErrorMessage('kilometraje')">
+              {{ getErrorMessage('kilometraje') }}
+            </div>
           </div>
 
-          <!-- Tipo de vehiculo -->
+          <!-- Tipo de vehículo -->
           <div class="form-group">
-            <label for="tipo_vehiculo" class="form-label required"
-              >Tipo de Vehiculo</label
-            >
+            <label class="form-label required">Tipo de Vehículo</label>
             <select
-              id="tipo_vehiculo"
-              formControlName="tipo_vehiculo"
+              formControlName="id_tipo_vehiculo"
               class="form-select"
+              [class.error]="isFieldInvalid('id_tipo_vehiculo')"
             >
-              <option value="" disabled>Seleccione el tipo de vehiculo</option>
-              <option
-                *ngFor="let type of vehicleTypes"
-                [value]="type.id_tipo_vehiculo"
-              >
+              <option value="" disabled>Seleccione el tipo de vehículo</option>
+              <option *ngFor="let type of vehicleTypes" [value]="type.id_tipo_vehiculo">
                 {{ type.nombre }}
               </option>
             </select>
+            <div class="error-message" *ngIf="getErrorMessage('id_tipo_vehiculo')">
+              {{ getErrorMessage('id_tipo_vehiculo') }}
+            </div>
           </div>
 
           <!-- Estado de la unidad -->
           <div class="form-group">
-            <label for="estado_unidad" class="form-label required"
-              >Estado de la unidad</label
-            >
+            <label class="form-label required">Estado de la unidad</label>
             <select
-              id="estado_unidad"
-              formControlName="estado_unidad"
+              formControlName="id_estado_unidad"
               class="form-select"
+              [class.error]="isFieldInvalid('id_estado_unidad')"
             >
-              <option value="" disabled>
-                Seleccione el estado de la unidad
-              </option>
-              <option
-                *ngFor="let state of vehicleStates"
-                [value]="state.id_estado"
-              >
+              <option value="" disabled>Seleccione el estado</option>
+              <option *ngFor="let state of vehicleStates" [value]="state.id_estado">
                 {{ state.nombre }}
               </option>
             </select>
+            <div class="error-message" *ngIf="getErrorMessage('id_estado_unidad')">
+              {{ getErrorMessage('id_estado_unidad') }}
+            </div>
           </div>
+
         </div>
 
-        <!-- Botones -->
         <div class="form-actions">
-          <button
-            type="button"
-            class="btn btn-secondary"
-            (click)="onCancel()"
-            [disabled]="isSubmitting"
-          >
+          <button type="button" class="btn btn-secondary" (click)="onCancel()" [disabled]="isSubmitting">
             Cancelar
           </button>
-          <button
-            type="submit"
-            class="btn btn-primary"
-            [disabled]="vehicleForm.invalid || isSubmitting"
-          >
+          <button type="submit" class="btn btn-primary" [disabled]="vehicleForm.invalid || isSubmitting">
             <span *ngIf="!isSubmitting">Guardar</span>
             <span *ngIf="isSubmitting">Guardando...</span>
           </button>

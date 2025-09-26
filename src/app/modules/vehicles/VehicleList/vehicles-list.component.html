@@ -74,7 +74,6 @@
     [itemsPerPage]="10"
     [sortColumn]="sortColumn"
     [sortDirection]="sortDirection"
-    [getVehicleName]="getVehicleName"
     (edit)="editVehicle($event)"
     (delete)="deleteVehicle($event)"
     (sort)="sortBy($event)"
@@ -103,7 +102,7 @@
   [vehicleToEdit]="vehicleToEdit"
   (closeModal)="showVehicleModal = false; closeEditModal()"
   (formSuccess)="
-    vehicleToEdit ? onVehicleUpdated() : onVehicleCreated($event)
+    vehicleToEdit ? onVehicleUpdated() : onVehicleCreated()
   "
 >
 </app-vehicle>

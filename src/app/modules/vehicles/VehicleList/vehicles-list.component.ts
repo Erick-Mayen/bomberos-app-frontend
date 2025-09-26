@@ -106,8 +106,8 @@ export class VehicleListComponent implements OnInit {
   openVehicleModal(): void { this.showVehicleModal = true; }
   closeVehicleModal(): void { this.showVehicleModal = false; }
 
-  onVehicleCreated(vehicleData: Vehicle): void {
-    this.vehiclesList.unshift(vehicleData);
+  onVehicleCreated(): void {
+    this.loadVehicles();
     this.applyFilters();
   }
 
@@ -209,10 +209,6 @@ export class VehicleListComponent implements OnInit {
     if (this.page > lastPage) {
       this.page = lastPage;
     }
-  }
-
-  getVehicleName(u: Vehicle): string {
-    return u.unidad;
   }
 
   getTotalVehiclesCount(): number {
