@@ -1,0 +1,152 @@
+<div
+  class="modal-backdrop"
+  [class.show]="isOpen"
+  (click)="onBackdropClick($event)"
+  *ngIf="isOpen"
+>
+  <div class="modal-container" [class.show]="isOpen">
+    <div class="personal-card">
+      <div class="card-header">
+        <div class="header-content">
+          <h1 class="card-title">
+            <span class="fire-icon"><fa-icon icon="car"></fa-icon></span>
+            {{ modalTitle }}
+          </h1>
+          <button type="button" class="close-button" (click)="onCancel()">
+            ✕
+          </button>
+        </div>
+      </div>
+
+      <form
+        [formGroup]="vehicleForm"
+        (ngSubmit)="onSubmit()"
+        class="personal-form"
+      >
+        <div class="form-grid">
+          <!-- Unidad -->
+          <div class="form-group">
+            <label class="form-label required">Unidad</label>
+            <input
+              type="text"
+              formControlName="unidad"
+              class="form-input"
+              placeholder="Ingrese unidad"
+              [class.error]="
+                vehicleForm.get('unidad')?.invalid &&
+                vehicleForm.get('unidad')?.touched
+              "
+            />
+          </div>
+
+          <!-- Modelo -->
+          <div class="form-group">
+            <label class="form-label required">Modelo</label>
+            <input
+              type="text"
+              formControlName="modelo"
+              class="form-input"
+              placeholder="Ingrese modelo"
+              [class.error]="
+                vehicleForm.get('modelo')?.invalid &&
+                vehicleForm.get('modelo')?.touched
+              "
+            />
+          </div>
+
+          <!-- Descripción -->
+          <div class="form-group">
+            <label class="form-label required">Descripción</label>
+            <input
+              type="text"
+              formControlName="descripcion"
+              class="form-input"
+              placeholder="Ingrese descripción"
+              [class.error]="
+                vehicleForm.get('descripcion')?.invalid &&
+                vehicleForm.get('descripcion')?.touched
+              "
+            />
+          </div>
+
+          <!-- Kilometraje -->
+          <div class="form-group">
+            <label class="form-label required">Kilometraje</label>
+            <input
+              type="number"
+              formControlName="kilometraje"
+              class="form-input"
+              placeholder="Ingrese kilometraje"
+              [class.error]="
+                vehicleForm.get('kilometraje')?.invalid &&
+                vehicleForm.get('kilometraje')?.touched
+              "
+            />
+          </div>
+
+          <!-- Tipo de vehiculo -->
+          <div class="form-group">
+            <label for="tipo_vehiculo" class="form-label required"
+              >Tipo de Vehiculo</label
+            >
+            <select
+              id="tipo_vehiculo"
+              formControlName="tipo_vehiculo"
+              class="form-select"
+            >
+              <option value="" disabled>Seleccione el tipo de vehiculo</option>
+              <option
+                *ngFor="let type of vehicleTypes"
+                [value]="type.id_tipo_vehiculo"
+              >
+                {{ type.nombre }}
+              </option>
+            </select>
+          </div>
+
+          <!-- Estado de la unidad -->
+          <div class="form-group">
+            <label for="estado_unidad" class="form-label required"
+              >Estado de la unidad</label
+            >
+            <select
+              id="estado_unidad"
+              formControlName="estado_unidad"
+              class="form-select"
+            >
+              <option value="" disabled>
+                Seleccione el estado de la unidad
+              </option>
+              <option
+                *ngFor="let state of vehicleStates"
+                [value]="state.id_estado"
+              >
+                {{ state.nombre }}
+              </option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Botones -->
+        <div class="form-actions">
+          <button
+            type="button"
+            class="btn btn-secondary"
+            (click)="onCancel()"
+            [disabled]="isSubmitting"
+          >
+            Cancelar
+          </button>
+          <button
+            type="submit"
+            class="btn btn-primary"
+            [disabled]="vehicleForm.invalid || isSubmitting"
+          >
+            <span *ngIf="!isSubmitting">Guardar</span>
+            <span *ngIf="isSubmitting">Guardando...</span>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

@@ -44,7 +44,7 @@ export class SidebarComponent {
     {
       label: 'Vehículos',
       icon: 'truck',
-      route: '/vehiculos'
+      route: '/app/vehiculos'
     },
     {
       label: 'Equipos',

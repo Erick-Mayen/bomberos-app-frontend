@@ -1,0 +1,109 @@
+<!-- Header de la página -->
+<div class="page-header">
+  <div class="header-content">
+    <div class="title-section">
+      <h1 class="page-title">
+        <span class="fire-icon"
+          ><fa-icon icon="truck" size="lg"></fa-icon
+        ></span>
+        Unidades Vehiculares
+      </h1>
+      <p class="page-subtitle">
+        Gestión de las unidades vehiculares del cuerpo de bomberos
+      </p>
+    </div>
+
+    <div class="stats-section">
+      <div class="stat-card">
+        <div class="stat-number">{{ getTotalVehiclesCount() }}</div>
+        <div class="stat-label">Total</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Controles de búsqueda, filtros y vista -->
+<div class="controls-section">
+  <form [formGroup]="searchForm" class="search-controls">
+    <div class="search-group">
+      <div class="search-input-wrapper">
+        <span class="search-icon"
+          ><fa-icon icon="magnifying-glass" size="lg"></fa-icon
+        ></span>
+        <input
+          type="text"
+          formControlName="searchTerm"
+          placeholder="Buscar por unidad..."
+          class="search-input"
+        />
+      </div>
+
+      <div class="select-wrapper">
+        <select formControlName="tipoFilter" class="filter-select">
+          <option value="todos">Tipos de Vehiculo</option>
+          <option
+            *ngFor="let type of vehicleTypes"
+            [value]="type.nombre.toLowerCase()"
+          >
+            {{ type.nombre }}
+          </option>
+        </select>
+        <fa-icon icon="chevron-down" class="select-arrow"></fa-icon>
+      </div>
+    </div>
+
+    <div class="controls-right">
+      <button
+        type="button"
+        class="btn btn-primary add-button"
+        (click)="openVehicleModal()"
+      >
+        <span class="btn-icon"><fa-icon icon="plus" size="lg"></fa-icon></span>
+        <span class="btn-text">Agregar Vehículo</span>
+      </button>
+    </div>
+  </form>
+</div>
+
+<div class="personal-container">
+  <app-user-table
+    *ngIf="viewMode === 'table'"
+    [vehiclesList]="filteredVehicles"
+    [vehicleStates]="vehicleStates"
+    [page]="page"
+    [itemsPerPage]="10"
+    [sortColumn]="sortColumn"
+    [sortDirection]="sortDirection"
+    [getVehicleName]="getVehicleName"
+    (edit)="editVehicle($event)"
+    (delete)="deleteVehicle($event)"
+    (sort)="sortBy($event)"
+    (changeState)="updateVehicleState($event)"
+  >
+  </app-user-table>
+
+  <br />
+  <pagination-controls
+    *ngIf="filteredVehicles.length > 0"
+    (pageChange)="page = $event"
+    [autoHide]="true"
+    previousLabel="Anterior"
+    nextLabel="Siguiente"
+  ></pagination-controls>
+
+  <div *ngIf="filteredVehicles.length === 0" class="empty-state">
+    <div class="empty-icon">🚑</div>
+    <h3 class="empty-title">No hay unidades registradas</h3>
+    <p class="empty-message">Comience agregando la primera unidad operativa.</p>
+  </div>
+</div>
+
+<app-vehicle
+  [isOpen]="showVehicleModal || showEditModal"
+  [vehicleToEdit]="vehicleToEdit"
+  (closeModal)="showVehicleModal = false; closeEditModal()"
+  (formSuccess)="
+    vehicleToEdit ? onVehicleUpdated() : onVehicleCreated($event)
+  "
+>
+</app-vehicle>

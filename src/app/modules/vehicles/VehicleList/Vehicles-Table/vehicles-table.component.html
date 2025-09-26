@@ -1,0 +1,169 @@
+<div class="table-view">
+  <div class="table-wrapper">
+    <table class="personal-table">
+      <thead>
+        <tr>
+          <th class="sortable" (click)="sort.emit('unidad')">
+            <div class="th-content name-column">
+              Unidad
+              <fa-icon
+                [icon]="
+                  sortColumn === 'unidad'
+                    ? sortDirection === 'asc'
+                      ? 'arrow-up'
+                      : 'arrow-down'
+                    : 'arrows-up-down'
+                "
+                class="sort-icon"
+              ></fa-icon>
+            </div>
+          </th>
+          <th class="sortable" (click)="sort.emit('descripcion')">
+            <div class="th-content">
+              Descripción
+              <fa-icon
+                [icon]="
+                  sortColumn === 'descripcion'
+                    ? sortDirection === 'asc'
+                      ? 'arrow-up'
+                      : 'arrow-down'
+                    : 'arrows-up-down'
+                "
+                class="sort-icon"
+              ></fa-icon>
+            </div>
+          </th>
+          <th class="sortable" (click)="sort.emit('modelo')">
+            <div class="th-content">
+              Modelo
+              <fa-icon
+                [icon]="
+                  sortColumn === 'modelo'
+                    ? sortDirection === 'asc'
+                      ? 'arrow-up'
+                      : 'arrow-down'
+                    : 'arrows-up-down'
+                "
+                class="sort-icon"
+              ></fa-icon>
+            </div>
+          </th>
+          <th class="sortable" (click)="sort.emit('tipo_vehiculo')">
+            <div class="th-content">
+              Tipo de vehículo
+              <fa-icon
+                [icon]="
+                  sortColumn === 'tipo_vehiculo'
+                    ? sortDirection === 'asc'
+                      ? 'arrow-up'
+                      : 'arrow-down'
+                    : 'arrows-up-down'
+                "
+                class="sort-icon"
+              ></fa-icon>
+            </div>
+          </th>
+          <th class="sortable" (click)="sort.emit('kilometraje')">
+            <div class="th-content">
+              kilometraje
+              <fa-icon
+                [icon]="
+                  sortColumn === 'kilometraje'
+                    ? sortDirection === 'asc'
+                      ? 'arrow-up'
+                      : 'arrow-down'
+                    : 'arrows-up-down'
+                "
+                class="sort-icon"
+              ></fa-icon>
+            </div>
+          </th>
+          <th class="sortable" (click)="sort.emit('descripcion')">
+            <div class="th-content">
+              Estado
+              <fa-icon
+                [icon]="
+                  sortColumn === 'descripcion'
+                    ? sortDirection === 'asc'
+                      ? 'arrow-up'
+                      : 'arrow-down'
+                    : 'arrows-up-down'
+                "
+                class="sort-icon"
+              ></fa-icon>
+            </div>
+          </th>
+          <th class="actions-column">Acciones</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr
+          *ngFor="
+            let vehicle of vehiclesList
+              | paginate : { itemsPerPage: itemsPerPage, currentPage: page };
+            trackBy: trackByVehicleId
+          "
+          class="table-row"
+        >
+          <td class="name-cell">
+            <div class="name-info">
+              <span class="full-name">{{ vehicle.unidad }}</span>
+            </div>
+          </td>
+          <td class="type-cell">
+            <span class="type-badge" [attr.data-type]="vehicle.descripcion">
+              {{ vehicle.descripcion }}
+            </span>
+          </td>
+          <td class="type-cell">
+            <div class="name-info">
+              <span class="full-name">{{ vehicle.modelo }}</span>
+            </div>
+          </td>
+          <td class="date-cell">
+            {{ vehicle.tipo_vehiculo.nombre }}
+          </td>
+          <td class="status-cell">{{ vehicle.kilometraje }} km</td>
+          <td class="type-cell">
+            <select
+              class="state-select"
+              [ngModel]="vehicle.estado_unidad.id_estado"
+              (ngModelChange)="changeState.emit({ vehicle, newState: $event })"
+              [attr.data-state]="formatStateName(vehicle.estado_unidad.nombre)"
+            >
+              <option
+                *ngFor="let state of vehicleStates"
+                [value]="state.id_estado"
+              >
+                {{ state.nombre }}
+              </option>
+            </select>
+          </td>
+          <td class="actions-cell">
+            <div class="table-actions">
+              <button
+                class="table-action-btn edit-btn"
+                (click)="edit.emit(vehicle)"
+                title="Editar usuario"
+              >
+                <span class="action-icon"
+                  ><fa-icon icon="pen-to-square"></fa-icon
+                ></span>
+              </button>
+              <button
+                class="table-action-btn delete-btn"
+                (click)="delete.emit(vehicle)"
+                title="Eliminar usuario"
+              >
+                <span class="action-icon"
+                  ><fa-icon icon="trash-can"></fa-icon
+                ></span>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
