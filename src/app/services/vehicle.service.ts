@@ -25,7 +25,7 @@ export class VehicleService {
     return this.apollo
       .watchQuery<{ findOneVehicle: Vehicle }>({
         query: FIND_ONE_VEHICLE,
-        variables: { findOneUserId: id },
+        variables: { findOneVehicleId: id },
         fetchPolicy: 'network-only'
       })
       .valueChanges.pipe(

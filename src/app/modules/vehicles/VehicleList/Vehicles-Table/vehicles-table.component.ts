@@ -4,13 +4,14 @@ import { CommonModule } from '@angular/common';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { Vehicle, VehicleState } from '../../../../interfaces';
 import { FormsModule } from '@angular/forms';
+import { KilometrajePipe } from '../../../../utils/kilometraje.pipe';
 
 type SortColumn = 'unidad' | 'modelo' | 'tipo_vehiculo' | 'descripcion' | 'kilometraje' | 'Estado';;
 
 @Component({
   selector: 'app-user-table',
   standalone: true,
-  imports: [NgxPaginationModule, CommonModule, FontAwesomeModule, FormsModule],
+  imports: [NgxPaginationModule, CommonModule, FontAwesomeModule, FormsModule, KilometrajePipe],
   templateUrl: './vehicles-table.component.html',
   styleUrls: ['../vehicles-list.component.scss']
 })

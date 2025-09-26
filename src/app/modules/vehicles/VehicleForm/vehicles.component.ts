@@ -96,7 +96,7 @@ export class VehicleComponent implements OnInit, OnChanges {
       id_tipo_vehiculo: Number(formData.id_tipo_vehiculo),
       id_estado_unidad: Number(formData.id_estado_unidad),
       ...(this.vehicleToEdit
-        ? { id_vehiculo: this.vehicleToEdit.id_unidad }
+        ? { id_unidad: this.vehicleToEdit.id_unidad }
         : {usuario_creacion: this.authService.getCurrentUser()?.id_usuario})
     };
 

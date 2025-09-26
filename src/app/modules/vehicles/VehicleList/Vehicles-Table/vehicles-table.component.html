@@ -124,7 +124,7 @@
           <td class="date-cell">
             {{ vehicle.tipo_vehiculo.nombre }}
           </td>
-          <td class="status-cell">{{ vehicle.kilometraje }} km</td>
+          <td class="status-cell">{{ vehicle.kilometraje | kilometraje }}</td>
           <td class="type-cell">
             <select
               class="state-select"
