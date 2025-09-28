@@ -1,31 +1,62 @@
 <aside class="sidebar" [class.collapsed]="collapsed">
   <nav class="sidebar-nav">
     <ul class="nav flex-column">
-      <li class="nav-item" *ngFor="let item of menuItems">
-        <a
-          class="nav-link"
-          [routerLink]="item.route"
-          routerLinkActive="active"
-          [title]="collapsed ? item.label : ''"
-          (click)="onNavItemClick()">
-          <div class="nav-link-content">
-            <fa-icon [icon]="item.icon" class="nav-icon"></fa-icon>
-            <span class="nav-label" [class.d-none]="collapsed">{{ item.label }}</span>
+      <li class="nav-item" *ngFor="let item of menuItems; trackBy: trackByLabel">
+
+        <ng-container *ngIf="!item.children; else hasChildren">
+          <a
+            class="nav-link"
+            [routerLink]="item.route"
+            routerLinkActive="active"
+            [title]="collapsed ? item.label : ''"
+            (click)="onNavItemClick()">
+            <div class="nav-link-content">
+              <fa-icon [icon]="item.icon" class="nav-icon"></fa-icon>
+              <span class="nav-label" [class.d-none]="collapsed">{{ item.label }}</span>
+            </div>
+          </a>
+        </ng-container>
+
+        <!-- Caso con submenú -->
+        <ng-template #hasChildren>
+          <div class="nav-link" (click)="item.expanded = !item.expanded">
+            <div class="nav-link-content">
+              <fa-icon [icon]="item.icon" class="nav-icon"></fa-icon>
+              <span class="nav-label" [class.d-none]="collapsed">{{ item.label }}</span>
+              <fa-icon
+                [icon]="item.expanded ? 'chevron-up' : 'chevron-down'"
+                class="ms-auto"></fa-icon>
+            </div>
           </div>
-        </a>
+
+          <!-- Submenú -->
+          <ul class="nav flex-column ms-3 submenu"
+          [class.show]="item.expanded && !collapsed">
+            <li class="nav-item" *ngFor="let child of item.children">
+              <a
+                class="nav-link"
+                [routerLink]="child.route"
+                routerLinkActive="active"
+                (click)="onNavItemClick()">
+                <fa-icon [icon]="child.icon" class="nav-icon"></fa-icon>
+                <span class="nav-label">{{ child.label }}</span>
+              </a>
+            </li>
+          </ul>
+        </ng-template>
       </li>
     </ul>
   </nav>
 
-  <!-- Acciones Rapidas-->
-  <div class="emergency-actions" >
+  <!-- Acciones rápidas -->
+  <div class="emergency-actions">
     <div class="p-4" *ngIf="!collapsed">
       <h6 class="mb-2">Acciones Rápidas</h6>
       <button class="btn btn-danger btn-sm w-100 mb-2" (click)="onEmergencyAction()">
         <fa-icon icon="exclamation-triangle" class="me-2"></fa-icon>
         Nueva Emergencia
       </button>
-      <button class="btn btn-warning btn-sm w-100 mb-2" (click)="onEmergencyAction()">
+      <button class="btn btn-warning btn-sm w-100 mb-2" (click)="onAmbulanceAction()">
         <fa-icon icon="ambulance" class="me-2"></fa-icon>
         Registrar Vehiculo
       </button>
@@ -38,22 +69,38 @@
         Gestionar Turnos
       </button>
     </div>
+
     <div class="p-2 text-center" *ngIf="collapsed">
-      <button class="btn btn-danger btn-sm mb-2" title="Nueva Emergencia" (click)="onEmergencyAction()">
+      <button
+        class="btn btn-danger btn-sm mb-2"
+        title="Nueva Emergencia"
+        (click)="onEmergencyAction()">
         <fa-icon icon="exclamation-triangle"></fa-icon>
       </button>
-      <button class="btn btn-warning btn-sm mb-2" title="Vehiculos" (click)="onAmbulanceAction()">
+      <button
+        class="btn btn-warning btn-sm mb-2"
+        title="Vehiculos"
+        (click)="onAmbulanceAction()">
         <fa-icon icon="ambulance"></fa-icon>
       </button>
-      <button class="btn btn-success btn-sm mb-2" title="reportes" (click)="onEmergencyAction()">
-        <fa-icon icon="chart-bar" class="me-2"></fa-icon>
+      <button
+        class="btn btn-success btn-sm mb-2"
+        title="reportes"
+        (click)="onEmergencyAction()">
+        <fa-icon icon="chart-bar"></fa-icon>
       </button>
-      <button class="btn btn-info btn-sm mb-2" title="turnos" (click)="onEmergencyAction()">
-        <fa-icon icon="users" class="me-2"></fa-icon>
+      <button
+        class="btn btn-info btn-sm mb-2"
+        title="turnos"
+        (click)="onEmergencyAction()">
+        <fa-icon icon="users"></fa-icon>
       </button>
     </div>
   </div>
 </aside>
 
 <!-- Mobile Overlay -->
-<div class="sidebar-overlay d-md-none" [class.show]="!collapsed" (click)="collapsed = true"></div>
+<div
+  class="sidebar-overlay d-md-none"
+  [class.show]="!collapsed"
+  (click)="collapsed = true"></div>

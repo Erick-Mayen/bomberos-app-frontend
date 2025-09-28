@@ -5,7 +5,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 })
 export class KilometrajePipe implements PipeTransform {
   transform(value: number | null | undefined): string {
-    if (value == null) return '0 km';
+    if (value == null) return 'N/E';
     return `${value.toLocaleString('es-GT')} km`;
   }
 }

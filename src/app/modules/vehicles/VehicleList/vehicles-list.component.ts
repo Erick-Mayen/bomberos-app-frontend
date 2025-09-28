@@ -12,7 +12,7 @@ import { Vehicle, VehicleState, VehicleType } from '../../../interfaces';
 import { VehicleTableComponent } from './Vehicles-Table/vehicles-table.component';
 import { VehicleService } from '../../../services/vehicle.service';
 
-type ViewMode = 'table' | 'cards';
+type ViewMode = 'table';
 type SortColumn = 'unidad' | 'modelo' | 'tipo_vehiculo' | 'descripcion' | 'kilometraje' | 'Estado';
 
 @Component({

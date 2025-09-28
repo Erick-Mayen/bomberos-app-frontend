@@ -521,3 +521,9 @@ body.modal-open {
   border-radius: 4px;
   font-family: inherit;
 }
+
+@media (max-width: 768px) {
+  input[formControlName="fecha_mantenimiento"] {
+    width: 100%;
+  }
+}

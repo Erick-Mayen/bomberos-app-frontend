@@ -1,0 +1,173 @@
+<div
+  class="modal-backdrop"
+  [class.show]="isOpen"
+  (click)="onBackdropClick($event)"
+  *ngIf="isOpen"
+>
+  <div class="modal-container" [class.show]="isOpen">
+    <div class="personal-card">
+      <div class="card-header">
+        <div class="header-content">
+          <h1 class="card-title">
+            <span class="fire-icon"><fa-icon icon="wrench"></fa-icon></span>
+            {{ modalTitle }}
+          </h1>
+          <button
+            type="button"
+            class="close-button"
+            (click)="onCancel()"
+            aria-label="Cerrar modal"
+          >
+            ✕
+          </button>
+        </div>
+      </div>
+
+      <form
+        [formGroup]="maintenanceForm"
+        (ngSubmit)="onSubmit()"
+        class="personal-form"
+      >
+        <div class="form-grid">
+          <!-- Unidad -->
+          <div class="form-group">
+            <label class="form-label required">Unidad</label>
+            <select
+              formControlName="id_unidad"
+              class="form-select"
+              [class.error]="isFieldInvalid('id_unidad')"
+            >
+              <option value="" disabled>Seleccione unidad</option>
+              <option *ngFor="let v of vehicles" [value]="v.id_unidad">
+                {{ v.unidad }} - {{ v.tipo_vehiculo.nombre }}
+              </option>
+            </select>
+            <div class="error-message" *ngIf="getErrorMessage('id_unidad')">
+              {{ getErrorMessage("id_unidad") }}
+            </div>
+          </div>
+
+          <!-- Fecha de mantenimiento -->
+          <div class="form-group">
+            <label class="form-label required">Fecha de Mantenimiento</label>
+            <input
+              type="date"
+              formControlName="fecha_mantenimiento"
+              class="form-input"
+              [class.error]="isFieldInvalid('fecha_mantenimiento')"
+            />
+            <div
+              class="error-message"
+              *ngIf="getErrorMessage('fecha_mantenimiento')"
+            >
+              {{ getErrorMessage("fecha_mantenimiento") }}
+            </div>
+          </div>
+
+          <!-- Descripción -->
+          <div class="form-group full-width">
+            <label class="form-label required">Descripción</label>
+            <textarea
+              formControlName="descripcion"
+              class="form-input textarea-input full-width"
+              [class.error]="isFieldInvalid('descripcion')"
+              rows="4"
+              placeholder="Escriba la descripción del mantenimiento..."
+            ></textarea>
+            <div class="error-message" *ngIf="getErrorMessage('descripcion')">
+              {{ getErrorMessage("descripcion") }}
+            </div>
+          </div>
+
+          <!-- Taller -->
+          <div class="form-group">
+            <label class="form-label">Taller</label>
+            <input
+              type="text"
+              formControlName="taller"
+              class="form-input"
+              [class.error]="isFieldInvalid('taller')"
+            />
+            <div class="error-message" *ngIf="getErrorMessage('taller')">
+              {{ getErrorMessage("taller") }}
+            </div>
+          </div>
+
+          <!-- Kilometraje -->
+          <div class="form-group">
+            <label class="form-label required">Kilometraje</label>
+            <input
+              type="text"
+              class="form-input"
+              [class.error]="isFieldInvalid('kilometraje')"
+              [value]="
+                maintenanceForm.get('kilometraje')?.value | number : '1.0-0'
+              "
+              (input)="onKilometrajeInput($event)"
+            />
+            <div class="error-message" *ngIf="getErrorMessage('kilometraje')">
+              {{ getErrorMessage("kilometraje") }}
+            </div>
+          </div>
+
+          <!-- Costo -->
+          <div class="form-group">
+            <label class="form-label">Costo</label>
+            <input
+              type="number"
+              step="0.01"
+              formControlName="costo"
+              class="form-input"
+              [class.error]="isFieldInvalid('costo')"
+            />
+            <div class="error-message" *ngIf="getErrorMessage('costo')">
+              {{ getErrorMessage("costo") }}
+            </div>
+          </div>
+
+          <!-- Próximo mantenimiento -->
+          <div class="form-group">
+            <label class="form-label"
+              >Próximo mantenimiento (km)</label
+            >
+            <input
+              type="input"
+              class="form-input"
+              [class.error]="isFieldInvalid('proximo_mantenimiento')"
+              [value]="
+                maintenanceForm.get('proximo_mantenimiento')?.value
+                  | number : '1.0-0'
+              "
+              (input)="onProximoMantenimientoInput($event)"
+            />
+            <div
+              class="error-message"
+              *ngIf="getErrorMessage('proximo_mantenimiento')"
+            >
+              {{ getErrorMessage("proximo_mantenimiento") }}
+            </div>
+          </div>
+        </div>
+
+        <div class="form-actions">
+          <button
+            type="button"
+            class="btn btn-secondary"
+            (click)="onCancel()"
+            [disabled]="isSubmitting"
+          >
+            Cancelar
+          </button>
+          <button
+            type="submit"
+            class="btn btn-primary"
+            [disabled]="maintenanceForm.invalid || isSubmitting"
+          >
+            <span *ngIf="!isSubmitting">Guardar</span>
+            <span *ngIf="isSubmitting">Guardando...</span>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

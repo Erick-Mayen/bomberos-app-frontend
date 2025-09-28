@@ -1,0 +1,114 @@
+<!-- Header de la página -->
+<div class="page-header">
+  <div class="header-content">
+    <div class="title-section">
+      <h1 class="page-title">
+        <span class="fire-icon">
+          <fa-icon icon="wrench" size="lg"></fa-icon>
+        </span>
+        Mantenimientos y Reparaciones Vehiculares
+      </h1>
+      <p class="page-subtitle">
+        Gestión de los mantenimientos y reparaciones de las unidades del cuerpo de bomberos
+      </p>
+    </div>
+
+    <div class="stats-section">
+      <div class="stat-card">
+        <div class="stat-number">{{ getTotalMaintenanceCount() }}</div>
+        <div class="stat-label">Total</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Controles de búsqueda, filtros y acciones -->
+<div class="controls-section">
+  <form [formGroup]="searchForm" class="search-controls">
+    <div class="search-group">
+      <!-- Campo de búsqueda -->
+      <div class="search-input-wrapper">
+        <span class="search-icon">
+          <fa-icon icon="magnifying-glass" size="lg"></fa-icon>
+        </span>
+        <input
+          type="text"
+          formControlName="searchTerm"
+          placeholder="Buscar por unidad, taller o descripción..."
+          class="search-input"
+        />
+      </div>
+
+      <!-- Filtro por unidad -->
+      <div class="select-wrapper">
+        <select formControlName="unidadFilter" class="filter-select">
+          <option value="todas">Todas las unidades</option>
+          <option *ngFor="let vehicle of vehiclesList" [value]="vehicle.unidad">
+            {{ vehicle.unidad }}
+          </option>
+        </select>
+        <fa-icon icon="chevron-down" class="select-arrow"></fa-icon>
+      </div>
+    </div>
+
+    <div class="controls-right">
+      <button
+        type="button"
+        class="btn btn-primary add-button"
+        (click)="showEditModal = true"
+      >
+        <span class="btn-icon">
+          <fa-icon icon="plus" size="lg"></fa-icon>
+        </span>
+        <span class="btn-text">Agregar Mantenimiento</span>
+      </button>
+    </div>
+  </form>
+</div>
+
+<!-- Contenedor principal -->
+<div class="personal-container">
+  <!-- Tabla de mantenimientos -->
+ <app-maintenance-table
+    *ngIf="viewMode === 'table'"
+    [maintenanceList]="filteredMaintenance"
+    [page]="page"
+    [itemsPerPage]="10"
+    [sortColumn]="sortColumn"
+    [sortDirection]="sortDirection"
+    (edit)="editMaintenance($event)"
+    (delete)="deleteMaintenance($event)"
+    (sort)="sortBy($event)"
+  >
+  </app-maintenance-table>
+
+  <br />
+
+  <!-- Controles de paginación -->
+  <pagination-controls
+    *ngIf="filteredMaintenance.length > 0"
+    (pageChange)="page = $event"
+    [autoHide]="true"
+    previousLabel="Anterior"
+    nextLabel="Siguiente"
+  ></pagination-controls>
+
+  <!-- Estado vacío -->
+  <div *ngIf="filteredMaintenance.length === 0" class="empty-state">
+    <div class="empty-icon">🛠️</div>
+    <h3 class="empty-title">No hay mantenimientos registrados</h3>
+    <p class="empty-message">
+      Comience agregando el primer mantenimiento de las unidades.
+    </p>
+  </div>
+</div>
+
+<app-maintenance
+  [isOpen]="showMaintenanceModal || showEditModal"
+  [maintenanceToEdit]="maintenanceToEdit"
+  (closeModal)="showMaintenanceModal = false; closeEditModal()"
+  (formSuccess)="
+    maintenanceToEdit ? onMaintenanceUpdated() : onMaintenanceCreated()
+  "
+>
+</app-maintenance>

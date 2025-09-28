@@ -1,0 +1,156 @@
+<div class="table-view">
+  <div class="table-wrapper">
+    <table class="personal-table">
+      <thead>
+        <tr>
+          <th class="sortable" (click)="sort.emit('unidad')">
+            <div class="th-content name-column">
+              Unidad
+              <fa-icon
+                [icon]="
+                  sortColumn === 'unidad'
+                    ? sortDirection === 'asc'
+                      ? 'arrow-up'
+                      : 'arrow-down'
+                    : 'arrows-up-down'
+                "
+                class="sort-icon"
+              ></fa-icon>
+            </div>
+          </th>
+          <th class="sortable" (click)="sort.emit('descripcion')">
+            <div class="th-content">
+              Descripción
+              <fa-icon
+                [icon]="
+                  sortColumn === 'descripcion'
+                    ? sortDirection === 'asc'
+                      ? 'arrow-up'
+                      : 'arrow-down'
+                    : 'arrows-up-down'
+                "
+                class="sort-icon"
+              ></fa-icon>
+            </div>
+          </th>
+          <th class="sortable" (click)="sort.emit('taller')">
+            <div class="th-content">
+              Taller
+              <fa-icon
+                [icon]="
+                  sortColumn === 'taller'
+                    ? sortDirection === 'asc'
+                      ? 'arrow-up'
+                      : 'arrow-down'
+                    : 'arrows-up-down'
+                "
+                class="sort-icon"
+              ></fa-icon>
+            </div>
+          </th>
+          <th class="sortable" (click)="sort.emit('kilometraje')">
+            <div class="th-content">
+              Kilometraje
+              <fa-icon
+                [icon]="
+                  sortColumn === 'kilometraje'
+                    ? sortDirection === 'asc'
+                      ? 'arrow-up'
+                      : 'arrow-down'
+                    : 'arrows-up-down'
+                "
+                class="sort-icon"
+              ></fa-icon>
+            </div>
+          </th>
+          <th class="sortable" (click)="sort.emit('fecha_mantenimiento')">
+            <div class="th-content">
+              Fecha Mantenimiento
+              <fa-icon
+                [icon]="
+                  sortColumn === 'fecha_mantenimiento'
+                    ? sortDirection === 'asc'
+                      ? 'arrow-up'
+                      : 'arrow-down'
+                    : 'arrows-up-down'
+                "
+                class="sort-icon"
+              ></fa-icon>
+            </div>
+          </th>
+          <th class="sortable" (click)="sort.emit('proximo_mantenimiento')">
+            <div class="th-content">
+              Próximo Mantenimiento
+              <fa-icon
+                [icon]="
+                  sortColumn === 'proximo_mantenimiento'
+                    ? sortDirection === 'asc'
+                      ? 'arrow-up'
+                      : 'arrow-down'
+                    : 'arrows-up-down'
+                "
+                class="sort-icon"
+              ></fa-icon>
+            </div>
+          </th>
+          <th class="actions-column">Acciones</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr
+          *ngFor="
+            let maintenance of maintenanceList
+              | paginate : { itemsPerPage: itemsPerPage, currentPage: page };
+            trackBy: trackByMaintenanceId
+          "
+          class="table-row"
+        >
+          <td class="name-cell">
+            <div class="name-info">
+              <span class="full-name">{{ maintenance.unidad.unidad }}</span>
+            </div>
+          </td>
+          <td class="type-cell">
+            {{ maintenance.descripcion }}
+          </td>
+          <td class="type-cell">
+            {{ maintenance.taller || "N/E" }}
+          </td>
+          <td class="type-cell">
+            {{ maintenance.kilometraje | kilometraje }}
+          </td>
+          <td class="date-cell">
+            {{ maintenance.fecha_mantenimiento | date : "dd/MM/yyyy" : "UTC" }}
+          </td>
+          <td class="type-cell">
+            {{ maintenance.proximo_mantenimiento | kilometraje }}
+          </td>
+
+          <td class="actions-cell">
+            <div class="table-actions">
+              <button
+                class="table-action-btn edit-btn"
+                (click)="edit.emit(maintenance)"
+                title="Editar Mantenimiento"
+              >
+                <span class="action-icon">
+                  <fa-icon icon="pen-to-square"></fa-icon>
+                </span>
+              </button>
+              <button
+                class="table-action-btn delete-btn"
+                (click)="delete.emit(maintenance)"
+                title="Eliminar Mantenimiento"
+              >
+                <span class="action-icon">
+                  <fa-icon icon="trash-can"></fa-icon>
+                </span>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

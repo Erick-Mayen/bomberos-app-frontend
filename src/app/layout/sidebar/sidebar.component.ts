@@ -3,12 +3,14 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
-interface MenuItem {
+export interface MenuItem {
   label: string;
-  icon: string;
-  route: string;
-  badgeClass?: string;
+  icon: any;
+  route?: string;
+  children?: MenuItem[];
+  expanded?: boolean;
 }
+
 
 @Component({
   selector: 'app-sidebar',
@@ -44,7 +46,18 @@ export class SidebarComponent {
     {
       label: 'Vehículos',
       icon: 'truck',
-      route: '/app/vehiculos'
+      children: [
+        {
+          label: 'Vehículos',
+          route: '/app/vehiculos',
+          icon: 'truck'
+        },
+        {
+          label: 'Servicios y reparaciones',
+          route: '/app/mantenimientos',
+          icon: 'tools'
+        }
+      ]
     },
     {
       label: 'Equipos',
@@ -72,6 +85,10 @@ export class SidebarComponent {
       this.collapsed = true;
       this.collapsedChange.emit(this.collapsed);
     }
+  }
+
+  trackByLabel(index: number, item: MenuItem): string {
+    return item.label;
   }
 
   onEmergencyAction(): void {
