@@ -65,7 +65,7 @@
           </th>
           <th class="sortable" (click)="sort.emit('fecha_mantenimiento')">
             <div class="th-content">
-              Fecha Mantenimiento
+              Fecha Mant.
               <fa-icon
                 [icon]="
                   sortColumn === 'fecha_mantenimiento'
@@ -80,7 +80,7 @@
           </th>
           <th class="sortable" (click)="sort.emit('proximo_mantenimiento')">
             <div class="th-content">
-              Próximo Mantenimiento
+              Prox. Mant.
               <fa-icon
                 [icon]="
                   sortColumn === 'proximo_mantenimiento'
@@ -106,15 +106,15 @@
           "
           class="table-row"
         >
-          <td class="name-cell">
+          <td class="name-cell-maintenance">
             <div class="name-info">
               <span class="full-name">{{ maintenance.unidad.unidad }}</span>
             </div>
           </td>
-          <td class="type-cell">
+          <td class="type-maintenance-cell">
             {{ maintenance.descripcion }}
           </td>
-          <td class="type-cell">
+          <td class="type-maintenance-cell">
             {{ maintenance.taller || "N/E" }}
           </td>
           <td class="type-cell">
@@ -136,6 +136,15 @@
               >
                 <span class="action-icon">
                   <fa-icon icon="pen-to-square"></fa-icon>
+                </span>
+              </button>
+              <button
+                class="table-action-btn view-btn"
+                (click)="viewDetail.emit(maintenance)"
+                title="Ver detalle"
+              >
+                <span class="action-icon">
+                  <fa-icon icon="eye"></fa-icon>
                 </span>
               </button>
               <button

@@ -29,7 +29,7 @@ type SortColumn = 'nombre_usuario' | 'rol' | 'personal_asignado' | 'fecha_ingres
     FontAwesomeModule
   ],
   templateUrl: './users-list.component.html',
-  styleUrls: ['./users-list.component.scss']
+  styleUrls: ['../../../../shared/styles/modules-list.scss']
 })
 export class UserListComponent implements OnInit {
 

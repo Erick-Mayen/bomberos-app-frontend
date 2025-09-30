@@ -27,7 +27,7 @@ type SortColumn = 'unidad' | 'modelo' | 'tipo_vehiculo' | 'descripcion' | 'kilom
     FontAwesomeModule
   ],
   templateUrl: './vehicles-list.component.html',
-  styleUrls: ['./vehicles-list.component.scss']
+  styleUrls: ['../../../../shared/styles/modules-list.scss']
 })
 export class VehicleListComponent implements OnInit {
 

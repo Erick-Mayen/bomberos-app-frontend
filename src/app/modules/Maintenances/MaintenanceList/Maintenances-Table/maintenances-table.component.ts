@@ -20,7 +20,7 @@ type SortColumn =
   standalone: true,
   imports: [NgxPaginationModule, CommonModule, FontAwesomeModule, FormsModule, KilometrajePipe],
   templateUrl: './maintenances-table.component.html',
-  styleUrls: ['../maintenance-list.component.scss']
+  styleUrls: ['../../../../../shared/styles/modules-list.scss']
 })
 export class MaintenanceTableComponent {
   @Input() maintenanceList: VehicleMaintenance[] = [];
@@ -30,6 +30,7 @@ export class MaintenanceTableComponent {
   @Input() itemsPerPage: number = 10;
 
   @Output() edit = new EventEmitter<VehicleMaintenance>();
+  @Output() viewDetail = new EventEmitter<VehicleMaintenance>();
   @Output() delete = new EventEmitter<VehicleMaintenance>();
   @Output() sort = new EventEmitter<SortColumn>();
 

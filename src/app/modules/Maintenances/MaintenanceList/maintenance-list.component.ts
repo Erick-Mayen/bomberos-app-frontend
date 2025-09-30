@@ -12,6 +12,7 @@ import { MaintenanceService } from '../../../services/maintenance.service';
 import { VehicleService } from '../../../services/vehicle.service';
 import { MaintenanceTableComponent } from './Maintenances-Table/maintenances-table.component';
 import { MaintenanceComponent } from '../MaintenanceForm/maintenance.component';
+import { MaintenanceDetailComponent } from '../MaintenanceDetail/maintenance-detail.component';
 
 type ViewMode = 'table';
 type SortColumn = 'unidad' | 'modelo' | 'taller' | 'descripcion' | 'kilometraje' | 'fecha_mantenimiento' | 'proximo_mantenimiento';
@@ -25,10 +26,11 @@ type SortColumn = 'unidad' | 'modelo' | 'taller' | 'descripcion' | 'kilometraje'
     NgxPaginationModule,
     FontAwesomeModule,
     MaintenanceTableComponent,
-    MaintenanceComponent
+    MaintenanceComponent,
+    MaintenanceDetailComponent
   ],
   templateUrl: './maintenance-list.component.html',
-  styleUrls: ['./maintenance-list.component.scss']
+  styleUrls: ['../../../../shared/styles/modules-list.scss']
 })
 export class MaintenanceListComponent implements OnInit {
 
@@ -43,6 +45,8 @@ export class MaintenanceListComponent implements OnInit {
   sortDirection: SortDirection = 'desc';
   showEditModal = false;
   maintenanceToEdit: VehicleMaintenance | null = null;
+  showDetailModal = false;
+  maintenanceToView: VehicleMaintenance | null = null;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -123,6 +127,16 @@ export class MaintenanceListComponent implements OnInit {
   closeEditModal(): void {
     this.showEditModal = false;
     this.maintenanceToEdit = null;
+  }
+
+  viewMaintenance(maintenance: VehicleMaintenance): void {
+    this.maintenanceToView = maintenance;
+    this.showDetailModal = true;
+  }
+
+  closeDetailModal(): void {
+    this.showDetailModal = false;
+    this.maintenanceToView = null;
   }
 
   onMaintenanceUpdated(): void {

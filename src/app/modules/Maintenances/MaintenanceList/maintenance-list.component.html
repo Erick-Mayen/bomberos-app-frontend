@@ -73,10 +73,11 @@
     *ngIf="viewMode === 'table'"
     [maintenanceList]="filteredMaintenance"
     [page]="page"
-    [itemsPerPage]="10"
+    [itemsPerPage]="9"
     [sortColumn]="sortColumn"
     [sortDirection]="sortDirection"
     (edit)="editMaintenance($event)"
+    (viewDetail)="viewMaintenance($event)"
     (delete)="deleteMaintenance($event)"
     (sort)="sortBy($event)"
   >
@@ -112,3 +113,10 @@
   "
 >
 </app-maintenance>
+
+<app-maintenance-detail
+  [isOpen]="showDetailModal"
+  [maintenance]="maintenanceToView"
+  (closeModal)="closeDetailModal()"
+>
+</app-maintenance-detail>

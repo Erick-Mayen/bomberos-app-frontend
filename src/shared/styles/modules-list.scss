@@ -38,25 +38,25 @@ $transition-base: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 .page-header {
   background: linear-gradient(135deg, $primary-color 0%, $secondary-color 100%);
   color: white;
-  padding: $spacing-4;
-  margin-bottom: $spacing-4;
+  padding: $spacing-1 $spacing-2;
+  margin-bottom: $spacing-2;
 
   @media (max-width: 768px) {
-    padding: $spacing-3 $spacing-2;
-    margin-bottom: $spacing-3;
+    padding: $spacing-1 $spacing-1;
+    margin-bottom: $spacing-2;
   }
 }
 
 .header-content {
   display: flex;
   justify-content: space-between;
-  align-items: flex-start;
+  align-items: center;
   max-width: 1200px;
   margin: 0 auto;
 
   @media (max-width: 768px) {
     flex-direction: column;
-    gap: $spacing-3;
+    gap: $spacing-2;
   }
 }
 
@@ -75,32 +75,33 @@ $transition-base: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 
 .page-title {
   margin: 0 0 $spacing-1 0;
-  font-size: 2.25rem;
+  font-size: 1.5rem;
   font-weight: 700;
   line-height: 1.2;
   display: flex;
   align-items: center;
-  gap: $spacing-2;
+  gap: $spacing-1;
 
   @media (max-width: 768px) {
-    font-size: 1.875rem;
-    flex-direction: column;
+    font-size: 1.25rem;
+    display: flex;
+    flex-direction: row;
     align-items: center;
-    gap: $spacing-1;
+    gap: 4px;
   }
 }
 
 .fire-icon {
-  font-size: 2.5rem;
+  font-size: 1.5rem;
 
   @media (max-width: 768px) {
-    font-size: 2rem;
+    font-size: 1.25rem;
   }
 }
 
 .page-subtitle {
   margin: 0;
-  font-size: 1.125rem;
+  font-size: 0.875rem;
   opacity: 0.9;
   font-weight: 400;
 
@@ -111,7 +112,7 @@ $transition-base: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 
 .stats-section {
   display: flex;
-  gap: $spacing-2;
+  gap: $spacing-1;
 
   @media (max-width: 768px) {
     width: 100%;
@@ -123,9 +124,9 @@ $transition-base: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   background: rgba(255, 255, 255, 0.15);
   backdrop-filter: blur(10px);
   border-radius: $border-radius-sm;
-  padding: $spacing-2 $spacing-3;
+  padding: $spacing-1 $spacing-2;
   text-align: center;
-  min-width: 80px;
+  min-width: 60px;
 
   @media (max-width: 768px) {
     flex: 1;
@@ -134,18 +135,18 @@ $transition-base: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .stat-number {
-  font-size: 1.875rem;
+  font-size: 1.30rem;
   font-weight: 700;
   line-height: 1;
   margin-bottom: $spacing-1;
 
   @media (max-width: 768px) {
-    font-size: 1.5rem;
+    font-size: 1.35rem;
   }
 }
 
 .stat-label {
-  font-size: 0.875rem;
+  font-size: 0.8rem;
   opacity: 0.9;
   font-weight: 500;
 }
@@ -153,42 +154,42 @@ $transition-base: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 // Controles de búsqueda y vista
 .controls-section {
   max-width: 1200px;
-  margin: 0 auto $spacing-4 auto;
-  padding: 0 $spacing-4;
+  margin: 0 auto $spacing-2 auto;
+  padding: 0 $spacing-2;
 
   @media (max-width: 768px) {
     padding: 0 $spacing-2;
-    margin-bottom: $spacing-3;
+    margin-bottom: $spacing-2;
   }
 }
 
 .search-controls {
   display: flex;
-  gap: $spacing-3;
-  align-items: flex-end;
+  gap: $spacing-2;
+  align-items: center;
 
   @media (max-width: 768px) {
     flex-direction: column;
-    gap: $spacing-2;
+    gap: $spacing-1;
   }
 }
 
 .search-group {
   display: flex;
-  gap: $spacing-2;
+  gap: $spacing-1;
   flex: 1;
 
   @media (max-width: 768px) {
     flex-direction: column;
     width: 100%;
-    gap: $spacing-2;
+    gap: $spacing-1;
   }
 }
 
 .controls-right {
   display: flex;
   gap: $spacing-2;
-  align-items: flex-end;
+  align-items: center;
 
   @media (max-width: 768px) {
     width: 100%;
@@ -211,16 +212,16 @@ $transition-base: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 .search-icon {
   position: absolute;
   left: $spacing-2;
-  top: 50%;
+  top: 40%;
   transform: translateY(-50%);
   color: $neutral-400;
-  font-size: 1rem;
+  font-size: 0.8rem;
   pointer-events: none;
 }
 
 .search-input {
   width: 100%;
-  padding: $spacing-2 $spacing-2 $spacing-2 $spacing-5;
+  padding: 4px 100px 8px 40px;
   border: 2px solid $neutral-200;
   border-radius: $border-radius-sm;
   font-size: 1rem;
@@ -248,14 +249,14 @@ $transition-base: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 
   .filter-select {
     width: 100%;
-    padding: $spacing-2;
-    padding-right: 2.5rem; // espacio para el icono
+    padding: 6px 8px;
+    padding-right: 2.5rem;
     border: 2px solid $neutral-200;
     border-radius: $border-radius-sm;
     background: white;
     cursor: pointer;
 
-    -webkit-appearance: none; // quita la flecha nativa
+    -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
 
@@ -290,18 +291,33 @@ $transition-base: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   }
 }
 
+// Selector de vista
+.view-selector {
+  display: flex;
+  height: 40px;
+  background: $neutral-100;
+  border-radius: $border-radius-sm;
+  padding: 4px;
+  gap: 1px;
+  @media (max-width: 768px) {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
 .view-btn {
-  padding: $spacing-1 $spacing-2;
+  padding: 4px 8px;
   border: none;
   border-radius: calc(#{$border-radius-sm} - 4px);
   background: transparent;
   cursor: pointer;
   transition: $transition-base;
+  height: 30px;
   display: flex;
   align-items: center;
   justify-content: center;
   min-width: 40px;
-  min-height: 32px;
+  min-height: 25px;
 
   &:hover {
     background: $neutral-200;
@@ -320,11 +336,15 @@ $transition-base: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .view-icon {
-  font-size: 1.125rem;
+  font-size: 1rem;
 }
 
 .add-button {
-  white-space: nowrap;
+  padding: 4px 8px;
+  height: 40px;
+  min-height: 28px;
+  font-size: 0.7rem;
+  gap: 4px;
 
   @media (max-width: 768px) {
     width: 100%;
@@ -343,6 +363,17 @@ $transition-base: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   }
 }
 
+.cards-view {
+  .personal-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: $spacing-3;
+    @media (max-width: 768px) {
+      grid-template-columns: 1fr;
+      gap: $spacing-2;
+    }
+  }
+}
 
 // Vista de tabla
 .table-view {
@@ -365,7 +396,7 @@ $transition-base: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
     border-bottom: 2px solid $neutral-200;
 
     th {
-      padding: $spacing-3 $spacing-2;
+      padding: $spacing-2 $spacing-1;
       font-weight: 600;
       color: $neutral-700;
       white-space: nowrap;
@@ -380,6 +411,11 @@ $transition-base: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
         &:hover {
           background: $neutral-100;
         }
+      }
+
+      &.name-column {
+        // encabezado "Nombre Completo"
+        text-align: left;
       }
 
       &.actions-column {
@@ -408,7 +444,7 @@ $transition-base: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
     td {
-      padding: $spacing-3 $spacing-2;
+      padding: 4px 10px;
       vertical-align: middle;
       color: $neutral-800;
       text-align: center;
@@ -467,8 +503,37 @@ $transition-base: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   }
 }
 
+.name-cell-maintenance {
+  min-width: 130px;
+  text-align: left;
+  .name-info {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 2px;
+  }
+
+  .full-name {
+    font-weight: 600;
+    color: $neutral-800;
+  }
+
+  .id-info {
+    font-size: 0.75rem;
+    color: $neutral-500;
+  }
+}
+
 .type-cell {
   min-width: 120px;
+}
+
+.type-maintenance-cell {
+  min-width: 120px;
+  max-width: 150px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .date-cell {
@@ -515,6 +580,15 @@ $transition-base: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
     }
   }
 
+  &.view-btn {
+    background: rgba(0, 255, 255, 0.331);
+    color: $neutral-700;
+
+    &:hover {
+      background: rgb(0, 250, 250);
+    }
+  }
+
   &.toggle-btn {
     &.activate {
       background: rgba($success-color, 0.1);
@@ -525,24 +599,39 @@ $transition-base: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
       }
     }
 
-    &.deactivate {
-      background: rgba($warning-color, 0.1);
-      color: $warning-color;
+    &.delete-btn {
+      background: rgba($error-color, 0.1);
+      color: $error-color;
 
       &:hover {
-        background: rgba($warning-color, 0.2);
+        background: rgba($error-color, 0.2);
       }
     }
   }
+}
 
-  &.delete-btn {
-    background: rgba($error-color, 0.1);
-    color: $error-color;
-
-    &:hover {
-      background: rgba($error-color, 0.2);
-    }
+.personal-card {
+  background: white;
+  border-radius: $border-radius-sm;
+  box-shadow: $shadow-md;
+  overflow: hidden;
+  transition: $transition-base;
+  border: 1px solid $neutral-200;
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: $shadow-lg;
   }
+  &.inactive {
+    opacity: 0.7;
+    background: $neutral-50;
+  }
+}
+.card-header {
+  padding: $spacing-2;
+  border-bottom: 1px solid $neutral-200;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
 }
 
 .personal-info {
@@ -551,7 +640,7 @@ $transition-base: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 
 .personal-name {
   margin: 0 0 $spacing-1 0;
-  font-size: 1.25rem;
+  font-size: 1rem;
   font-weight: 600;
   color: $neutral-800;
   line-height: 1.2;
@@ -566,11 +655,12 @@ $transition-base: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .personal {
-  margin: 40px 0 0 0;
-  font-size: 1.25rem;
+  margin: 20px 0 0 0;
+  font-size: 1rem;
   font-weight: 600;
   color: $success-color;
   line-height: 1.2;
+  margin-bottom: 2px;
 
   @media (max-width: 768px) {
     font-size: 1.125rem;
@@ -625,7 +715,7 @@ $transition-base: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .status-badge {
-  padding: $spacing-1 $spacing-2;
+  padding: $spacing-1 $spacing-1;
   border-radius: 20px;
   font-size: 0.75rem;
   font-weight: 600;
@@ -643,7 +733,7 @@ $transition-base: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .card-body {
-  padding: $spacing-3;
+  padding: $spacing-1;
   background: $neutral-50;
 }
 
@@ -651,7 +741,7 @@ $transition-base: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: $spacing-1;
+  margin-bottom: 2px;
 
   &:last-child {
     margin-bottom: 0;
@@ -665,11 +755,83 @@ $transition-base: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .info-value {
-  font-size: 0.875rem;
+  font-size: 0.75rem;
   color: $neutral-800;
   font-weight: 600;
 }
 
+.card-actions {
+  padding: $spacing-1;
+  background: white;
+  display: flex;
+  gap: $spacing-1;
+  border-top: 1px solid $neutral-200;
+  @media (max-width: 768px) {
+    flex-wrap: wrap;
+  }
+}
+.action-btn {
+  flex: 1;
+  padding: 2px 2px;
+  border: none;
+  border-radius: $border-radius-sm;
+  font-size: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: $transition-base;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  min-height: 28px;
+  @media (max-width: 768px) {
+    font-size: 0.875rem;
+    padding: $spacing-1;
+  }
+}
+.edit-btn {
+  background: rgba($neutral-600, 0.1);
+  color: $neutral-700;
+  &:hover {
+    background: rgba($neutral-600, 0.2);
+    transform: translateY(-1px);
+  }
+}
+.toggle-btn {
+  &.activate {
+    background: rgba($success-color, 0.1);
+    color: $success-color;
+    &:hover {
+      background: rgba($success-color, 0.2);
+    }
+  }
+  &.deactivate {
+    background: rgba($warning-color, 0.1);
+    color: $warning-color;
+    &:hover {
+      background: rgba($warning-color, 0.2);
+    }
+  }
+  &:hover {
+    transform: translateY(-1px);
+  }
+}
+.delete-btn {
+  background: rgba($error-color, 0.1);
+  color: $error-color;
+  &:hover {
+    background: rgba($error-color, 0.2);
+    transform: translateY(-1px);
+  }
+}
+.action-icon {
+  font-size: 0.875rem;
+}
+.action-text {
+  @media (max-width: 480px) {
+    display: none;
+  }
+}
 
 // Botones generales
 .btn {
@@ -720,7 +882,7 @@ $transition-base: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .btn-icon {
-  font-size: 1rem;
+  font-size: 0.9rem;
 }
 
 .btn-text {

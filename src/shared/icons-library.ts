@@ -39,6 +39,14 @@ import {
   faCircleCheck,
   faChevronUp,
   faWrench,
+  faTimes,
+  faHashtag,
+  faCar,
+  faAlignLeft,
+  faTag,
+  faCalendar,
+  faStore,
+  faFlagCheckered,
 
 } from '@fortawesome/free-solid-svg-icons';
 
@@ -82,6 +90,14 @@ export function registerIcons(library: FaIconLibrary) {
     faCircleCheck,
     faChevronUp,
     faChevronDown,
-    faWrench
+    faWrench,
+    faTimes,
+    faHashtag,
+    faCar,
+    faAlignLeft,
+    faTag,
+    faCalendar,
+    faStore,
+    faFlagCheckered
   );
 }

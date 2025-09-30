@@ -9,11 +9,11 @@ import { KilometrajePipe } from '../../../../utils/kilometraje.pipe';
 type SortColumn = 'unidad' | 'modelo' | 'tipo_vehiculo' | 'descripcion' | 'kilometraje' | 'Estado';;
 
 @Component({
-  selector: 'app-user-table',
+  selector: 'app-vehicles-table',
   standalone: true,
   imports: [NgxPaginationModule, CommonModule, FontAwesomeModule, FormsModule, KilometrajePipe],
   templateUrl: './vehicles-table.component.html',
-  styleUrls: ['../vehicles-list.component.scss']
+  styleUrls: ['../../../../../shared/styles/modules-list.scss']
 })
 export class VehicleTableComponent {
   @Input() vehiclesList: Vehicle[] = [];

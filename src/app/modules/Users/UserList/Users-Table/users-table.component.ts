@@ -11,7 +11,7 @@ type SortColumn = 'nombre_usuario' | 'rol' | 'personal_asignado' |'fecha_ingreso
   standalone: true,
   imports: [NgxPaginationModule, CommonModule, FontAwesomeModule],
   templateUrl: './users-table.component.html',
-  styleUrls: ['../users-list.component.scss']
+  styleUrls: ['../../../../../shared/styles/modules-list.scss']
 })
 export class UserTableComponent {
   @Input() usersList: User[] = [];

@@ -9,7 +9,7 @@ import { User } from '../../../../interfaces';
   standalone: true,
   imports: [NgxPaginationModule, CommonModule, FontAwesomeModule],
   templateUrl: './users-cards.component.html',
-  styleUrls: ['../users-list.component.scss']
+  styleUrls: ['../../../../../shared/styles/modules-list.scss']
 })
 export class UsersCardsComponent {
   @Input() usersList: User[] = [];

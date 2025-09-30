@@ -1,0 +1,120 @@
+<div class="modal-backdrop" [class.show]="isOpen" (click)="close()">
+  <div class="modal-container" (click)="$event.stopPropagation()">
+
+    <!-- Header -->
+    <div class="modal-header">
+      <div class="header-content">
+        <div class="header-icon-wrapper">
+          <fa-icon icon="wrench" class="header-icon"></fa-icon>
+        </div>
+        <div class="header-text">
+          <h1 class="modal-title">Detalle de Mantenimiento o Reparación</h1>
+        </div>
+      </div>
+      <button class="close-btn" (click)="close()" aria-label="Cerrar">
+        <fa-icon icon="times"></fa-icon>
+      </button>
+    </div>
+
+    <!-- Body -->
+    <div class="modal-body" *ngIf="maintenance">
+
+      <!-- Sección Unidad -->
+      <div class="info-section vehicle-section">
+        <div class="section-header">
+          <div class="section-icon-wrapper">
+            <fa-icon icon="truck" class="section-icon"></fa-icon>
+          </div>
+          <h3>Información de la Unidad</h3>
+        </div>
+
+        <div class="info-grid">
+          <div class="info-card">
+            <div class="card-icon"><fa-icon icon="hashtag"></fa-icon></div>
+            <div class="card-content">
+              <span class="info-label">Unidad</span>
+              <span class="info-value">{{ maintenance.unidad.unidad }}</span>
+            </div>
+          </div>
+
+          <div class="info-card">
+            <div class="card-icon"><fa-icon icon="car"></fa-icon></div>
+            <div class="card-content">
+              <span class="info-label">Modelo</span>
+              <span class="info-value">{{ maintenance.unidad.modelo }}</span>
+            </div>
+          </div>
+
+          <div class="info-card full-width">
+            <div class="card-icon"><fa-icon icon="align-left"></fa-icon></div>
+            <div class="card-content">
+              <span class="info-label">Descripción</span>
+              <span class="info-value">{{ maintenance.unidad.descripcion || "No especificado" }}</span>
+            </div>
+          </div>
+
+          <div class="info-card badge-card">
+            <div class="card-icon"><fa-icon icon="tag"></fa-icon></div>
+            <div class="card-content">
+              <span class="info-label">Tipo de Vehículo</span>
+              <span class="info-badge">{{ maintenance.unidad.tipo_vehiculo.nombre }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sección Mantenimiento -->
+      <div class="info-section maintenance-section">
+        <div class="section-header">
+          <div class="section-icon-wrapper maintenance-icon">
+            <fa-icon icon="tools" class="section-icon"></fa-icon>
+          </div>
+          <h3>Datos del Servicio</h3>
+        </div>
+
+        <div class="info-grid">
+          <div class="info-card highlight-card">
+            <div class="card-icon"><fa-icon icon="calendar"></fa-icon></div>
+            <div class="card-content">
+              <span class="info-label">Fecha</span>
+              <span class="info-value highlight">{{ maintenance.fecha_mantenimiento | date:"dd/MM/yyyy" }}</span>
+            </div>
+          </div>
+
+          <div class="info-card">
+            <div class="card-icon"><fa-icon icon="store"></fa-icon></div>
+            <div class="card-content">
+              <span class="info-label">Taller</span>
+              <span class="info-value">{{ maintenance.taller || "No especificado" }}</span>
+            </div>
+          </div>
+
+          <div class="info-card metric-card">
+            <div class="card-icon"><fa-icon icon="tachometer-alt"></fa-icon></div>
+            <div class="card-content">
+              <span class="info-label">Kilometraje Actual</span>
+              <span class="info-value metric">{{ maintenance.kilometraje | kilometraje }}</span>
+            </div>
+          </div>
+
+          <div class="info-card metric-card">
+            <div class="card-icon"><fa-icon icon="flag-checkered"></fa-icon></div>
+            <div class="card-content">
+              <span class="info-label">Próximo Mantenimiento</span>
+              <span class="info-value metric">{{ maintenance.proximo_mantenimiento | kilometraje }}</span>
+            </div>
+          </div>
+
+          <div class="info-card full-width description-card">
+            <div class="card-description-icon"><fa-icon icon="clipboard-list"></fa-icon></div>
+            <div class="card-content">
+              <span class="info-label">Descripción del Servicio</span>
+              <span class="info-value description">{{ maintenance.descripcion }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>

@@ -29,7 +29,7 @@ type SortColumn = 'nombre' | 'tipo_personal' | 'fecha_ingreso' | 'activo';
     FontAwesomeModule
   ],
   templateUrl: './personal-list.component.html',
-  styleUrls: ['./personal-list.component.scss']
+  styleUrls: ['../../../../shared/styles/modules-list.scss']
 })
 export class PersonalListComponent implements OnInit {
   page = 1;

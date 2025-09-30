@@ -66,12 +66,12 @@
 </div>
 
 <div class="personal-container">
-  <app-user-table
+  <app-vehicles-table
     *ngIf="viewMode === 'table'"
     [vehiclesList]="filteredVehicles"
     [vehicleStates]="vehicleStates"
     [page]="page"
-    [itemsPerPage]="10"
+    [itemsPerPage]="9"
     [sortColumn]="sortColumn"
     [sortDirection]="sortDirection"
     (edit)="editVehicle($event)"
@@ -79,7 +79,7 @@
     (sort)="sortBy($event)"
     (changeState)="updateVehicleState($event)"
   >
-  </app-user-table>
+  </app-vehicles-table>
 
   <br />
   <pagination-controls

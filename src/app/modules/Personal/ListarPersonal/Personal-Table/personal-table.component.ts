@@ -11,7 +11,7 @@ type SortColumn = 'nombre' | 'tipo_personal' | 'fecha_ingreso' | 'activo';
   standalone: true,
   imports: [NgxPaginationModule, CommonModule, FontAwesomeModule],
   templateUrl: './personal-table.component.html',
-  styleUrls: ['../personal-list.component.scss']
+  styleUrls: ['../../../../../shared/styles/modules-list.scss']
 })
 export class PersonalTableComponent {
   @Input() personalList: Personal[] = [];
