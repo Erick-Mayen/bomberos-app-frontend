@@ -45,27 +45,60 @@
   filter: drop-shadow(0px 0px 4px rgba(250, 249, 249, 0.953));
 }
 
-
-// Estilos específicos para móviles
 @media (max-width: 768px) {
   .header {
-    // Reducir el padding vertical en móviles
     .py-2 {
       padding-top: 0.5rem !important;
       padding-bottom: 0.5rem !important;
     }
 
-    // Asegurar que el texto no se desborde
-    h5, small {
+    h5,
+    small {
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
+      font-size: 0.75rem;
     }
 
-    // Reducir márgenes en móviles
     .me-2 {
       margin-right: 0.25rem !important;
     }
+
+    .dropdown {
+      > button {
+        padding: 0.25rem 0.5rem !important;
+        font-size: 0.75rem;
+
+        fa-icon {
+          width: 16px !important;
+          height: 16px !important;
+        }
+
+        span.d-md-none {
+          font-size: 0.7rem !important;
+          max-width: 80px;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+      }
+
+      .dropdown-menu {
+        font-size: 0.75rem;
+        padding: 0.25rem 0;
+
+        .dropdown-item {
+          padding: 0.25rem 0.5rem;
+          display: flex;
+          align-items: center;
+          gap: 0.25rem;
+
+          fa-icon {
+            width: 14px !important;
+            height: 14px !important;
+          }
+        }
+      }
+    }
   }
 }
-

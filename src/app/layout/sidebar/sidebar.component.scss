@@ -1,7 +1,7 @@
 .sidebar {
   position: fixed;
   left: 0;
-   top: 70px; //altura del header en desktop
+   top: 70px; 
   width: 280px;
   height: calc(100vh - 70px);
   background: linear-gradient(180deg, #2c3e50 0%, #34495e 100%);
@@ -123,11 +123,47 @@
 @media (max-width: 768px) {
   .sidebar {
     transform: translateX(-100%);
-    top: 56px; /* altura del header en móvil */
+    top: 56px;
     height: calc(100vh - 56px);
-
+    width: 220px;
+    font-size: 0.8rem;
     &:not(.collapsed) {
       transform: translateX(0);
+    }
+    .nav-link {
+      padding: 0.5rem 0.75rem;
+      .nav-icon {
+        width: 16px;
+        font-size: 0.9rem;
+        margin-right: 0.5rem;
+      }
+      .nav-label {
+        font-size: 0.75rem;
+      }
+    }
+    .submenu .nav-link {
+      padding-left: 1.5rem;
+      .nav-icon {
+        width: 14px;
+        font-size: 0.8rem;
+      }
+      .nav-label {
+        font-size: 0.7rem;
+      }
+    }
+    .emergency-actions {
+      h6 {
+        font-size: 0.7rem;
+      }
+      .btn {
+        font-size: 0.75rem;
+        padding: 0.25rem 0.5rem;
+        fa-icon {
+          width: 14px;
+          height: 14px;
+          margin-right: 0.25rem;
+        }
+      }
     }
   }
 }

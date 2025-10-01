@@ -47,6 +47,7 @@ import {
   faCalendar,
   faStore,
   faFlagCheckered,
+  faMinus,
 
 } from '@fortawesome/free-solid-svg-icons';
 
@@ -98,6 +99,7 @@ export function registerIcons(library: FaIconLibrary) {
     faTag,
     faCalendar,
     faStore,
-    faFlagCheckered
+    faFlagCheckered,
+    faMinus
   );
 }
