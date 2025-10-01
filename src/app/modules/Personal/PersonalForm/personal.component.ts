@@ -12,7 +12,7 @@ import { AlertService } from '../../../services/alert.service';
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule, FontAwesomeModule],
   templateUrl: './personal.component.html',
-  styleUrls: ['./personal.component.scss']
+  styleUrls: ['../../../../shared/styles/modal.component.scss']
 })
 export class PersonalComponent implements OnInit, OnChanges {
   @Input() isOpen = false;

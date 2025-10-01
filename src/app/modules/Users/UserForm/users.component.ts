@@ -15,7 +15,7 @@ import { NgSelectModule } from '@ng-select/ng-select';
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule, FontAwesomeModule, NgSelectModule],
   templateUrl: './users.component.html',
-  styleUrls: ['./users.component.scss']
+  styleUrls: ['../../../../shared/styles/modal.component.scss']
 })
 export class UserComponent implements OnInit, OnChanges {
   @Input() isOpen = false;

@@ -13,7 +13,7 @@ import { AuthService } from '../../../services/auth.service';
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule, FontAwesomeModule, NgSelectModule],
   templateUrl: './vehicles.component.html',
-  styleUrls: ['./vehicles.component.scss']
+  styleUrls: ['../../../../shared/styles/modal.component.scss']
 })
 export class VehicleComponent implements OnInit, OnChanges {
   @Input() isOpen = false;

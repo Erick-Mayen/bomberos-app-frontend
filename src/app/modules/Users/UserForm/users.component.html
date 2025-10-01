@@ -1,5 +1,5 @@
 <div
-  class="modal-backdrop"
+  class="modal-backdrop modify"
   [class.show]="isOpen"
   (click)="onBackdropClick($event)"
   *ngIf="isOpen"
@@ -52,7 +52,7 @@
 
           <!-- Contraseña -->
           <div class="form-group">
-            <label for="contrasenia">Contraseña</label>
+            <label for="contrasenia" class="form-label required">Contraseña </label>
             <div
               class="input-container"
               [class.error]="isFieldInvalid('contrasenia')"
@@ -136,7 +136,7 @@
           <!-- Personal (opcional) -->
           <div class="form-group">
             <label for="id_personal" class="form-label"
-              >Personal (opcional)</label
+              >Persona Asociada</label
             >
             <ng-select
               [items]="personalList"

@@ -9,6 +9,7 @@ $error-color: #dc2626;
 
 $neutral-50: #fafafa;
 $neutral-100: #f5f5f5;
+$neutral-150: #f0f0f0e8;
 $neutral-200: #e5e5e5;
 $neutral-300: #d4d4d4;
 $neutral-400: #a3a3a3;
@@ -43,7 +44,7 @@ $transition-base: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 
   @media (max-width: 768px) {
     padding: $spacing-1 $spacing-1;
-    margin-bottom: $spacing-2;
+    margin-bottom: $spacing-1;
   }
 }
 
@@ -56,7 +57,7 @@ $transition-base: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 
   @media (max-width: 768px) {
     flex-direction: column;
-    gap: $spacing-2;
+    gap: $spacing-1;
   }
 }
 
@@ -83,7 +84,7 @@ $transition-base: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   gap: $spacing-1;
 
   @media (max-width: 768px) {
-    font-size: 1.25rem;
+    font-size: 1rem;
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -95,7 +96,7 @@ $transition-base: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   font-size: 1.5rem;
 
   @media (max-width: 768px) {
-    font-size: 1.25rem;
+    font-size: 1rem;
   }
 }
 
@@ -106,7 +107,8 @@ $transition-base: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   font-weight: 400;
 
   @media (max-width: 768px) {
-    font-size: 1rem;
+    font-size: 0.75rem;
+    display: none;
   }
 }
 
@@ -131,22 +133,24 @@ $transition-base: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   @media (max-width: 768px) {
     flex: 1;
     min-width: auto;
+    padding: 2px 2px 2px 2px;
   }
 }
 
 .stat-number {
-  font-size: 1.30rem;
+  font-size: 1.3rem;
   font-weight: 700;
   line-height: 1;
   margin-bottom: $spacing-1;
 
   @media (max-width: 768px) {
-    font-size: 1.35rem;
+    font-size: 1rem;
+    padding: 1px;
   }
 }
 
 .stat-label {
-  font-size: 0.8rem;
+  font-size: 0.6rem;
   opacity: 0.9;
   font-weight: 500;
 }
@@ -158,8 +162,8 @@ $transition-base: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   padding: 0 $spacing-2;
 
   @media (max-width: 768px) {
-    padding: 0 $spacing-2;
-    margin-bottom: $spacing-2;
+    padding: 0 $spacing-1;
+    margin-bottom: $spacing-1;
   }
 }
 
@@ -170,7 +174,7 @@ $transition-base: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 
   @media (max-width: 768px) {
     flex-direction: column;
-    gap: $spacing-1;
+    gap: 2px;
   }
 }
 
@@ -194,7 +198,7 @@ $transition-base: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   @media (max-width: 768px) {
     width: 100%;
     flex-direction: column;
-    gap: $spacing-2;
+    gap: $spacing-1;
   }
 }
 
@@ -238,7 +242,7 @@ $transition-base: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   @media (max-width: 768px) {
-    font-size: 16px;
+    font-size: 12px;
   }
 }
 
@@ -282,8 +286,8 @@ $transition-base: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   @media (max-width: 768px) {
     width: 100%;
     .filter-select {
-      font-size: 16px;
-      padding: $spacing-2;
+      font-size: 12px;
+      padding: $spacing-1;
     }
     .select-arrow {
       right: 15px;
@@ -349,6 +353,7 @@ $transition-base: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   @media (max-width: 768px) {
     width: 100%;
     justify-content: center;
+    height: 10px;
   }
 }
 
@@ -359,7 +364,7 @@ $transition-base: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   padding: 0 $spacing-4;
 
   @media (max-width: 768px) {
-    padding: 0 $spacing-2;
+    padding: 0 0px;
   }
 }
 
@@ -392,14 +397,13 @@ $transition-base: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   font-size: 0.875rem;
 
   thead {
-    background: $neutral-50;
+    background: $neutral-150;
     border-bottom: 2px solid $neutral-200;
 
     th {
       padding: $spacing-2 $spacing-1;
-      font-weight: 600;
-      color: $neutral-700;
       white-space: nowrap;
+      font-weight: bold;
       user-select: none;
       text-align: center;
 
@@ -420,6 +424,10 @@ $transition-base: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 
       &.actions-column {
         width: 140px;
+      }
+
+      @media (max-width: 768px) {
+        padding: 12px $spacing-1;
       }
     }
   }
@@ -451,6 +459,10 @@ $transition-base: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 
       &.name-cell {
         text-align: left;
+      }
+
+      @media (max-width: 768px) {
+        padding: 2px;
       }
     }
   }
@@ -540,6 +552,10 @@ $transition-base: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   min-width: 100px;
   font-family: monospace;
   font-size: 0.8125rem;
+
+  @media (max-width: 768px) {
+    font-size: 0.7rem;
+  }
 }
 
 .status-cell {
@@ -708,6 +724,11 @@ $transition-base: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
     background: rgba($neutral-500, 0.1);
     color: $neutral-600;
   }
+
+  @media (max-width: 768px) {
+    padding: 2px 2px;
+    font-size: 0.6rem;
+  }
 }
 
 .status-indicator {
@@ -729,6 +750,10 @@ $transition-base: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   &.inactive {
     background: rgba($neutral-400, 0.1);
     color: $neutral-500;
+  }
+
+  @media (max-width: 768px) {
+    padding: 3px 3px;
   }
 }
 
@@ -855,7 +880,7 @@ $transition-base: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 
   @media (max-width: 768px) {
     padding: $spacing-2;
-    min-height: 48px;
+    min-height: 35px;
     font-size: 1rem;
   }
 }
@@ -883,11 +908,15 @@ $transition-base: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 
 .btn-icon {
   font-size: 0.9rem;
+
+  @media (max-width: 480px) {
+    font-size: 0.5rem;
+  }
 }
 
 .btn-text {
   @media (max-width: 480px) {
-    display: none;
+    font-size: 0.875rem;
   }
 }
 
@@ -957,7 +986,7 @@ $transition-base: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   .table-view {
     .personal-table {
       min-width: 600px;
-      font-size: 0.8rem;
+      font-size: 0.7rem;
     }
 
     .name-cell {
@@ -984,6 +1013,7 @@ $transition-base: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
       min-width: 28px;
       min-height: 28px;
       font-size: 0.8rem;
+      padding: 2px 2px;
     }
   }
 }
@@ -1130,5 +1160,9 @@ $transition-base: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 
   &:hover {
     filter: brightness(1.05);
+  }
+
+  @media (max-width: 768px) {
+    padding: 3px 3px;
   }
 }

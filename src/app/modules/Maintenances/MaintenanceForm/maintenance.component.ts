@@ -14,13 +14,13 @@ import { AuthService } from '../../../services/auth.service';
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule, FontAwesomeModule, NgSelectModule],
   templateUrl: './maintenance.component.html',
-  styleUrls: ['./maintenance.component.scss']
+  styleUrls: ['../../../../shared/styles/modal.component.scss']
 })
 export class MaintenanceComponent implements OnInit, OnChanges {
   @Input() isOpen = false;
   @Input() maintenanceToEdit: VehicleMaintenance | null = null;
-  @Input() modalTitle = 'Agregar Mantenimiento';
-  @Input() submitLabel = 'Agregar Mantenimiento';
+  @Input() modalTitle = 'Agregar Servicio';
+  @Input() submitLabel = 'Agregar Servicio';
   @Output() closeModal = new EventEmitter<void>();
   @Output() formSuccess = new EventEmitter<VehicleMaintenance>();
 
@@ -70,12 +70,12 @@ export class MaintenanceComponent implements OnInit, OnChanges {
         proximo_mantenimiento: this.maintenanceToEdit.proximo_mantenimiento
       });
 
-      this.modalTitle = 'Editar Mantenimiento';
-      this.submitLabel = 'Editar Mantenimiento';
+      this.modalTitle = 'Editar Servicio';
+      this.submitLabel = 'Editar Servicio';
     } else {
       this.maintenanceForm.reset();
-      this.modalTitle = 'Agregar Mantenimiento';
-      this.submitLabel = 'Agregar Mantenimiento';
+      this.modalTitle = 'Agregar Servicio';
+      this.submitLabel = 'Agregar Servicio';
     }
   }
 
@@ -109,7 +109,7 @@ export class MaintenanceComponent implements OnInit, OnChanges {
     request$.subscribe({
       next: (result) => {
         this.alertService.SuccesNotify(
-          this.maintenanceToEdit ? 'Mantenimiento actualizado exitosamente' : 'Mantenimiento creado exitosamente'
+          this.maintenanceToEdit ? 'Servicio actualizado exitosamente' : 'Servicio creado exitosamente'
         );
         this.formSuccess.emit(result);
         this.isSubmitting = false;
