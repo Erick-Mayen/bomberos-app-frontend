@@ -13,6 +13,7 @@ import { VehicleService } from '../../../services/vehicle.service';
 import { MaintenanceTableComponent } from './Maintenances-Table/maintenances-table.component';
 import { MaintenanceComponent } from '../MaintenanceForm/maintenance.component';
 import { MaintenanceDetailComponent } from '../MaintenanceDetail/maintenance-detail.component';
+import { ReportService } from '../../../services/reports/reportMaintenance.service';
 
 type ViewMode = 'table';
 type SortColumn = 'unidad' | 'modelo' | 'taller' | 'descripcion' | 'kilometraje' | 'fecha_mantenimiento' | 'proximo_mantenimiento';
@@ -47,12 +48,14 @@ export class MaintenanceListComponent implements OnInit {
   maintenanceToEdit: VehicleMaintenance | null = null;
   showDetailModal = false;
   maintenanceToView: VehicleMaintenance | null = null;
+  unidadSeleccionada: string = '';
 
   constructor(
     private formBuilder: FormBuilder,
     private vehicleService: VehicleService,
     private maintenanceService: MaintenanceService,
-    private alertService: AlertService
+    private alertService: AlertService,
+    private reportService: ReportService,
   ) {
     this.searchForm = this.formBuilder.group({
       searchTerm: [''],
@@ -165,6 +168,17 @@ export class MaintenanceListComponent implements OnInit {
         });
       }
     );
+  }
+
+  generarReporte() {
+  const unidadSeleccionada = this.searchForm.get('unidadFilter')?.value;
+  const vehicle = this.vehiclesList.find(v => v.unidad === unidadSeleccionada);
+
+  if (vehicle) {
+    this.reportService.generarReportePorUnidad(vehicle.id_unidad, vehicle.unidad);
+  } else {
+    console.warn('No se encontró la unidad seleccionada');
+  }
   }
 
   private applyFilters(): void {

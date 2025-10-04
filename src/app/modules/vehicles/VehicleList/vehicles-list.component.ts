@@ -24,7 +24,7 @@ type SortColumn = 'unidad' | 'modelo' | 'tipo_vehiculo' | 'descripcion' | 'kilom
     VehicleComponent,
     NgxPaginationModule,
     VehicleTableComponent,
-    FontAwesomeModule
+    FontAwesomeModule,
   ],
   templateUrl: './vehicles-list.component.html',
   styleUrls: ['../../../../shared/styles/modules-list.scss']
@@ -48,7 +48,7 @@ export class VehicleListComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private vehicleService: VehicleService,
-    private alertService: AlertService
+    private alertService: AlertService,
   ) {
     this.searchForm = this.formBuilder.group({
       searchTerm: [''],

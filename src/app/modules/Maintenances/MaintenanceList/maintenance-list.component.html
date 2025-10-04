@@ -9,7 +9,8 @@
         Mantenimientos y Reparaciones Vehiculares
       </h1>
       <p class="page-subtitle">
-        Gestión de los mantenimientos y reparaciones de las unidades del cuerpo de bomberos
+        Gestión de los mantenimientos y reparaciones de las unidades del cuerpo
+        de bomberos
       </p>
     </div>
 
@@ -60,7 +61,18 @@
         <span class="btn-icon">
           <fa-icon icon="plus" size="lg"></fa-icon>
         </span>
-        <span class="btn-text">Agregar Mantenimiento</span>
+        <span class="btn-text">Agregar</span>
+      </button>
+      <button
+        type="button"
+        class="btn btn-primary add-button"
+        (click)="generarReporte()"
+        [disabled]="searchForm.get('unidadFilter')?.value === 'todas'"
+      >
+        <span class="btn-icon">
+          <fa-icon icon="file-pdf" size="lg"></fa-icon>
+        </span>
+        <span class="btn-text">Reporte</span>
       </button>
     </div>
   </form>
@@ -69,7 +81,7 @@
 <!-- Contenedor principal -->
 <div class="personal-container">
   <!-- Tabla de mantenimientos -->
- <app-maintenance-table
+  <app-maintenance-table
     *ngIf="viewMode === 'table'"
     [maintenanceList]="filteredMaintenance"
     [page]="page"
